@@ -46,7 +46,7 @@
     <!-- Version Title Banner -->
     <div class="flex justify-between items-center bg-[var(--card)] border border-[var(--border)] px-5 py-3 rounded-xl shadow-xs">
       <div>
-        <span id="currentVersionBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500">Version 1</span>
+        <span id="currentVersionBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/10 text-red-500">Version 1</span>
         <span id="currentVersionDesc" class="text-sm font-semibold ml-2">Official Exam Structure Clone</span>
       </div>
       <div class="text-xs text-[var(--muted-foreground)]" id="progressIndicator">
@@ -69,7 +69,7 @@
         <button onclick="resetCurrentExam()" class="px-4 py-2.5 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-semibold text-xs transition">
           Clear Version
         </button>
-        <button onclick="gradeCurrentExam()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow-md">
+        <button onclick="gradeCurrentExam()" class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition shadow-md">
           Grade Exam (25 Marks)
         </button>
       </div>
@@ -78,7 +78,7 @@
     <!-- Result Banner Modal (Hidden initially) -->
     <div id="resultsCard" class="hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-xl space-y-4">
       <h2 class="text-2xl font-black text-center">🎯 Official Exam Score Report</h2>
-      <div id="finalScoreDisplay" class="text-center text-4xl font-extrabold text-blue-500"></div>
+      <div id="finalScoreDisplay" class="text-center text-4xl font-extrabold text-red-500"></div>
       <p id="finalFeedbackDisplay" class="text-center text-sm max-w-xl mx-auto text-[var(--muted-foreground)]"></p>
     </div>
 
@@ -402,7 +402,1364 @@
             { id: "q4_4", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 16) - 4) / x</span>", options: ["1/8", "1/4", "0", "8"], correct: 0, exp: "Conjugate multiplication: 1/(&radic;16 + 4) = 1/8." }
           ]
         }
+      },
+
+      {
+            "version": 6,
+            "title": "Version 6: Advanced Conjugates & Continuity",
+            "q1": {
+                  "title": "Question 1: Choose the correct answer (5 Marks \u2014 0.5 each)",
+                  "mcqs": [
+                        {
+                              "id": 1,
+                              "prompt": "Which of the following is a <b>rational</b> number?",
+                              "options": [
+                                    "&radic;2",
+                                    "&pi;",
+                                    "&radic;(4/9)",
+                                    "e\u00b2"
+                              ],
+                              "correct": 2,
+                              "exp": "&radic;(4/9) = 2/3 (Ratio of integers &rArr; Rational)."
+                        },
+                        {
+                              "id": 2,
+                              "prompt": "|2 - &radic;7| = &hellip;",
+                              "options": [
+                                    "&radic;7 - 2",
+                                    "2 - &radic;7",
+                                    "2 + &radic;7",
+                                    "-2 - &radic;7"
+                              ],
+                              "correct": 0,
+                              "exp": "&radic;7 &approx; 2.65 > 2, so 2 - &radic;7 < 0. Its absolute value is &radic;7 - 2."
+                        },
+                        {
+                              "id": 3,
+                              "prompt": "The solution of |2x + 1| &ge; -4 is &hellip;",
+                              "options": [
+                                    "R",
+                                    "&empty;",
+                                    "[-5/2, 3/2]",
+                                    "[-2, 2]"
+                              ],
+                              "correct": 0,
+                              "exp": "Absolute value is always &ge; 0, which is always greater than -4. All real numbers R."
+                        },
+                        {
+                              "id": 4,
+                              "prompt": "If 3x + 2 < 11, then 2x - 1 < &hellip;",
+                              "options": [
+                                    "5",
+                                    "3",
+                                    "7",
+                                    "1"
+                              ],
+                              "correct": 0,
+                              "exp": "3x < 9 &rArr; x < 3 &rArr; 2x - 1 < 2(3) - 1 = 5."
+                        },
+                        {
+                              "id": 5,
+                              "prompt": "The domain of f(x) = &radic;(x\u00b2 - 9) is &hellip;",
+                              "options": [
+                                    "(-&infin;, -3] &cup; [3, &infin;)",
+                                    "[-3, 3]",
+                                    "(3, &infin;)",
+                                    "R \\ {-3, 3}"
+                              ],
+                              "correct": 0,
+                              "exp": "x\u00b2 - 9 &ge; 0 &rArr; x\u00b2 &ge; 9 &rArr; (-&infin;, -3] &cup; [3, &infin;)."
+                        },
+                        {
+                              "id": 6,
+                              "prompt": "Which of the following functions is <b>ODD</b>?",
+                              "options": [
+                                    "f(x) = sin(x) / x",
+                                    "f(x) = x &middot; sin(x)",
+                                    "f(x) = x\u00b3 - x",
+                                    "f(x) = |x|"
+                              ],
+                              "correct": 2,
+                              "exp": "f(-x) = (-x)\u00b3 - (-x) = -x\u00b3 + x = -(x\u00b3 - x) = -f(x)."
+                        },
+                        {
+                              "id": 7,
+                              "prompt": "The reference angle of &theta; = 5&pi;/3 is &hellip;",
+                              "options": [
+                                    "&pi;/3",
+                                    "&pi;/6",
+                                    "&pi;/4",
+                                    "2&pi;/3"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad IV angle: 2&pi; - 5&pi;/3 = &pi;/3."
+                        },
+                        {
+                              "id": 8,
+                              "prompt": "Which function is <b>not</b> one-to-one?",
+                              "options": [
+                                    "f(x) = x\u00b3",
+                                    "f(x) = 1/x",
+                                    "f(x) = x\u00b2 + 1",
+                                    "f(x) = 2x + 3"
+                              ],
+                              "correct": 2,
+                              "exp": "Parabolas fail the horizontal line test: f(-1) = f(1) = 2."
+                        },
+                        {
+                              "id": 9,
+                              "prompt": "cos<sup>-1</sup>(-&radic;2 / 2) = &hellip;",
+                              "options": [
+                                    "3&pi;/4",
+                                    "&pi;/4",
+                                    "-&pi;/4",
+                                    "5&pi;/4"
+                              ],
+                              "correct": 0,
+                              "exp": "Range of cos<sup>-1</sup> is [0, &pi;]. Angle in Quad II is &pi; - &pi;/4 = 3&pi;/4."
+                        },
+                        {
+                              "id": 10,
+                              "prompt": "Domain of f<sup>-1</sup>(x) for f(x) = &radic;(x - 1) + 3 is &hellip;",
+                              "options": [
+                                    "[3, &infin;)",
+                                    "[1, &infin;)",
+                                    "[0, &infin;)",
+                                    "R"
+                              ],
+                              "correct": 0,
+                              "exp": "Domain(f<sup>-1</sup>) = Range(f). Since &radic;(x-1) &ge; 0, f(x) &ge; 3 &rArr; [3, &infin;)."
+                        }
+                  ]
+            },
+            "q2": {
+                  "title": "Question 2: Number Classification (6 Marks)",
+                  "prompt": "Classify into Rational or Irrational:",
+                  "items": [
+                        {
+                              "text": "&radic;100 / 2",
+                              "correct": "rational",
+                              "exp": "10/2 = 5 (Rational)"
+                        },
+                        {
+                              "text": "&radic;3 + &radic;12",
+                              "correct": "irrational",
+                              "exp": "&radic;3 + 2&radic;3 = 3&radic;3 (Irrational)"
+                        },
+                        {
+                              "text": "0.142857142857&hellip;",
+                              "correct": "rational",
+                              "exp": "Repeating period decimal (Rational, 1/7)"
+                        },
+                        {
+                              "text": "(&radic;5 - 2)\u00b2",
+                              "correct": "irrational",
+                              "exp": "5 - 4&radic;5 + 4 = 9 - 4&radic;5 (Irrational)"
+                        },
+                        {
+                              "text": "cos(&pi;)",
+                              "correct": "rational",
+                              "exp": "-1 (Integer &rArr; Rational)"
+                        },
+                        {
+                              "text": "&radic;2 / 4",
+                              "correct": "irrational",
+                              "exp": "Irrational divided by integer is Irrational"
+                        }
+                  ]
+            },
+            "q3": {
+                  "title": "Question 3: Free-Response Inequalities & Domains (6 Marks)",
+                  "problems": [
+                        {
+                              "id": "q3_1",
+                              "prompt": "Solve: <span class=\"math\">|2x - 5| &le; 3</span>",
+                              "options": [
+                                    "[1, 4]",
+                                    "(1, 4)",
+                                    "[-4, -1]",
+                                    "[1, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "-3 &le; 2x - 5 &le; 3 &rArr; 2 &le; 2x &le; 8 &rArr; 1 &le; x &le; 4 &rArr; [1, 4]."
+                        },
+                        {
+                              "id": "q3_2",
+                              "prompt": "Solve: <span class=\"math\">(x - 1)/(x + 4) &ge; 2</span>",
+                              "options": [
+                                    "[-9, -4)",
+                                    "(-4, -9]",
+                                    "(-&infin;, -9] &cup; (-4, &infin;)",
+                                    "[-9, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 1)/(x + 4) - 2 &ge; 0 &rArr; (-x - 9)/(x + 4) &ge; 0 &rArr; (x + 9)/(x + 4) &le; 0 &rArr; [-9, -4)."
+                        },
+                        {
+                              "id": "q3_3",
+                              "prompt": "If <span class=\"math\">f(x) = (x + 5)/(3x - 2)</span>, find <span class=\"math\">f<sup>-1</sup>(x)</span>:",
+                              "options": [
+                                    "(2x + 5)/(3x - 1)",
+                                    "(3x - 2)/(x + 5)",
+                                    "(2x - 5)/(3x + 1)",
+                                    "(5 - 2x)/(3x - 1)"
+                              ],
+                              "correct": 0,
+                              "exp": "y(3x-2) = x+5 &rArr; 3xy - x = 2y+5 &rArr; x(3y-1) = 2y+5 &rArr; (2x+5)/(3x-1)."
+                        },
+                        {
+                              "id": "q3_4",
+                              "prompt": "Find the domain of <span class=\"math\">f(x) = &radic;(16 - x\u00b2) / (x + 1)</span>",
+                              "options": [
+                                    "[-4, -1) &cup; (-1, 4]",
+                                    "[-4, 4]",
+                                    "(-4, 4)",
+                                    "R \\ {-1}"
+                              ],
+                              "correct": 0,
+                              "exp": "16 - x\u00b2 &ge; 0 gives [-4, 4]. Denominator excludes -1. Thus [-4, -1) &cup; (-1, 4]."
+                        }
+                  ]
+            },
+            "q4": {
+                  "title": "Question 4: Exact Trig & Analytical Limits (8 Marks)",
+                  "problems": [
+                        {
+                              "id": "q4_1",
+                              "prompt": "Find exact value: <span class=\"math\">sin(arccos(3/5))</span>",
+                              "options": [
+                                    "4/5",
+                                    "-4/5",
+                                    "3/5",
+                                    "1/5"
+                              ],
+                              "correct": 0,
+                              "exp": "Let &theta; = arccos(3/5). In right triangle with adj=3, hyp=5 &rArr; opp=4. sin(&theta;) = 4/5."
+                        },
+                        {
+                              "id": "q4_2",
+                              "prompt": "Find exact value: <span class=\"math\">sin(225&deg;)</span>",
+                              "options": [
+                                    "-&radic;2 / 2",
+                                    "&radic;2 / 2",
+                                    "-1/2",
+                                    "-&radic;3 / 2"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad III: -sin(45&deg;) = -&radic;2/2."
+                        },
+                        {
+                              "id": "q4_3",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 3</sub> (x\u00b2 - 2x - 3) / (x - 3)</span>",
+                              "options": [
+                                    "4",
+                                    "3",
+                                    "0",
+                                    "Does not exist"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 3)(x + 1)/(x - 3) = 3 + 1 = 4."
+                        },
+                        {
+                              "id": "q4_4",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 0</sub> (&radic;(x + 25) - 5) / x</span>",
+                              "options": [
+                                    "1/10",
+                                    "1/5",
+                                    "0",
+                                    "10"
+                              ],
+                              "correct": 0,
+                              "exp": "Multiply by conjugate: 1/(&radic;25 + 5) = 1/10."
+                        }
+                  ]
+            }
+      },
+      {
+            "version": 7,
+            "title": "Version 7: High-Power Limits & Squeeze Theorem",
+            "q1": {
+                  "title": "Question 1: Choose the correct answer (5 Marks \u2014 0.5 each)",
+                  "mcqs": [
+                        {
+                              "id": 1,
+                              "prompt": "Which of the following is <b>irrational</b>?",
+                              "options": [
+                                    "&radic;16",
+                                    "3/8",
+                                    "&radic;8",
+                                    "0.75"
+                              ],
+                              "correct": 2,
+                              "exp": "&radic;8 = 2&radic;2 (Irrational)."
+                        },
+                        {
+                              "id": 2,
+                              "prompt": "|-3| - |-5| = &hellip;",
+                              "options": [
+                                    "-2",
+                                    "2",
+                                    "8",
+                                    "-8"
+                              ],
+                              "correct": 0,
+                              "exp": "3 - 5 = -2."
+                        },
+                        {
+                              "id": 3,
+                              "prompt": "If |x - 2| < 0, the solution set is &hellip;",
+                              "options": [
+                                    "&empty;",
+                                    "{2}",
+                                    "R",
+                                    "(-2, 2)"
+                              ],
+                              "correct": 0,
+                              "exp": "Absolute value is strictly non-negative, can never be strictly < 0."
+                        },
+                        {
+                              "id": 4,
+                              "prompt": "Domain of f(x) = (x - 1)/(x\u00b2 - 9) is &hellip;",
+                              "options": [
+                                    "R \\ {-3, 3}",
+                                    "R \\ {3}",
+                                    "(-3, 3)",
+                                    "R \\ {1}"
+                              ],
+                              "correct": 0,
+                              "exp": "Denominator zero at x\u00b2 = 9 &rArr; x = &plusmn;3."
+                        },
+                        {
+                              "id": 5,
+                              "prompt": "The horizontal asymptote of f(x) = (3x\u00b3 - 2)/(x\u00b3 + 5) is &hellip;",
+                              "options": [
+                                    "y = 3",
+                                    "y = 0",
+                                    "y = -2/5",
+                                    "None"
+                              ],
+                              "correct": 0,
+                              "exp": "Equal degrees &rArr; ratio of leading coefficients: 3/1 = 3."
+                        },
+                        {
+                              "id": 6,
+                              "prompt": "The function f(x) = x\u2074 - 2x\u00b2 is &hellip;",
+                              "options": [
+                                    "Even",
+                                    "Odd",
+                                    "Neither",
+                                    "Periodic"
+                              ],
+                              "correct": 0,
+                              "exp": "f(-x) = (-x)\u2074 - 2(-x)\u00b2 = x\u2074 - 2x\u00b2 = f(x) &rArr; Even."
+                        },
+                        {
+                              "id": 7,
+                              "prompt": "The reference angle of -7&pi;/6 is &hellip;",
+                              "options": [
+                                    "&pi;/6",
+                                    "&pi;/3",
+                                    "5&pi;/6",
+                                    "&pi;/4"
+                              ],
+                              "correct": 0,
+                              "exp": "-7&pi;/6 + 2&pi; = 5&pi;/6 (Quad II). Reference angle &pi; - 5&pi;/6 = &pi;/6."
+                        },
+                        {
+                              "id": 8,
+                              "prompt": "arctan(1) = &hellip;",
+                              "options": [
+                                    "&pi;/4",
+                                    "&pi;/2",
+                                    "3&pi;/4",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "tan(&pi;/4) = 1 in range (-&pi;/2, &pi;/2)."
+                        },
+                        {
+                              "id": 9,
+                              "prompt": "lim<sub>x &rarr; 0</sub> x\u00b2 &middot; sin(1/x) = &hellip;",
+                              "options": [
+                                    "0",
+                                    "1",
+                                    "DNE",
+                                    "&infin;"
+                              ],
+                              "correct": 0,
+                              "exp": "By Squeeze Theorem: -x\u00b2 &le; x\u00b2 sin(1/x) &le; x\u00b2 &rArr; Limit is 0."
+                        },
+                        {
+                              "id": 10,
+                              "prompt": "If f(x) is 1-to-1 and f(1) = 4, f(4) = 7, then f<sup>-1</sup>(4) = &hellip;",
+                              "options": [
+                                    "1",
+                                    "4",
+                                    "7",
+                                    "1/4"
+                              ],
+                              "correct": 0,
+                              "exp": "f(1) = 4 &hArr; f<sup>-1</sup>(4) = 1."
+                        }
+                  ]
+            },
+            "q2": {
+                  "title": "Question 2: Number Classification (6 Marks)",
+                  "prompt": "Classify into Rational or Irrational:",
+                  "items": [
+                        {
+                              "text": "sin(&pi;/6)",
+                              "correct": "rational",
+                              "exp": "1/2 (Rational)"
+                        },
+                        {
+                              "text": "&radic;2 + 5",
+                              "correct": "irrational",
+                              "exp": "Sum of irrational and integer is Irrational"
+                        },
+                        {
+                              "text": "-14 / 3",
+                              "correct": "rational",
+                              "exp": "Fraction of integers (Rational)"
+                        },
+                        {
+                              "text": "(&radic;3)\u2076",
+                              "correct": "rational",
+                              "exp": "3\u00b3 = 27 (Rational)"
+                        },
+                        {
+                              "text": "&pi; / 3",
+                              "correct": "irrational",
+                              "exp": "Irrational divided by integer is Irrational"
+                        },
+                        {
+                              "text": "0.5555&hellip;",
+                              "correct": "rational",
+                              "exp": "Repeating decimal 5/9 (Rational)"
+                        }
+                  ]
+            },
+            "q3": {
+                  "title": "Question 3: Inequalities & Composite Functions (6 Marks)",
+                  "problems": [
+                        {
+                              "id": "q3_1",
+                              "prompt": "Solve: <span class=\"math\">|3 - 2x| > 7</span>",
+                              "options": [
+                                    "(-&infin;, -2) &cup; (5, &infin;)",
+                                    "(-2, 5)",
+                                    "[-2, 5]",
+                                    "(5, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "3 - 2x > 7 &rArr; -2x > 4 &rArr; x < -2 OR 3 - 2x < -7 &rArr; -2x < -10 &rArr; x > 5."
+                        },
+                        {
+                              "id": "q3_2",
+                              "prompt": "Solve: <span class=\"math\">(x + 2)/(x - 3) &le; 0</span>",
+                              "options": [
+                                    "[-2, 3)",
+                                    "(-2, 3]",
+                                    "[-2, 3]",
+                                    "(-&infin;, -2] &cup; (3, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "Sign chart on (-&infin;, -2], [-2, 3), (3, &infin;). Fraction is &le; 0 on [-2, 3). Note x=3 is open."
+                        },
+                        {
+                              "id": "q3_3",
+                              "prompt": "If <span class=\"math\">f(x) = 2 - &radic;x</span>, find <span class=\"math\">f<sup>-1</sup>(x)</span> and its domain:",
+                              "options": [
+                                    "f<sup>-1</sup>(x) = (2 - x)\u00b2, Dom = (-&infin;, 2]",
+                                    "f<sup>-1</sup>(x) = (x - 2)\u00b2, Dom = [0, &infin;)",
+                                    "f<sup>-1</sup>(x) = &radic;(2 - x), Dom = R",
+                                    "f<sup>-1</sup>(x) = 4 - x\u00b2, Dom = [2, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "y = 2 - &radic;x &rArr; &radic;x = 2 - y &rArr; x = (2 - y)\u00b2. Range(f) = (-&infin;, 2] = Dom(f<sup>-1</sup>)."
+                        },
+                        {
+                              "id": "q3_4",
+                              "prompt": "If <span class=\"math\">f(x) = x\u00b2 - 1, g(x) = &radic;x</span>, find <span class=\"math\">(g &comp; f)(x)</span> and its domain:",
+                              "options": [
+                                    "&radic;(x\u00b2 - 1), (-&infin;, -1] &cup; [1, &infin;)",
+                                    "&radic;(x\u00b2 - 1), [1, &infin;)",
+                                    "x - 1, R",
+                                    "&radic;(x - 1), [1, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "g(f(x)) = &radic;(x\u00b2 - 1). Requires x\u00b2 - 1 &ge; 0 &rArr; (-&infin;, -1] &cup; [1, &infin;)."
+                        }
+                  ]
+            },
+            "q4": {
+                  "title": "Question 4: Exact Values & Limits (8 Marks)",
+                  "problems": [
+                        {
+                              "id": "q4_1",
+                              "prompt": "Find exact value: <span class=\"math\">sin<sup>-1</sup>(sin(7&pi;/6))</span>",
+                              "options": [
+                                    "-&pi;/6",
+                                    "7&pi;/6",
+                                    "&pi;/6",
+                                    "5&pi;/6"
+                              ],
+                              "correct": 0,
+                              "exp": "sin(7&pi;/6) = -1/2. sin<sup>-1</sup>(-1/2) in [-&pi;/2, &pi;/2] is -&pi;/6."
+                        },
+                        {
+                              "id": "q4_2",
+                              "prompt": "Find exact value: <span class=\"math\">cos(300&deg;)</span>",
+                              "options": [
+                                    "1/2",
+                                    "-1/2",
+                                    "&radic;3 / 2",
+                                    "-&radic;3 / 2"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad IV: +cos(60&deg;) = 1/2."
+                        },
+                        {
+                              "id": "q4_3",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 2</sub> (x\u00b2 - 5x + 6) / (x\u00b2 - 4)</span>",
+                              "options": [
+                                    "-1/4",
+                                    "1/4",
+                                    "-1/2",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 2)(x - 3)/[(x - 2)(x + 2)] = (2 - 3)/(2 + 2) = -1/4."
+                        },
+                        {
+                              "id": "q4_4",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; -&infin;</sub> &radic;(4x\u00b2 + 7) / (5x + 1)</span>",
+                              "options": [
+                                    "-2/5",
+                                    "2/5",
+                                    "-4/5",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "For x < 0, &radic;(x\u00b2) = -x. Limit is -2/5."
+                        }
+                  ]
+            }
+      },
+      {
+            "version": 8,
+            "title": "Version 8: Piecewise Continuity & Asymptote Analysis",
+            "q1": {
+                  "title": "Question 1: Choose the correct answer (5 Marks \u2014 0.5 each)",
+                  "mcqs": [
+                        {
+                              "id": 1,
+                              "prompt": "Which of the following is <b>rational</b>?",
+                              "options": [
+                                    "&radic;5",
+                                    "1.4142&hellip; (&radic;2)",
+                                    "0.125",
+                                    "&pi; + 1"
+                              ],
+                              "correct": 2,
+                              "exp": "0.125 = 1/8 (Terminating decimal &rArr; Rational)."
+                        },
+                        {
+                              "id": 2,
+                              "prompt": "|x - 3| = 3 - x is true when &hellip;",
+                              "options": [
+                                    "x &le; 3",
+                                    "x &ge; 3",
+                                    "x > 3",
+                                    "x = 0"
+                              ],
+                              "correct": 0,
+                              "exp": "|A| = -A when A &le; 0 &rArr; x - 3 &le; 0 &rArr; x &le; 3."
+                        },
+                        {
+                              "id": 3,
+                              "prompt": "The solution to x\u00b2 < 4 is &hellip;",
+                              "options": [
+                                    "(-2, 2)",
+                                    "[-2, 2]",
+                                    "(-&infin;, 2)",
+                                    "(2, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "-2 < x < 2 &rArr; (-2, 2)."
+                        },
+                        {
+                              "id": 4,
+                              "prompt": "Domain of f(x) = &radic;(x + 3) / &radic;(5 - x) is &hellip;",
+                              "options": [
+                                    "[-3, 5)",
+                                    "[-3, 5]",
+                                    "(-3, 5)",
+                                    "[-3, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "Numerator requires x &ge; -3. Denominator requires 5 - x > 0 &rArr; x < 5. Thus [-3, 5)."
+                        },
+                        {
+                              "id": 5,
+                              "prompt": "The vertical asymptote of f(x) = 1 / (x\u00b2 - 4) is &hellip;",
+                              "options": [
+                                    "x = 2 and x = -2",
+                                    "x = 2 only",
+                                    "x = 4",
+                                    "y = 0"
+                              ],
+                              "correct": 0,
+                              "exp": "Denominator is zero at x = 2 and x = -2."
+                        },
+                        {
+                              "id": 6,
+                              "prompt": "If f(x) is an odd function and f(2) = -5, then f(-2) = &hellip;",
+                              "options": [
+                                    "5",
+                                    "-5",
+                                    "0",
+                                    "1/5"
+                              ],
+                              "correct": 0,
+                              "exp": "Odd definition: f(-x) = -f(x) &rArr; f(-2) = -(-5) = 5."
+                        },
+                        {
+                              "id": 7,
+                              "prompt": "Reference angle of 150&deg; is &hellip;",
+                              "options": [
+                                    "30&deg;",
+                                    "60&deg;",
+                                    "45&deg;",
+                                    "150&deg;"
+                              ],
+                              "correct": 0,
+                              "exp": "180&deg; - 150&deg; = 30&deg;."
+                        },
+                        {
+                              "id": 8,
+                              "prompt": "cos(sin<sup>-1</sup>(0)) = &hellip;",
+                              "options": [
+                                    "1",
+                                    "0",
+                                    "-1",
+                                    "&pi;"
+                              ],
+                              "correct": 0,
+                              "exp": "sin<sup>-1</sup>(0) = 0. cos(0) = 1."
+                        },
+                        {
+                              "id": 9,
+                              "prompt": "lim<sub>x &rarr; 4&minus;</sub> |x - 4| / (x - 4) = &hellip;",
+                              "options": [
+                                    "-1",
+                                    "1",
+                                    "0",
+                                    "DNE"
+                              ],
+                              "correct": 0,
+                              "exp": "For x < 4, x - 4 < 0 &rArr; |x - 4| = -(x - 4). Value is -1."
+                        },
+                        {
+                              "id": 10,
+                              "prompt": "A function continuous on [a, b] with f(a) < 0 and f(b) > 0 has a root by &hellip;",
+                              "options": [
+                                    "IVT",
+                                    "Squeeze Theorem",
+                                    "Mean Value Theorem",
+                                    "L'Hopital Rule"
+                              ],
+                              "correct": 0,
+                              "exp": "Intermediate Value Theorem guarantees a zero."
+                        }
+                  ]
+            },
+            "q2": {
+                  "title": "Question 2: Number Classification (6 Marks)",
+                  "prompt": "Classify into Rational or Irrational:",
+                  "items": [
+                        {
+                              "text": "&radic;72 / &radic;2",
+                              "correct": "rational",
+                              "exp": "&radic;36 = 6 (Rational)"
+                        },
+                        {
+                              "text": "&radic;11",
+                              "correct": "irrational",
+                              "exp": "Prime root is Irrational"
+                        },
+                        {
+                              "text": "0.232323&hellip;",
+                              "correct": "rational",
+                              "exp": "Repeating decimal 23/99 (Rational)"
+                        },
+                        {
+                              "text": "cos(&pi;/3)",
+                              "correct": "rational",
+                              "exp": "1/2 (Rational)"
+                        },
+                        {
+                              "text": "(&radic;2 - 1)(&radic;2 + 1)",
+                              "correct": "rational",
+                              "exp": "2 - 1 = 1 (Rational)"
+                        },
+                        {
+                              "text": "3 &middot; &pi;",
+                              "correct": "irrational",
+                              "exp": "Multiple of &pi; is Irrational"
+                        }
+                  ]
+            },
+            "q3": {
+                  "title": "Question 3: Free-Response Inequalities & Continuity (6 Marks)",
+                  "problems": [
+                        {
+                              "id": "q3_1",
+                              "prompt": "Solve: <span class=\"math\">|2x + 3| &le; |x - 1|</span>",
+                              "options": [
+                                    "[-4, -2/3]",
+                                    "(-4, -2/3)",
+                                    "[-4, 1]",
+                                    "[-2/3, 1]"
+                              ],
+                              "correct": 0,
+                              "exp": "Square both sides: (2x + 3)\u00b2 &le; (x - 1)\u00b2 &rArr; 4x\u00b2 + 12x + 9 &le; x\u00b2 - 2x + 1 &rArr; 3x\u00b2 + 14x + 8 &le; 0 &rArr; (3x + 2)(x + 4) &le; 0 &rArr; [-4, -2/3]."
+                        },
+                        {
+                              "id": "q3_2",
+                              "prompt": "Solve: <span class=\"math\">2/x &le; 1/(x - 1)</span>",
+                              "options": [
+                                    "(-&infin;, 0) &cup; (1, 2]",
+                                    "(0, 1) &cup; [2, &infin;)",
+                                    "[2, &infin;)",
+                                    "(0, 2]"
+                              ],
+                              "correct": 0,
+                              "exp": "2/x - 1/(x - 1) &le; 0 &rArr; (x - 2)/[x(x - 1)] &le; 0. Sign chart yields (-&infin;, 0) &cup; (1, 2]."
+                        },
+                        {
+                              "id": "q3_3",
+                              "prompt": "If <span class=\"math\">f(x) = { cx + 1 (x &le; 2), x\u00b2 - c (x > 2) }</span> is continuous at <span class=\"math\">x = 2</span>, find <span class=\"math\">c</span>:",
+                              "options": [
+                                    "c = 1",
+                                    "c = 2",
+                                    "c = 3",
+                                    "c = 0"
+                              ],
+                              "correct": 0,
+                              "exp": "2c + 1 = 2\u00b2 - c &rArr; 3c = 3 &rArr; c = 1."
+                        },
+                        {
+                              "id": "q3_4",
+                              "prompt": "Find the domain of <span class=\"math\">f(x) = &radic;(9 - x\u00b2) + &radic;(x - 1)</span>",
+                              "options": [
+                                    "[1, 3]",
+                                    "[-3, 3]",
+                                    "[1, &infin;)",
+                                    "[0, 3]"
+                              ],
+                              "correct": 0,
+                              "exp": "9 - x\u00b2 &ge; 0 gives [-3, 3]. x - 1 &ge; 0 gives [1, &infin;). Intersection is [1, 3]."
+                        }
+                  ]
+            },
+            "q4": {
+                  "title": "Question 4: Exact Values & Limits (8 Marks)",
+                  "problems": [
+                        {
+                              "id": "q4_1",
+                              "prompt": "Find exact value: <span class=\"math\">tan(arccos(4/5))</span>",
+                              "options": [
+                                    "3/4",
+                                    "4/3",
+                                    "3/5",
+                                    "-3/4"
+                              ],
+                              "correct": 0,
+                              "exp": "Let &theta; = arccos(4/5). Adj=4, Hyp=5 &rArr; Opp=3. tan(&theta;) = Opp/Adj = 3/4."
+                        },
+                        {
+                              "id": "q4_2",
+                              "prompt": "Find exact value: <span class=\"math\">cos(120&deg;)</span>",
+                              "options": [
+                                    "-1/2",
+                                    "1/2",
+                                    "-&radic;3 / 2",
+                                    "&radic;3 / 2"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad II: -cos(60&deg;) = -1/2."
+                        },
+                        {
+                              "id": "q4_3",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 1</sub> (x\u00b3 - 1) / (x\u00b2 - 1)</span>",
+                              "options": [
+                                    "3/2",
+                                    "1",
+                                    "2/3",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 1)(x\u00b2 + x + 1)/[(x - 1)(x + 1)] = (1 + 1 + 1)/(1 + 1) = 3/2."
+                        },
+                        {
+                              "id": "q4_4",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 0</sub> (&radic;(x + 1) - 1) / x</span>",
+                              "options": [
+                                    "1/2",
+                                    "1",
+                                    "0",
+                                    "2"
+                              ],
+                              "correct": 0,
+                              "exp": "Multiply by conjugate: 1/(&radic;1 + 1) = 1/2."
+                        }
+                  ]
+            }
+      },
+      {
+            "version": 9,
+            "title": "Version 9: Absolute Rational Inequalities & Inverses",
+            "q1": {
+                  "title": "Question 1: Choose the correct answer (5 Marks \u2014 0.5 each)",
+                  "mcqs": [
+                        {
+                              "id": 1,
+                              "prompt": "Which of the following is <b>irrational</b>?",
+                              "options": [
+                                    "&radic;0.04",
+                                    "&radic;27 / &radic;3",
+                                    "&radic;6",
+                                    "5.123"
+                              ],
+                              "correct": 2,
+                              "exp": "&radic;6 cannot be simplified into rational number (Irrational)."
+                        },
+                        {
+                              "id": 2,
+                              "prompt": "|4 - &radic;15| = &hellip;",
+                              "options": [
+                                    "4 - &radic;15",
+                                    "&radic;15 - 4",
+                                    "4 + &radic;15",
+                                    "-4 - &radic;15"
+                              ],
+                              "correct": 0,
+                              "exp": "&radic;15 &approx; 3.87 < 4, so 4 - &radic;15 > 0. Value is 4 - &radic;15."
+                        },
+                        {
+                              "id": 3,
+                              "prompt": "The solution of |x + 5| > 0 is &hellip;",
+                              "options": [
+                                    "R \\ {-5}",
+                                    "R",
+                                    "(-5, &infin;)",
+                                    "&empty;"
+                              ],
+                              "correct": 0,
+                              "exp": "Absolute value is strictly > 0 for all numbers except where it equals 0 (at x = -5)."
+                        },
+                        {
+                              "id": 4,
+                              "prompt": "Domain of f(x) = (x + 3) / &radic;(x - 2) is &hellip;",
+                              "options": [
+                                    "(2, &infin;)",
+                                    "[2, &infin;)",
+                                    "R \\ {2}",
+                                    "(-&infin;, 2)"
+                              ],
+                              "correct": 0,
+                              "exp": "Denominator root must be strictly > 0 &rArr; x > 2."
+                        },
+                        {
+                              "id": 5,
+                              "prompt": "The range of f(x) = 4 - x\u00b2 is &hellip;",
+                              "options": [
+                                    "(-&infin;, 4]",
+                                    "[4, &infin;)",
+                                    "[0, 4]",
+                                    "R"
+                              ],
+                              "correct": 0,
+                              "exp": "Since -x\u00b2 &le; 0, 4 - x\u00b2 &le; 4."
+                        },
+                        {
+                              "id": 6,
+                              "prompt": "Which function is <b>Neither</b> even nor odd?",
+                              "options": [
+                                    "f(x) = x\u00b2 + 2x",
+                                    "f(x) = x\u00b2 + 1",
+                                    "f(x) = x\u00b3",
+                                    "f(x) = cos x"
+                              ],
+                              "correct": 0,
+                              "exp": "f(-x) = x\u00b2 - 2x, which is neither f(x) nor -f(x)."
+                        },
+                        {
+                              "id": 7,
+                              "prompt": "Reference angle of 240&deg; is &hellip;",
+                              "options": [
+                                    "60&deg;",
+                                    "30&deg;",
+                                    "45&deg;",
+                                    "120&deg;"
+                              ],
+                              "correct": 0,
+                              "exp": "240&deg; - 180&deg; = 60&deg;."
+                        },
+                        {
+                              "id": 8,
+                              "prompt": "arcsin(-1) = &hellip;",
+                              "options": [
+                                    "-&pi;/2",
+                                    "&pi;/2",
+                                    "3&pi;/2",
+                                    "&pi;"
+                              ],
+                              "correct": 0,
+                              "exp": "Range of arcsin is [-&pi;/2, &pi;/2]. Value is -&pi;/2."
+                        },
+                        {
+                              "id": 9,
+                              "prompt": "lim<sub>x &rarr; &infin;</sub> (5x\u00b2 + 3)/(2x\u00b2 - 1) = &hellip;",
+                              "options": [
+                                    "5/2",
+                                    "0",
+                                    "&infin;",
+                                    "3/-1"
+                              ],
+                              "correct": 0,
+                              "exp": "Ratio of leading coefficients: 5/2."
+                        },
+                        {
+                              "id": 10,
+                              "prompt": "If f(x) = 3x - 1, then (f &comp; f<sup>-1</sup>)(10) = &hellip;",
+                              "options": [
+                                    "10",
+                                    "29",
+                                    "3",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "Identity theorem: f(f<sup>-1</sup>(x)) = x. For x = 10, answer is 10."
+                        }
+                  ]
+            },
+            "q2": {
+                  "title": "Question 2: Number Classification (6 Marks)",
+                  "prompt": "Classify into Rational or Irrational:",
+                  "items": [
+                        {
+                              "text": "&radic;49 - 7",
+                              "correct": "rational",
+                              "exp": "7 - 7 = 0 (Rational)"
+                        },
+                        {
+                              "text": "&radic;20 / &radic;5",
+                              "correct": "rational",
+                              "exp": "&radic;4 = 2 (Rational)"
+                        },
+                        {
+                              "text": "&radic;2 / 2",
+                              "correct": "irrational",
+                              "exp": "1/&radic;2 (Irrational)"
+                        },
+                        {
+                              "text": "0.1010010001&hellip;",
+                              "correct": "irrational",
+                              "exp": "Non-repeating pattern (Irrational)"
+                        },
+                        {
+                              "text": "tan(&pi;/4)",
+                              "correct": "rational",
+                              "exp": "1 (Rational)"
+                        },
+                        {
+                              "text": "(-8)\u00b9/\u00b3",
+                              "correct": "rational",
+                              "exp": "-2 (Rational)"
+                        }
+                  ]
+            },
+            "q3": {
+                  "title": "Question 3: Free-Response Inequalities & Inverses (6 Marks)",
+                  "problems": [
+                        {
+                              "id": "q3_1",
+                              "prompt": "Solve: <span class=\"math\">1 &le; |x - 2| &le; 4</span>",
+                              "options": [
+                                    "[-2, 1] &cup; [3, 6]",
+                                    "[-2, 6]",
+                                    "[1, 4]",
+                                    "(-2, 1) &cup; (3, 6)"
+                              ],
+                              "correct": 0,
+                              "exp": "|x - 2| &le; 4 gives [-2, 6]. |x - 2| &ge; 1 excludes (1, 3). Intersection: [-2, 1] &cup; [3, 6]."
+                        },
+                        {
+                              "id": "q3_2",
+                              "prompt": "Solve: <span class=\"math\">x/(x + 1) &le; 1/(x - 2)</span>",
+                              "options": [
+                                    "(-&infin;, -1) &cup; [-0.5, 2)",
+                                    "(-1, 2)",
+                                    "[-1, 2]",
+                                    "(-&infin;, -1) &cup; (2, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "[x(x - 2) - (x + 1)] / [(x + 1)(x - 2)] &le; 0 &rArr; (x\u00b2 - 3x - 1)/[(x+1)(x-2)] &le; 0. By sign analysis, solution is (-&infin;, -1) &cup; [-0.5, 2)."
+                        },
+                        {
+                              "id": "q3_3",
+                              "prompt": "If <span class=\"math\">f(x) = (2x - 1)/(x + 3)</span>, find <span class=\"math\">Range(f)</span>:",
+                              "options": [
+                                    "R \\ {2}",
+                                    "R \\ {-3}",
+                                    "R \\ {1/2}",
+                                    "(-&infin;, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "Range(f) = Domain(f<sup>-1</sup>). f<sup>-1</sup>(x) = (3x + 1)/(2 - x), which is undefined at x = 2. Range is R \\ {2}."
+                        },
+                        {
+                              "id": "q3_4",
+                              "prompt": "Find domain of <span class=\"math\">f(x) = &radic;(x - 2) / (x\u00b2 - 9)</span>",
+                              "options": [
+                                    "[2, 3) &cup; (3, &infin;)",
+                                    "[2, &infin;)",
+                                    "R \\ {-3, 3}",
+                                    "[2, 3)"
+                              ],
+                              "correct": 0,
+                              "exp": "Root requires x &ge; 2. Denominator excludes x = &plusmn;3. Since -3 < 2, only 3 is excluded: [2, 3) &cup; (3, &infin;)."
+                        }
+                  ]
+            },
+            "q4": {
+                  "title": "Question 4: Exact Values & Limits (8 Marks)",
+                  "problems": [
+                        {
+                              "id": "q4_1",
+                              "prompt": "Find exact value: <span class=\"math\">cos(sin<sup>-1</sup>(-1/2))</span>",
+                              "options": [
+                                    "&radic;3 / 2",
+                                    "-&radic;3 / 2",
+                                    "1/2",
+                                    "-1/2"
+                              ],
+                              "correct": 0,
+                              "exp": "sin<sup>-1</sup>(-1/2) = -&pi;/6. cos(-&pi;/6) = &radic;3/2."
+                        },
+                        {
+                              "id": "q4_2",
+                              "prompt": "Find exact value: <span class=\"math\">sin(330&deg;)</span>",
+                              "options": [
+                                    "-1/2",
+                                    "1/2",
+                                    "-&radic;3 / 2",
+                                    "&radic;3 / 2"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad IV: -sin(30&deg;) = -1/2."
+                        },
+                        {
+                              "id": "q4_3",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 2</sub> (x\u00b3 - 8) / (x - 2)</span>",
+                              "options": [
+                                    "12",
+                                    "8",
+                                    "4",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 2)(x\u00b2 + 2x + 4)/(x - 2) = 2\u00b2 + 2(2) + 4 = 12."
+                        },
+                        {
+                              "id": "q4_4",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 0</sub> (&radic;(x + 36) - 6) / x</span>",
+                              "options": [
+                                    "1/12",
+                                    "1/6",
+                                    "0",
+                                    "12"
+                              ],
+                              "correct": 0,
+                              "exp": "Conjugate: 1/(&radic;36 + 6) = 1/12."
+                        }
+                  ]
+            }
+      },
+      {
+            "version": 10,
+            "title": "Version 10: The Ultimate 25/25 Benchmark",
+            "q1": {
+                  "title": "Question 1: Choose the correct answer (5 Marks \u2014 0.5 each)",
+                  "mcqs": [
+                        {
+                              "id": 1,
+                              "prompt": "Which of the following is <b>rational</b>?",
+                              "options": [
+                                    "&radic;50",
+                                    "3.14159&hellip; (&pi;)",
+                                    "22/7",
+                                    "&radic;3"
+                              ],
+                              "correct": 2,
+                              "exp": "22/7 is explicitly a ratio of two integers &rArr; Rational."
+                        },
+                        {
+                              "id": 2,
+                              "prompt": "|5 - 2&radic;6| = &hellip;",
+                              "options": [
+                                    "5 - 2&radic;6",
+                                    "2&radic;6 - 5",
+                                    "5 + 2&radic;6",
+                                    "-5 - 2&radic;6"
+                              ],
+                              "correct": 0,
+                              "exp": "2&radic;6 = &radic;24 &approx; 4.899 < 5, so 5 - 2&radic;6 > 0. Value is 5 - 2&radic;6."
+                        },
+                        {
+                              "id": 3,
+                              "prompt": "If -3x &ge; 12, then x &hellip;",
+                              "options": [
+                                    "&le; -4",
+                                    "&ge; -4",
+                                    "&le; 4",
+                                    "&ge; 4"
+                              ],
+                              "correct": 0,
+                              "exp": "Dividing by -3 flips inequality: x &le; -4."
+                        },
+                        {
+                              "id": 4,
+                              "prompt": "Domain of f(x) = &radic;(x - 4) / (x - 6) is &hellip;",
+                              "options": [
+                                    "[4, 6) &cup; (6, &infin;)",
+                                    "[4, &infin;)",
+                                    "R \\ {6}",
+                                    "(4, 6)"
+                              ],
+                              "correct": 0,
+                              "exp": "x &ge; 4 and x &ne; 6 &rArr; [4, 6) &cup; (6, &infin;)."
+                        },
+                        {
+                              "id": 5,
+                              "prompt": "The horizontal asymptote of f(x) = (2x + 1)/(x\u00b2 - 4) is &hellip;",
+                              "options": [
+                                    "y = 0",
+                                    "y = 2",
+                                    "x = 2",
+                                    "None"
+                              ],
+                              "correct": 0,
+                              "exp": "Degree numerator (1) < degree denominator (2) &rArr; y = 0."
+                        },
+                        {
+                              "id": 6,
+                              "prompt": "The product of two odd functions is &hellip;",
+                              "options": [
+                                    "Even",
+                                    "Odd",
+                                    "Neither",
+                                    "Zero"
+                              ],
+                              "correct": 0,
+                              "exp": "f(-x)g(-x) = (-f(x))(-g(x)) = f(x)g(x) &rArr; Even function."
+                        },
+                        {
+                              "id": 7,
+                              "prompt": "Reference angle of 315&deg; is &hellip;",
+                              "options": [
+                                    "45&deg;",
+                                    "30&deg;",
+                                    "60&deg;",
+                                    "135&deg;"
+                              ],
+                              "correct": 0,
+                              "exp": "360&deg; - 315&deg; = 45&deg;."
+                        },
+                        {
+                              "id": 8,
+                              "prompt": "arctan(-&radic;3) = &hellip;",
+                              "options": [
+                                    "-&pi;/3",
+                                    "2&pi;/3",
+                                    "&pi;/3",
+                                    "5&pi;/3"
+                              ],
+                              "correct": 0,
+                              "exp": "Range of arctan is (-&pi;/2, &pi;/2). Value is -&pi;/3."
+                        },
+                        {
+                              "id": 9,
+                              "prompt": "lim<sub>x &rarr; 0</sub> tan(3x) / (5x) = &hellip;",
+                              "options": [
+                                    "3/5",
+                                    "5/3",
+                                    "1",
+                                    "0"
+                              ],
+                              "correct": 0,
+                              "exp": "Standard trig limit: 3/5."
+                        },
+                        {
+                              "id": 10,
+                              "prompt": "If f(x) = 2x\u00b3 + 5, then f is &hellip;",
+                              "options": [
+                                    "One-to-one",
+                                    "Even",
+                                    "Not one-to-one",
+                                    "Bounded"
+                              ],
+                              "correct": 0,
+                              "exp": "Strictly increasing on R, passes horizontal line test &rArr; One-to-one."
+                        }
+                  ]
+            },
+            "q2": {
+                  "title": "Question 2: Number Classification (6 Marks)",
+                  "prompt": "Classify into Rational or Irrational:",
+                  "items": [
+                        {
+                              "text": "&radic;144",
+                              "correct": "rational",
+                              "exp": "12 (Rational)"
+                        },
+                        {
+                              "text": "&radic;2 &middot; &radic;3",
+                              "correct": "irrational",
+                              "exp": "&radic;6 (Irrational)"
+                        },
+                        {
+                              "text": "0.454545&hellip;",
+                              "correct": "rational",
+                              "exp": "Repeating decimal 45/99 (Rational)"
+                        },
+                        {
+                              "text": "sin(&pi;)",
+                              "correct": "rational",
+                              "exp": "0 (Rational)"
+                        },
+                        {
+                              "text": "(&radic;7 + 1)\u00b2",
+                              "correct": "irrational",
+                              "exp": "7 + 2&radic;7 + 1 = 8 + 2&radic;7 (Irrational)"
+                        },
+                        {
+                              "text": "&pi; / 2",
+                              "correct": "irrational",
+                              "exp": "Half of &pi; is Irrational"
+                        }
+                  ]
+            },
+            "q3": {
+                  "title": "Question 3: Free-Response Inequalities & Inverses (6 Marks)",
+                  "problems": [
+                        {
+                              "id": "q3_1",
+                              "prompt": "Solve: <span class=\"math\">|3x - 1| &ge; 5</span>",
+                              "options": [
+                                    "(-&infin;, -4/3] &cup; [2, &infin;)",
+                                    "[-4/3, 2]",
+                                    "[2, &infin;)",
+                                    "(-&infin;, -4/3]"
+                              ],
+                              "correct": 0,
+                              "exp": "3x - 1 &ge; 5 &rArr; x &ge; 2 OR 3x - 1 &le; -5 &rArr; x &le; -4/3. Union: (-&infin;, -4/3] &cup; [2, &infin;)."
+                        },
+                        {
+                              "id": "q3_2",
+                              "prompt": "Solve: <span class=\"math\">(x\u00b2 - 4)/(x + 1) &ge; 0</span>",
+                              "options": [
+                                    "[-2, -1) &cup; [2, &infin;)",
+                                    "[-2, 2]",
+                                    "(-1, 2]",
+                                    "(-&infin;, -2] &cup; [2, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "(x-2)(x+2)/(x+1) &ge; 0. Roots: -2, -1, 2. Sign chart &ge; 0 on [-2, -1) &cup; [2, &infin;)."
+                        },
+                        {
+                              "id": "q3_3",
+                              "prompt": "If <span class=\"math\">f(x) = (4x + 1)/(2x - 3)</span>, find <span class=\"math\">f<sup>-1</sup>(x)</span>:",
+                              "options": [
+                                    "(3x + 1)/(2x - 4)",
+                                    "(2x - 3)/(4x + 1)",
+                                    "(3x - 1)/(2x + 4)",
+                                    "(x + 1)/(2x - 3)"
+                              ],
+                              "correct": 0,
+                              "exp": "y(2x-3) = 4x+1 &rArr; 2xy - 4x = 3y+1 &rArr; x(2y-4) = 3y+1 &rArr; (3x+1)/(2x-4)."
+                        },
+                        {
+                              "id": "q3_4",
+                              "prompt": "Find the domain of <span class=\"math\">f(x) = &radic;(5 - &radic;x)</span>",
+                              "options": [
+                                    "[0, 25]",
+                                    "[0, 5]",
+                                    "[0, &infin;)",
+                                    "[25, &infin;)"
+                              ],
+                              "correct": 0,
+                              "exp": "Inner root: x &ge; 0. Outer root: 5 - &radic;x &ge; 0 &rArr; &radic;x &le; 5 &rArr; x &le; 25. Intersection is [0, 25]."
+                        }
+                  ]
+            },
+            "q4": {
+                  "title": "Question 4: Exact Values & Limits (8 Marks)",
+                  "problems": [
+                        {
+                              "id": "q4_1",
+                              "prompt": "Find exact value: <span class=\"math\">cos<sup>-1</sup>(cos(5&pi;/3))</span>",
+                              "options": [
+                                    "&pi;/3",
+                                    "5&pi;/3",
+                                    "-&pi;/3",
+                                    "2&pi;/3"
+                              ],
+                              "correct": 0,
+                              "exp": "cos(5&pi;/3) = 1/2. cos<sup>-1</sup>(1/2) in [0, &pi;] is &pi;/3."
+                        },
+                        {
+                              "id": "q4_2",
+                              "prompt": "Find exact value: <span class=\"math\">cos(210&deg;)</span>",
+                              "options": [
+                                    "-&radic;3 / 2",
+                                    "&radic;3 / 2",
+                                    "-1/2",
+                                    "1/2"
+                              ],
+                              "correct": 0,
+                              "exp": "Quad III: -cos(30&deg;) = -&radic;3/2."
+                        },
+                        {
+                              "id": "q4_3",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 5</sub> (x\u00b2 - 25) / (x - 5)</span>",
+                              "options": [
+                                    "10",
+                                    "5",
+                                    "0",
+                                    "Does not exist"
+                              ],
+                              "correct": 0,
+                              "exp": "(x - 5)(x + 5)/(x - 5) = 5 + 5 = 10."
+                        },
+                        {
+                              "id": "q4_4",
+                              "prompt": "Evaluate: <span class=\"math\">lim<sub>x &rarr; 0</sub> (&radic;(x + 49) - 7) / x</span>",
+                              "options": [
+                                    "1/14",
+                                    "1/7",
+                                    "0",
+                                    "14"
+                              ],
+                              "correct": 0,
+                              "exp": "Conjugate: 1/(&radic;49 + 7) = 1/14."
+                        }
+                  ]
+            }
       }
+
     ];
 
     let currentVersionIndex = 0;
@@ -416,7 +1773,7 @@
         <button 
           onclick="setVersion(${i})" 
           id="vBtn-${i}"
-          class="px-2.5 py-1 rounded-lg text-xs font-bold border transition ${i === 0 ? 'bg-blue-600 text-white border-blue-600' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+          class="px-2.5 py-1 rounded-lg text-xs font-bold border transition ${i === 0 ? 'bg-red-600 text-white border-red-600 shadow-md' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
         >
           V${v.version}
         </button>
@@ -428,7 +1785,7 @@
       examData.forEach((_, i) => {
         const btn = document.getElementById(`vBtn-${i}`);
         if (i === idx) {
-          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition bg-blue-600 text-white border-blue-600";
+          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition bg-red-600 text-white border-red-600 shadow-md";
         } else {
           btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition border-[var(--border)] hover:bg-[var(--border)]/40";
         }
@@ -451,7 +1808,7 @@
         <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
           <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
             <h2 class="text-base font-bold text-[var(--foreground)]">${v.q1.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">5.0 Marks</span>
+            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold">5.0 Marks</span>
           </div>
           <div class="space-y-4">
             ${v.q1.mcqs.map((m, idx) => {
@@ -466,10 +1823,10 @@
                       <button 
                         onclick="recordAnswer('q1', ${m.id}, ${oIdx})"
                         id="btn-q1-${m.id}-${oIdx}"
-                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
                       >
                         <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
                       </button>
                     `).join('')}
                   </div>
@@ -489,7 +1846,7 @@
               <h2 class="text-base font-bold">${v.q2.title}</h2>
               <p class="text-xs text-[var(--muted-foreground)]">${v.q2.prompt}</p>
             </div>
-            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">6.0 Marks</span>
+            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold">6.0 Marks</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             ${v.q2.items.map((it, idx) => {
@@ -502,14 +1859,14 @@
                     <button 
                       onclick="recordAnswer('q2', ${idx}, 'rational')"
                       id="btn-q2-${idx}-rational"
-                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'rational' ? 'border-blue-500 bg-blue-500/10 text-blue-500' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'rational' ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
                     >
                       Rational (Q)
                     </button>
                     <button 
                       onclick="recordAnswer('q2', ${idx}, 'irrational')"
                       id="btn-q2-${idx}-irrational"
-                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'irrational' ? 'border-blue-500 bg-blue-500/10 text-blue-500' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'irrational' ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
                     >
                       Irrational (I)
                     </button>
@@ -527,7 +1884,7 @@
         <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
           <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
             <h2 class="text-base font-bold">${v.q3.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">6.0 Marks</span>
+            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold">6.0 Marks</span>
           </div>
           <div class="space-y-4">
             ${v.q3.problems.map((p, idx) => {
@@ -541,10 +1898,10 @@
                       <button 
                         onclick="recordAnswer('q3', ${idx}, ${oIdx})"
                         id="btn-q3-${idx}-${oIdx}"
-                        class="p-2.5 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                        class="p-2.5 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
                       >
                         <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
                       </button>
                     `).join('')}
                   </div>
@@ -561,7 +1918,7 @@
         <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
           <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
             <h2 class="text-base font-bold">${v.q4.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">8.0 Marks</span>
+            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold">8.0 Marks</span>
           </div>
           <div class="space-y-4">
             ${v.q4.problems.map((p, idx) => {
@@ -575,10 +1932,10 @@
                       <button 
                         onclick="recordAnswer('q4', ${idx}, ${oIdx})"
                         id="btn-q4-${idx}-${oIdx}"
-                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
                       >
                         <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
                       </button>
                     `).join('')}
                   </div>
@@ -632,7 +1989,7 @@
           q1Score += 0.5;
           box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
         } else {
-          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
         }
       });
 
@@ -648,7 +2005,7 @@
           q2Score += 1.0;
           box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
         } else {
-          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
         }
       });
 
@@ -664,7 +2021,7 @@
           q3Score += 1.5;
           box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
         } else {
-          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
         }
       });
 
@@ -680,7 +2037,7 @@
           q4Score += 2.0;
           box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
         } else {
-          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
         }
       });
 
@@ -698,7 +2055,7 @@
         scoreDisp.className = "text-center text-4xl font-extrabold text-emerald-500";
         feedDisp.innerText = "🔥 25/25 FULL MARK! Absolute mastery across every section! You are set for Tuesday!";
       } else if (finalTotal >= 20) {
-        scoreDisp.className = "text-center text-4xl font-extrabold text-blue-500";
+        scoreDisp.className = "text-center text-4xl font-extrabold text-red-500";
         feedDisp.innerText = `💪 Outstanding score of ${finalTotal.toFixed(1)}/25! Review the red-bordered problems above to lock in that remaining mark!`;
       } else {
         scoreDisp.className = "text-center text-4xl font-extrabold text-amber-500";

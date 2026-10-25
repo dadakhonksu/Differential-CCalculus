@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KSU Math 101 Midterm - Official Format (5 Versions)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .math {
+      font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen p-3 md:p-8 font-sans">
+  <div class="max-w-4xl mx-auto space-y-6">
+    
+    <!-- Top Department Header (Carbon copy of KSU Exam Paper) -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm">
+      <div class="text-center space-y-1 border-b border-[var(--border)] pb-4">
+        <h2 class="text-xs uppercase tracking-widest text-[var(--muted-foreground)] font-semibold">King Saud University &bull; Common First Year Deanship &bull; Basic Sciences</h2>
+        <h1 class="text-xl md:text-2xl font-black tracking-tight text-[var(--foreground)]">MATH 101 MIDTERM EXAM SIMULATOR (1448 H / 2026)</h1>
+        <p class="text-xs text-[var(--muted-foreground)]">Time Allowed: 90 Minutes &bull; Total Marks: 25.0 Marks &bull; 4 Major Questions</p>
+      </div>
+
+      <div class="flex flex-wrap justify-between items-center gap-4 pt-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-[var(--muted-foreground)]">VERSION:</span>
+          <div class="flex gap-1.5" id="versionSelector">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <div class="text-right">
+            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Timer</span>
+            <span id="examTimer" class="font-mono text-lg font-bold text-amber-500">00:00</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Score</span>
+            <span class="text-lg font-black text-emerald-500"><span id="totalLiveScore">0.0</span> / 25.0</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Version Title Banner -->
+    <div class="flex justify-between items-center bg-[var(--card)] border border-[var(--border)] px-5 py-3 rounded-xl shadow-xs">
+      <div>
+        <span id="currentVersionBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500">Version 1</span>
+        <span id="currentVersionDesc" class="text-sm font-semibold ml-2">Official Exam Structure Clone</span>
+      </div>
+      <div class="text-xs text-[var(--muted-foreground)]" id="progressIndicator">
+        0 of 4 Sections Answered
+      </div>
+    </div>
+
+    <!-- Exam Paper Body -->
+    <main id="examContainer" class="space-y-8">
+      <!-- Injected by JavaScript -->
+    </main>
+
+    <!-- Submission Footer -->
+    <footer class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>
+        <h3 class="font-bold text-base">Submit Exam for Final Grading</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Lock your answers to see your score out of 25.0 with full handwritten-style model solutions.</p>
+      </div>
+      <div class="flex gap-3 w-full sm:w-auto">
+        <button onclick="resetCurrentExam()" class="px-4 py-2.5 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-semibold text-xs transition">
+          Clear Version
+        </button>
+        <button onclick="gradeCurrentExam()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow-md">
+          Grade Exam (25 Marks)
+        </button>
+      </div>
+    </footer>
+
+    <!-- Result Banner Modal (Hidden initially) -->
+    <div id="resultsCard" class="hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-xl space-y-4">
+      <h2 class="text-2xl font-black text-center">🎯 Official Exam Score Report</h2>
+      <div id="finalScoreDisplay" class="text-center text-4xl font-extrabold text-blue-500"></div>
+      <p id="finalFeedbackDisplay" class="text-center text-sm max-w-xl mx-auto text-[var(--muted-foreground)]"></p>
+    </div>
+
+  </div>
+
+  <script>
+    const examData = [
+      // =========================================================================
+      // VERSION 1: Direct Clone of the 1446H Official Exam
+      // =========================================================================
+      {
+        version: 1,
+        title: "Version 1: The Official 1446H Parallel",
+        q1: {
+          title: "Question 1: Choose the correct answer (5 Marks — 0.5 each)",
+          mcqs: [
+            { id: 1, prompt: "Which of the following numbers is an <b>irrational</b> number?", options: ["3.14", "&radic;5", "&radic;4", "-2"], correct: 1, exp: "&radic;5 is the root of a non-perfect square, making it irrational." },
+            { id: 2, prompt: "|5 - &radic;5| = &hellip;", options: ["5 - &radic;5", "&radic;5 - 5", "&radic;5 + 5", "-&radic;5 - 5"], correct: 0, exp: "Since &radic;5 &approx; 2.23, 5 - &radic;5 > 0 (positive). Thus |5 - &radic;5| = 5 - &radic;5." },
+            { id: 3, prompt: "We can write (2x + 3)(2x - 3) as &hellip;", options: ["R", "4x² - 9", "4x² + 9", "4x² - 6x - 9"], correct: 1, exp: "Difference of squares formula: (a+b)(a-b) = a² - b² &rArr; 4x² - 9." },
+            { id: 4, prompt: "If x + 1 > 5, then x - 1 > &hellip;", options: ["5", "0", "3", "-3"], correct: 2, exp: "x + 1 > 5 &rArr; x > 4. Subtract 1 from both sides &rArr; x - 1 > 3." },
+            { id: 5, prompt: "The solution set of the inequality x² > 0 is &hellip;", options: ["R", "&empty;", "{0}", "R - {0}"], correct: 3, exp: "x² &ge; 0 for all real numbers. It equals 0 only at x = 0. Thus strictly > 0 for all R except {0}." },
+            { id: 6, prompt: "The domain of the function f(x) = (x - 5)(x + 2) is &hellip;", options: ["{5, -2}", "R - {5, -2}", "R", "&empty;"], correct: 2, exp: "A polynomial is defined for all real numbers R." },
+            { id: 7, prompt: "The reference angle of &theta; = 10&pi;/3 is &hellip;", options: ["&theta;' = &pi;/6", "&theta;' = &pi;/3", "&theta;' = &pi;/4", "&theta;' = -&pi;/3"], correct: 1, exp: "10&pi;/3 - 2&pi; = 4&pi;/3 (Quad III). &theta;' = 4&pi;/3 - &pi; = &pi;/3." },
+            { id: 8, prompt: "Which of the following functions is <b>not</b> one-to-one?", options: ["f(x) = 3x + 5", "f(x) = 5", "f(x) = 1/(x+2)", "f(x) = &radic;(5x)"], correct: 1, exp: "A constant function f(x) = 5 is a horizontal line that intersects infinite points, failing 1-to-1." },
+            { id: 9, prompt: "sin<sup>-1</sup>(-&radic;2 / 2) = &hellip;", options: ["-&pi;/6", "-&pi;/4", "&pi;/4", "-&pi;/3"], correct: 1, exp: "Range of sin<sup>-1</sup> is [-&pi;/2, &pi;/2]. sin(-&pi;/4) = -&radic;2/2." },
+            { id: 10, prompt: "The range of the one-to-one function f(x) is &hellip;", options: ["D<sub>f</sub>", "Range of f<sup>-1</sup>", "D<sub>f<sup>-1</sup></sub>", "R"], correct: 2, exp: "By fundamental inverse theorem, Range(f) = Domain(f<sup>-1</sup>) = D<sub>f<sup>-1</sup></sub>." }
+          ]
+        },
+        q2: {
+          title: "Question 2: Number Classification (6 Marks)",
+          prompt: "Classify the following 6 numbers into Rational or Irrational:",
+          items: [
+            { text: "&pi; &middot; cos(&pi;)", correct: "irrational", exp: "&pi;(-1) = -&pi; (Irrational)" },
+            { text: "³&radic;(-125) / &radic;5", correct: "irrational", exp: "-5/&radic;5 = -&radic;5 (Irrational)" },
+            { text: "22 / 7", correct: "rational", exp: "Ratio of two integers (Rational)" },
+            { text: "2.476476476&hellip;", correct: "rational", exp: "Repeating decimal (Rational)" },
+            { text: "(&radic;2 + &radic;18)²", correct: "rational", exp: "(&radic;2 + 3&radic;2)² = (4&radic;2)² = 32 (Rational)" },
+            { text: "(&radic;3 + &radic;12)³", correct: "irrational", exp: "(&radic;3 + 2&radic;3)³ = (3&radic;3)³ = 81&radic;3 (Irrational)" }
+          ]
+        },
+        q3: {
+          title: "Question 3: Inequalities, Domains & Inverses (6 Marks)",
+          problems: [
+            {
+              id: "q3_1",
+              prompt: "Solve the inequality: <span class='math'>5 - 3x &le; (10 - 9x)/6 &le; 20 - 3x</span>",
+              options: ["[20/9, 110/9]", "(-&infin;, 20/9]", "[110/9, &infin;)", "[0, 10]"],
+              correct: 0,
+              exp: "Multiply by 6 &rArr; 30 - 18x &le; 10 - 9x &le; 120 - 18x. Left side gives x &ge; 20/9. Right side gives x &le; 110/9. Interval: [20/9, 110/9]."
+            },
+            {
+              id: "q3_2",
+              prompt: "Solve the rational inequality: <span class='math'>5 / (x + 2) &le; x / 3</span>",
+              options: ["[-5, -2) &cup; [3, &infin;)", "[-5, 3]", "(-2, 3]", "(-&infin;, -5] &cup; [3, &infin;)"],
+              correct: 0,
+              exp: "x/3 - 5/(x+2) &ge; 0 &rArr; (x²+2x-15)/[3(x+2)] &ge; 0 &rArr; (x+5)(x-3)/[3(x+2)] &ge; 0. Roots: -5, -2, 3. Sign chart yields [-5, -2) &cup; [3, &infin;)."
+            },
+            {
+              id: "q3_3",
+              prompt: "Let <span class='math'>f(x) = (x + 1) / (2x + 1)</span>. Find the formula for <span class='math'>f<sup>-1</sup>(x)</span> and its range:",
+              options: [
+                "f<sup>-1</sup>(x) = (1 - x)/(2x - 1), Range(f) = R \\ {1/2}",
+                "f<sup>-1</sup>(x) = (x - 1)/(2x + 1), Range(f) = R \\ {-1/2}",
+                "f<sup>-1</sup>(x) = (1 + x)/(1 - 2x), Range(f) = R \\ {0}",
+                "f<sup>-1</sup>(x) = (2x + 1)/(x + 1), Range(f) = R"
+              ],
+              correct: 0,
+              exp: "y(2x+1) = x+1 &rArr; 2xy - x = 1 - y &rArr; x = (1-y)/(2y-1). Inverse is (1-x)/(2x-1). Range(f) = Domain(f<sup>-1</sup>) = R \\ {1/2}."
+            },
+            {
+              id: "q3_4",
+              prompt: "Find the domain of <span class='math'>f(x) = &radic;(2 - &radic;x)</span>",
+              options: ["[0, 4]", "[0, 2]", "[0, &infin;)", "[4, &infin;)"],
+              correct: 0,
+              exp: "Inside root requires x &ge; 0. Outside root requires 2 - &radic;x &ge; 0 &rArr; &radic;x &le; 2 &rArr; x &le; 4. Intersection is [0, 4]."
+            }
+          ]
+        },
+        q4: {
+          title: "Question 4: Exact Trig Values & Limits (8 Marks)",
+          problems: [
+            {
+              id: "q4_1",
+              prompt: "Find the exact value of: <span class='math'>cos<sup>-1</sup>(cos(7&pi;/6))</span>",
+              options: ["5&pi;/6", "7&pi;/6", "-&pi;/6", "&pi;/6"],
+              correct: 0,
+              exp: "Range of cos<sup>-1</sup> is [0, &pi;]. cos(7&pi;/6) = -&radic;3/2. cos<sup>-1</sup>(-&radic;3/2) = &pi; - &pi;/6 = 5&pi;/6."
+            },
+            {
+              id: "q4_2",
+              prompt: "Find the exact value of: <span class='math'>sin(315&deg;)</span>",
+              options: ["-&radic;2 / 2", "&radic;2 / 2", "-1/2", "&radic;3 / 2"],
+              correct: 0,
+              exp: "Quadrant IV angle: sin(315&deg;) = -sin(360&deg; - 315&deg;) = -sin(45&deg;) = -&radic;2/2."
+            },
+            {
+              id: "q4_3",
+              prompt: "Evaluate the limit: <span class='math'>lim<sub>x &rarr; 1</sub> (x - 1) / (x² - 3x + 2)</span>",
+              options: ["-1", "1", "1/2", "Does not exist"],
+              correct: 0,
+              exp: "Factor denominator: (x - 1)(x - 2). Cancel (x - 1) &rArr; lim 1/(x - 2) = 1/(1 - 2) = -1."
+            },
+            {
+              id: "q4_4",
+              prompt: "Evaluate the limit: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 4) - 2) / x</span>",
+              options: ["1/4", "1/2", "0", "4"],
+              correct: 0,
+              exp: "Multiply by conjugate (&radic;(x+4)+2) &rArr; x / [x(&radic;(x+4)+2)] = 1/(&radic;4 + 2) = 1/4."
+            }
+          ]
+        }
+      },
+
+      // =========================================================================
+      // VERSION 2: The Symmetrical Transformation Variant
+      // =========================================================================
+      {
+        version: 2,
+        title: "Version 2: The Radical & Range Variant",
+        q1: {
+          title: "Question 1: Choose the correct answer (5 Marks — 0.5 each)",
+          mcqs: [
+            { id: 1, prompt: "Which number is <b>rational</b>?", options: ["&radic;7", "&pi; / 2", "3.14159", "e"], correct: 2, exp: "3.14159 is a finite terminating decimal, hence rational." },
+            { id: 2, prompt: "|3 - &pi;| = &hellip;", options: ["3 - &pi;", "&pi; - 3", "&pi; + 3", "-3 - &pi;"], correct: 1, exp: "&pi; &approx; 3.14 > 3, so 3 - &pi; is negative. Absolute value flips sign: &pi; - 3." },
+            { id: 3, prompt: "The solution to |3x - 1| &le; -2 is &hellip;", options: ["&empty;", "R", "[-1/3, 1]", "{1/3}"], correct: 0, exp: "Absolute value cannot be &le; negative number. &empty;." },
+            { id: 4, prompt: "If 2x - 3 > 7, then x + 2 > &hellip;", options: ["7", "5", "3", "2"], correct: 0, exp: "2x > 10 &rArr; x > 5 &rArr; x + 2 > 7." },
+            { id: 5, prompt: "Domain of f(x) = (x² - 4) / (x - 2) is &hellip;", options: ["R", "R \\ {2}", "R \\ {-2, 2}", "{2}"], correct: 1, exp: "Denominator cannot be zero &rArr; x &ne; 2." },
+            { id: 6, prompt: "The function f(x) = x³ + x is &hellip;", options: ["Even", "Odd", "Neither", "Both"], correct: 1, exp: "f(-x) = -x³ - x = -f(x), which satisfies the definition of an Odd function." },
+            { id: 7, prompt: "The reference angle of &theta; = -5&pi;/4 is &hellip;", options: ["&pi;/4", "&pi;/2", "3&pi;/4", "&pi;/6"], correct: 0, exp: "-5&pi;/4 + 2&pi; = 3&pi;/4 (Quad II). Reference angle &pi; - 3&pi;/4 = &pi;/4." },
+            { id: 8, prompt: "Which function is one-to-one?", options: ["f(x) = x²", "f(x) = |x|", "f(x) = 2x - 7", "f(x) = cos x"], correct: 2, exp: "Linear non-constant functions pass horizontal line test." },
+            { id: 9, prompt: "arccos(-1/2) = &hellip;", options: ["-&pi;/3", "2&pi;/3", "4&pi;/3", "&pi;/3"], correct: 1, exp: "Range of arccos is [0, &pi;]. Angle in Quad II is 2&pi;/3." },
+            { id: 10, prompt: "The domain of f<sup>-1</sup>(x) equals &hellip;", options: ["Domain(f)", "Range(f)", "R", "D<sub>f</sub> &cup; R<sub>f</sub>"], correct: 1, exp: "Fundamental rule: Domain(f<sup>-1</sup>) = Range(f)." }
+          ]
+        },
+        q2: {
+          title: "Question 2: Number Classification (6 Marks)",
+          prompt: "Classify into Rational or Irrational:",
+          items: [
+            { text: "sin(&pi;/2)", correct: "rational", exp: "sin(&pi;/2) = 1 (Integer &rArr; Rational)" },
+            { text: "&radic;2 &middot; &radic;8", correct: "rational", exp: "&radic;16 = 4 (Rational)" },
+            { text: "0.121212&hellip;", correct: "rational", exp: "Repeating decimal (Rational)" },
+            { text: "(&radic;5 - 1)(&radic;5 + 1)", correct: "rational", exp: "5 - 1 = 4 (Rational)" },
+            { text: "&radic;18 / 3", correct: "irrational", exp: "3&radic;2 / 3 = &radic;2 (Irrational)" },
+            { text: "&pi;²", correct: "irrational", exp: "Square of irrational &pi; (Irrational)" }
+          ]
+        },
+        q3: {
+          title: "Question 3: Inequalities & Functions (6 Marks)",
+          problems: [
+            { id: "q3_1", prompt: "Solve: <span class='math'>|2x - 3| &le; 5</span>", options: ["[-1, 4]", "(-1, 4)", "[-4, 1]", "[-1, &infin;)"], correct: 0, exp: "-5 &le; 2x - 3 &le; 5 &rArr; -2 &le; 2x &le; 8 &rArr; -1 &le; x &le; 4." },
+            { id: "q3_2", prompt: "Solve: <span class='math'>x / (x - 1) &ge; 2</span>", options: ["(1, 2]", "[1, 2)", "(-&infin;, 1) &cup; [2, &infin;)", "[2, &infin;)"], correct: 0, exp: "x/(x-1) - 2 &ge; 0 &rArr; (-x+2)/(x-1) &ge; 0. Sign chart yields (1, 2]." },
+            { id: "q3_3", prompt: "If <span class='math'>f(x) = (2x + 3) / (x - 4)</span>, find <span class='math'>f<sup>-1</sup>(x)</span>:", options: ["(4x + 3) / (x - 2)", "(x - 4) / (2x + 3)", "(4x - 3) / (x + 2)", "(3x + 4) / (x - 2)"], correct: 0, exp: "y(x-4) = 2x+3 &rArr; xy - 2x = 4y+3 &rArr; x = (4y+3)/(y-2). Swap: (4x+3)/(x-2)." },
+            { id: "q3_4", prompt: "Find the domain of <span class='math'>f(x) = &radic;(3 - &radic;(x + 1))</span>", options: ["[-1, 8]", "[-1, 9]", "[0, 8]", "[-1, &infin;)"], correct: 0, exp: "x+1 &ge; 0 &rArr; x &ge; -1. 3 - &radic;(x+1) &ge; 0 &rArr; &radic;(x+1) &le; 3 &rArr; x+1 &le; 9 &rArr; x &le; 8. Combined: [-1, 8]." }
+          ]
+        },
+        q4: {
+          title: "Question 4: Exact Trig & Limits (8 Marks)",
+          problems: [
+            { id: "q4_1", prompt: "Find exact value: <span class='math'>sin<sup>-1</sup>(sin(2&pi;/3))</span>", options: ["&pi;/3", "2&pi;/3", "-&pi;/3", "&radic;3 / 2"], correct: 0, exp: "2&pi;/3 is outside [-&pi;/2, &pi;/2]. sin(2&pi;/3) = &radic;3/2 &rArr; sin<sup>-1</sup>(&radic;3/2) = &pi;/3." },
+            { id: "q4_2", prompt: "Find exact value: <span class='math'>cos(240&deg;)</span>", options: ["-1/2", "1/2", "-&radic;3 / 2", "&radic;3 / 2"], correct: 0, exp: "Quad III: -cos(60&deg;) = -1/2." },
+            { id: "q4_3", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 2</sub> (x² - 4) / (x² + x - 6)</span>", options: ["4/5", "2/3", "1", "0"], correct: 0, exp: "(x-2)(x+2)/[(x-2)(x+3)] = (2+2)/(2+3) = 4/5." },
+            { id: "q4_4", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 9) - 3) / x</span>", options: ["1/6", "1/3", "0", "6"], correct: 0, exp: "Conjugate multiplication yields 1/(&radic;9 + 3) = 1/6." }
+          ]
+        }
+      },
+
+      // =========================================================================
+      // VERSION 3: The Composition & Absolute Value Specialist
+      // =========================================================================
+      {
+        version: 3,
+        title: "Version 3: Piecewise Limits & Inequalities",
+        q1: {
+          title: "Question 1: Choose the correct answer (5 Marks — 0.5 each)",
+          mcqs: [
+            { id: 1, prompt: "Which of the following is an irrational number?", options: ["&radic;9", "0.333&hellip;", "&radic;3 / 2", "-5/4"], correct: 2, exp: "&radic;3 is irrational, so divided by 2 is still irrational." },
+            { id: 2, prompt: "|&radic;2 - 2| = &hellip;", options: ["2 - &radic;2", "&radic;2 - 2", "&radic;2 + 2", "-&radic;2 - 2"], correct: 0, exp: "&radic;2 &approx; 1.414 < 2, so &radic;2 - 2 is negative. Value is 2 - &radic;2." },
+            { id: 3, prompt: "If -2x < 6, then x &hellip;", options: ["> -3", "< -3", "> 3", "< 3"], correct: 0, exp: "Dividing by -2 flips the sign: x > -3." },
+            { id: 4, prompt: "Domain of f(x) = &radic;(x - 3) is &hellip;", options: ["[3, &infin;)", "(3, &infin;)", "(-&infin;, 3]", "R"], correct: 0, exp: "x - 3 &ge; 0 &rArr; x &ge; 3." },
+            { id: 5, prompt: "Range of f(x) = x² + 5 is &hellip;", options: ["[5, &infin;)", "(5, &infin;)", "[0, &infin;)", "R"], correct: 0, exp: "Since x² &ge; 0, x² + 5 &ge; 5." },
+            { id: 6, prompt: "Which function is <b>Even</b>?", options: ["f(x) = cos(x)", "f(x) = sin(x)", "f(x) = x³", "f(x) = x + 1"], correct: 0, exp: "cos(-x) = cos(x) &rArr; Even function." },
+            { id: 7, prompt: "Reference angle of 7&pi;/4 is &hellip;", options: ["&pi;/4", "3&pi;/4", "&pi;/2", "&pi;/3"], correct: 0, exp: "Quad IV angle: 2&pi; - 7&pi;/4 = &pi;/4." },
+            { id: 8, prompt: "lim<sub>x &rarr; 1&plus;</sub> |x - 1| / (x - 1) = &hellip;", options: ["1", "-1", "0", "DNE"], correct: 0, exp: "For x > 1, |x - 1| = x - 1. (x - 1)/(x - 1) = 1." },
+            { id: 9, prompt: "tan<sup>-1</sup>(-1) = &hellip;", options: ["-&pi;/4", "3&pi;/4", "7&pi;/4", "&pi;/4"], correct: 0, exp: "Range of tan<sup>-1</sup> is (-&pi;/2, &pi;/2). Answer is -&pi;/4." },
+            { id: 10, prompt: "f(f<sup>-1</sup>(x)) = &hellip; for x in Domain(f<sup>-1</sup>)", options: ["x", "1/x", "f(x)", "y"], correct: 0, exp: "Cancellation identity equals x." }
+          ]
+        },
+        q2: {
+          title: "Question 2: Number Classification (6 Marks)",
+          prompt: "Classify into Rational or Irrational:",
+          items: [
+            { text: "(-27)¹/³", correct: "rational", exp: "-3 (Integer &rArr; Rational)" },
+            { text: "&radic;50 / &radic;2", correct: "rational", exp: "&radic;25 = 5 (Rational)" },
+            { text: "&radic;7 + 1", correct: "irrational", exp: "Sum of irrational and rational is Irrational" },
+            { text: "3.14159265&hellip; (&pi;)", correct: "irrational", exp: "Non-repeating infinite decimal (Irrational)" },
+            { text: "355 / 113", correct: "rational", exp: "Fraction of integers (Rational)" },
+            { text: "(&radic;3 - &radic;2)(&radic;3 + &radic;2)", correct: "rational", exp: "3 - 2 = 1 (Rational)" }
+          ]
+        },
+        q3: {
+          title: "Question 3: Inequalities & Analysis (6 Marks)",
+          problems: [
+            { id: "q3_1", prompt: "Solve: <span class='math'>|3x + 2| > 8</span>", options: ["(-&infin;, -10/3) &cup; (2, &infin;)", "[-10/3, 2]", "(2, &infin;)", "(-&infin;, -10/3)"], correct: 0, exp: "3x+2 > 8 &rArr; x > 2 OR 3x+2 < -8 &rArr; x < -10/3." },
+            { id: "q3_2", prompt: "Solve: <span class='math'>(x - 3)/(x + 1) &le; 0</span>", options: ["(-1, 3]", "[-1, 3]", "(-1, 3)", "(-&infin;, -1) &cup; [3, &infin;)"], correct: 0, exp: "Numerator zero at 3, denominator at -1. Sign chart is &le; 0 on (-1, 3]." },
+            { id: "q3_3", prompt: "If <span class='math'>f(x) = x³ + 2</span>, find <span class='math'>f<sup>-1</sup>(x)</span>:", options: ["³&radic;(x - 2)", "³&radic;(x + 2)", "(x - 2)³", "x³ - 2"], correct: 0, exp: "y = x³ + 2 &rArr; x = ³&radic;(y - 2). Swap: ³&radic;(x - 2)." },
+            { id: "q3_4", prompt: "If <span class='math'>f(x) = x², g(x) = &radic;(x - 4)</span>, find <span class='math'>Domain(g &comp; f)</span>:", options: ["(-&infin;, -2] &cup; [2, &infin;)", "[2, &infin;)", "[-2, 2]", "[4, &infin;)"], correct: 0, exp: "g(f(x)) = &radic;(x² - 4). Need x² - 4 &ge; 0 &rArr; (-&infin;, -2] &cup; [2, &infin;)." }
+          ]
+        },
+        q4: {
+          title: "Question 4: Exact Trig & Limits (8 Marks)",
+          problems: [
+            { id: "q4_1", prompt: "Find exact value: <span class='math'>cos(sin<sup>-1</sup>(4/5))</span>", options: ["3/5", "-3/5", "4/5", "1/5"], correct: 0, exp: "Right triangle: adj = &radic;(5² - 4²) = 3. cos = 3/5." },
+            { id: "q4_2", prompt: "Find exact value: <span class='math'>tan(135&deg;)</span>", options: ["-1", "1", "-&radic;3", "&radic;3 / 3"], correct: 0, exp: "Quad II: -tan(45&deg;) = -1." },
+            { id: "q4_3", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 3</sub> (x² - 9) / (2x - 6)</span>", options: ["3", "6", "3/2", "0"], correct: 0, exp: "(x-3)(x+3)/[2(x-3)] = (3+3)/2 = 3." },
+            { id: "q4_4", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(1 + x) - 1) / x</span>", options: ["1/2", "1", "0", "2"], correct: 0, exp: "Conjugate rationalization gives 1/(&radic;1 + 1) = 1/2." }
+          ]
+        }
+      },
+
+      // =========================================================================
+      // VERSION 4: Infinity & Factoring Intensive
+      // =========================================================================
+      {
+        version: 4,
+        title: "Version 4: Infinity Limits & Factorization",
+        q1: {
+          title: "Question 1: Choose the correct answer (5 Marks — 0.5 each)",
+          mcqs: [
+            { id: 1, prompt: "The number &radic;12 / &radic;3 is &hellip;", options: ["Rational", "Irrational", "Non-real", "Negative"], correct: 0, exp: "&radic;(12/3) = &radic;4 = 2 (Rational)." },
+            { id: 2, prompt: "|-7| + |-3| - |10| = &hellip;", options: ["0", "20", "-6", "4"], correct: 0, exp: "7 + 3 - 10 = 0." },
+            { id: 3, prompt: "Solution of x² &le; 0 is &hellip;", options: ["{0}", "&empty;", "(-&infin;, 0]", "R"], correct: 0, exp: "Square cannot be negative, only equals 0 at x = 0." },
+            { id: 4, prompt: "Domain of 1 / (x² + 1) is &hellip;", options: ["R", "R \\ {-1, 1}", "R \\ {0}", "(-1, 1)"], correct: 0, exp: "x² + 1 &ne; 0 for all real numbers. Domain is all R." },
+            { id: 5, prompt: "lim<sub>x &rarr; -&infin;</sub> (2x + 1)/(3x - 5) = &hellip;", options: ["2/3", "-2/3", "0", "&infin;"], correct: 0, exp: "Ratio of leading coefficients: 2/3." },
+            { id: 6, prompt: "A function symmetric with respect to origin is &hellip;", options: ["Odd", "Even", "Constant", "Linear"], correct: 0, exp: "Symmetry about origin defines an Odd function." },
+            { id: 7, prompt: "Reference angle of 300&deg; is &hellip;", options: ["60&deg;", "30&deg;", "45&deg;", "120&deg;"], correct: 0, exp: "360&deg; - 300&deg; = 60&deg;." },
+            { id: 8, prompt: "sin<sup>-1</sup>(1/2) = &hellip;", options: ["&pi;/6", "&pi;/3", "&pi;/4", "5&pi;/6"], correct: 0, exp: "Principal value in [-&pi;/2, &pi;/2] is &pi;/6." },
+            { id: 9, prompt: "lim<sub>x &rarr; 1&minus;</sub> |x - 1| / (x - 1) = &hellip;", options: ["-1", "1", "0", "DNE"], correct: 0, exp: "For x < 1, |x - 1| = -(x - 1). Ratio is -1." },
+            { id: 10, prompt: "Horizontal asymptote of y = (4x² - 1)/(x² + 3) is &hellip;", options: ["y = 4", "y = 0", "x = 4", "None"], correct: 0, exp: "Degree equal &rArr; y = 4/1 = 4." }
+          ]
+        },
+        q2: {
+          title: "Question 2: Number Classification (6 Marks)",
+          prompt: "Classify into Rational or Irrational:",
+          items: [
+            { text: "&radic;0.25", correct: "rational", exp: "0.5 = 1/2 (Rational)" },
+            { text: "&radic;8", correct: "irrational", exp: "2&radic;2 (Irrational)" },
+            { text: "1.23454545&hellip;", correct: "rational", exp: "Repeating decimal (Rational)" },
+            { text: "&pi; / 4", correct: "irrational", exp: "Irrational divided by integer (Irrational)" },
+            { text: "(&radic;7)&sup4;", correct: "rational", exp: "7² = 49 (Rational)" },
+            { text: "1 / &radic;3", correct: "irrational", exp: "&radic;3 / 3 (Irrational)" }
+          ]
+        },
+        q3: {
+          title: "Question 3: Advanced Inequalities (6 Marks)",
+          problems: [
+            { id: "q3_1", prompt: "Solve: <span class='math'>|x² - 1| &le; 2|x - 1|</span>", options: ["[-3, 1]", "[-1, 3]", "[1, 3]", "[-3, 3]"], correct: 0, exp: "|x-1|(|x+1|-2) &le; 0 &rArr; x=1 or -3 &le; x &le; 1 &rArr; [-3, 1]." },
+            { id: "q3_2", prompt: "Solve: <span class='math'>3 / (x - 2) < 1</span>", options: ["(-&infin;, 2) &cup; (5, &infin;)", "(2, 5)", "[2, 5]", "(-&infin;, 5)"], correct: 0, exp: "(3 - x + 2)/(x - 2) < 0 &rArr; (5 - x)/(x - 2) < 0 &rArr; (-&infin;, 2) &cup; (5, &infin;)." },
+            { id: "q3_3", prompt: "If <span class='math'>f(x) = 5 - 2x³</span>, find <span class='math'>f<sup>-1</sup>(x)</span>:", options: ["³&radic;((5 - x)/2)", "³&radic;((x - 5)/2)", "((5 - x)/2)³", "5 - x/2"], correct: 0, exp: "y = 5 - 2x³ &rArr; 2x³ = 5 - y &rArr; x = ³&radic;((5 - y)/2)." },
+            { id: "q3_4", prompt: "Domain of <span class='math'>f(x) = &radic;(1 - x²) + 1/x</span>", options: ["[-1, 0) &cup; (0, 1]", "[-1, 1]", "(-1, 1)", "R \\ {0}"], correct: 0, exp: "1 - x² &ge; 0 gives [-1, 1]. Denominator excludes 0. Thus [-1, 0) &cup; (0, 1]." }
+          ]
+        },
+        q4: {
+          title: "Question 4: Exact Values & Limits (8 Marks)",
+          problems: [
+            { id: "q4_1", prompt: "Find exact value: <span class='math'>arccos(cos(4&pi;/3))</span>", options: ["2&pi;/3", "4&pi;/3", "&pi;/3", "-&pi;/3"], correct: 0, exp: "cos(4&pi;/3) = -1/2. arccos(-1/2) in [0, &pi;] is 2&pi;/3." },
+            { id: "q4_2", prompt: "Find exact value: <span class='math'>cos(150&deg;)</span>", options: ["-&radic;3 / 2", "&radic;3 / 2", "-1/2", "1/2"], correct: 0, exp: "Quad II: -cos(30&deg;) = -&radic;3/2." },
+            { id: "q4_3", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 4</sub> (x² - 16) / (&radic;x - 2)</span>", options: ["32", "16", "8", "4"], correct: 0, exp: "(x-4)(x+4)/(&radic;x-2) = (&radic;x-2)(&radic;x+2)(x+4)/(&radic;x-2) = (&radic;4+2)(4+4) = 4 &times; 8 = 32." },
+            { id: "q4_4", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> &radic;(9x² + 2) / (2x - 1)</span>", options: ["-3/2", "3/2", "-9/2", "0"], correct: 0, exp: "For x < 0, &radic;(x²) = -x. Limit is -3/2." }
+          ]
+        }
+      },
+
+      // =========================================================================
+      // VERSION 5: The Final 25/25 Masterpiece Challenge
+      // =========================================================================
+      {
+        version: 5,
+        title: "Version 5: The Perfectionist Exam",
+        q1: {
+          title: "Question 1: Choose the correct answer (5 Marks — 0.5 each)",
+          mcqs: [
+            { id: 1, prompt: "Which is an irrational number?", options: ["&radic;25", "3.1415", "&radic;10", "17/19"], correct: 2, exp: "&radic;10 is non-terminating non-repeating." },
+            { id: 2, prompt: "|3 - &radic;10| = &hellip;", options: ["&radic;10 - 3", "3 - &radic;10", "&radic;10 + 3", "-3 - &radic;10"], correct: 0, exp: "&radic;10 &approx; 3.16 > 3, so 3 - &radic;10 < 0. Value is &radic;10 - 3." },
+            { id: 3, prompt: "If |x| < 4, then x belongs to &hellip;", options: ["(-4, 4)", "[-4, 4]", "(-&infin;, 4)", "(4, &infin;)"], correct: 0, exp: "|x| < k &hArr; -k < x < k &rArr; (-4, 4)." },
+            { id: 4, prompt: "Domain of f(x) = 1 / &radic;(4 - x²) is &hellip;", options: ["(-2, 2)", "[-2, 2]", "R \\ {-2, 2}", "[0, 2)"], correct: 0, exp: "Denominator root must be strictly > 0 &rArr; (-2, 2)." },
+            { id: 5, prompt: "The vertical asymptote of f(x) = (x - 1)/(x² - 1) is &hellip;", options: ["x = -1 only", "x = 1 and x = -1", "x = 1 only", "None"], correct: 0, exp: "(x - 1)/[(x - 1)(x + 1)] = 1/(x + 1). Only x = -1 is vertical asymptote (x = 1 is a hole)." },
+            { id: 6, prompt: "If f is 1-to-1 and f(3) = 7, then f<sup>-1</sup>(7) = &hellip;", options: ["3", "7", "1/3", "1/7"], correct: 0, exp: "By inverse definition: f(3)=7 &hArr; f<sup>-1</sup>(7)=3." },
+            { id: 7, prompt: "Reference angle of 210&deg; is &hellip;", options: ["30&deg;", "60&deg;", "45&deg;", "15&deg;"], correct: 0, exp: "210&deg; - 180&deg; = 30&deg;." },
+            { id: 8, prompt: "arctan(&radic;3) = &hellip;", options: ["&pi;/3", "&pi;/6", "&pi;/4", "2&pi;/3"], correct: 0, exp: "tan(&pi;/3) = &radic;3 &rArr; &pi;/3." },
+            { id: 9, prompt: "lim<sub>x &rarr; 0</sub> sin(4x) / (2x) = &hellip;", options: ["2", "4", "1/2", "0"], correct: 0, exp: "4/2 = 2." },
+            { id: 10, prompt: "For continuity at x=1, if f(x)=kx² (x&le;1) and 3x+1 (x>1), then k = &hellip;", options: ["4", "3", "1", "2"], correct: 0, exp: "k(1)² = 3(1) + 1 &rArr; k = 4." }
+          ]
+        },
+        q2: {
+          title: "Question 2: Number Classification (6 Marks)",
+          prompt: "Classify into Rational or Irrational:",
+          items: [
+            { text: "cos(0)", correct: "rational", exp: "cos(0) = 1 (Rational)" },
+            { text: "&radic;32 / &radic;2", correct: "rational", exp: "&radic;16 = 4 (Rational)" },
+            { text: "&radic;2 + &radic;3", correct: "irrational", exp: "Sum of independent roots is Irrational" },
+            { text: "-19 / 4", correct: "rational", exp: "Fraction of integers (Rational)" },
+            { text: "0.9999&hellip; (0.9)", correct: "rational", exp: "Equals 1 (Rational)" },
+            { text: "&radic;5 - 2", correct: "irrational", exp: "Irrational minus integer (Irrational)" }
+          ]
+        },
+        q3: {
+          title: "Question 3: Comprehensive Inequality & Domain Analysis (6 Marks)",
+          problems: [
+            { id: "q3_1", prompt: "Solve: <span class='math'>|2x - 1| / (x + 3) &ge; 0</span>", options: ["(-3, &infin;)", "[-3, &infin;)", "R \\ {-3}", "[1/2, &infin;)"], correct: 0, exp: "Numerator |2x-1| &ge; 0 always. Denominator x + 3 > 0 &rArr; x > -3 &rArr; (-3, &infin;)." },
+            { id: "q3_2", prompt: "Solve: <span class='math'>4 / x &le; x</span>", options: ["[-2, 0) &cup; [2, &infin;)", "[-2, 2]", "[2, &infin;)", "(-&infin;, -2] &cup; [2, &infin;)"], correct: 0, exp: "x - 4/x &ge; 0 &rArr; (x² - 4)/x &ge; 0 &rArr; (x-2)(x+2)/x &ge; 0 &rArr; [-2, 0) &cup; [2, &infin;)." },
+            { id: "q3_3", prompt: "If <span class='math'>f(x) = (3x - 2)/(x + 4)</span>, find <span class='math'>f<sup>-1</sup>(x)</span>:", options: ["(4x + 2)/(3 - x)", "(4x - 2)/(3 + x)", "(x + 4)/(3x - 2)", "(3x + 4)/(x - 2)"], correct: 0, exp: "y(x+4) = 3x - 2 &rArr; xy - 3x = -4y - 2 &rArr; x(3 - y) = 4y + 2 &rArr; (4x + 2)/(3 - x)." },
+            { id: "q3_4", prompt: "Find domain of <span class='math'>f(x) = &radic;(x - 1) / &radic;(6 - x)</span>", options: ["[1, 6)", "[1, 6]", "(1, 6)", "[1, &infin;)"], correct: 0, exp: "Numerator requires x &ge; 1. Denominator requires 6 - x > 0 &rArr; x < 6. Thus [1, 6)." }
+          ]
+        },
+        q4: {
+          title: "Question 4: Final Calculations (8 Marks)",
+          problems: [
+            { id: "q4_1", prompt: "Find exact value: <span class='math'>sin<sup>-1</sup>(cos(&pi;/3))</span>", options: ["&pi;/6", "&pi;/3", "&pi;/4", "0"], correct: 0, exp: "cos(&pi;/3) = 1/2. sin<sup>-1</sup>(1/2) = &pi;/6." },
+            { id: "q4_2", prompt: "Find exact value: <span class='math'>tan(300&deg;)</span>", options: ["-&radic;3", "&radic;3", "-&radic;3 / 3", "&radic;3 / 3"], correct: 0, exp: "Quad IV: -tan(60&deg;) = -&radic;3." },
+            { id: "q4_3", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 1</sub> (x³ - 1) / (x - 1)</span>", options: ["3", "1", "0", "Does not exist"], correct: 0, exp: "(x-1)(x² + x + 1)/(x-1) = 1² + 1 + 1 = 3." },
+            { id: "q4_4", prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 16) - 4) / x</span>", options: ["1/8", "1/4", "0", "8"], correct: 0, exp: "Conjugate multiplication: 1/(&radic;16 + 4) = 1/8." }
+          ]
+        }
+      }
+    ];
+
+    let currentVersionIndex = 0;
+    let userAnswers = {}; // key: "vIndex-qSection-id"
+    let seconds = 0;
+    let timer = null;
+
+    function renderVersionSelector() {
+      const c = document.getElementById('versionSelector');
+      c.innerHTML = examData.map((v, i) => `
+        <button 
+          onclick="setVersion(${i})" 
+          id="vBtn-${i}"
+          class="px-2.5 py-1 rounded-lg text-xs font-bold border transition ${i === 0 ? 'bg-blue-600 text-white border-blue-600' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+        >
+          V${v.version}
+        </button>
+      `).join('');
+    }
+
+    function setVersion(idx) {
+      currentVersionIndex = idx;
+      examData.forEach((_, i) => {
+        const btn = document.getElementById(`vBtn-${i}`);
+        if (i === idx) {
+          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition bg-blue-600 text-white border-blue-600";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition border-[var(--border)] hover:bg-[var(--border)]/40";
+        }
+      });
+
+      document.getElementById('currentVersionBadge').innerText = `Version ${examData[idx].version}`;
+      document.getElementById('currentVersionDesc').innerText = examData[idx].title;
+      document.getElementById('resultsCard').classList.add('hidden');
+      renderExamContent();
+      updateScorePreview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderExamContent() {
+      const v = examData[currentVersionIndex];
+      const container = document.getElementById('examContainer');
+
+      container.innerHTML = `
+        <!-- QUESTION 1: MCQS -->
+        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
+            <h2 class="text-base font-bold text-[var(--foreground)]">${v.q1.title}</h2>
+            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">5.0 Marks</span>
+          </div>
+          <div class="space-y-4">
+            ${v.q1.mcqs.map((m, idx) => {
+              const key = `${currentVersionIndex}-q1-${m.id}`;
+              const sel = userAnswers[key];
+              return `
+                <div id="box-q1-${m.id}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
+                  <div class="text-xs font-semibold text-[var(--muted-foreground)]">Part ${idx + 1}</div>
+                  <div class="text-sm font-medium">${m.prompt}</div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                    ${m.options.map((opt, oIdx) => `
+                      <button 
+                        onclick="recordAnswer('q1', ${m.id}, ${oIdx})"
+                        id="btn-q1-${m.id}-${oIdx}"
+                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                      >
+                        <span>${opt}</span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <div id="sol-q1-${m.id}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
+                    <b>Explanation:</b> ${m.exp}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <!-- QUESTION 2: NUMBER CLASSIFICATION -->
+        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
+            <div>
+              <h2 class="text-base font-bold">${v.q2.title}</h2>
+              <p class="text-xs text-[var(--muted-foreground)]">${v.q2.prompt}</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">6.0 Marks</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${v.q2.items.map((it, idx) => {
+              const key = `${currentVersionIndex}-q2-${idx}`;
+              const sel = userAnswers[key];
+              return `
+                <div id="box-q2-${idx}" class="p-3 rounded-xl border border-[var(--border)] flex flex-col justify-between gap-2">
+                  <div class="text-sm font-semibold">${it.text}</div>
+                  <div class="flex gap-2">
+                    <button 
+                      onclick="recordAnswer('q2', ${idx}, 'rational')"
+                      id="btn-q2-${idx}-rational"
+                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'rational' ? 'border-blue-500 bg-blue-500/10 text-blue-500' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                    >
+                      Rational (Q)
+                    </button>
+                    <button 
+                      onclick="recordAnswer('q2', ${idx}, 'irrational')"
+                      id="btn-q2-${idx}-irrational"
+                      class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'irrational' ? 'border-blue-500 bg-blue-500/10 text-blue-500' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                    >
+                      Irrational (I)
+                    </button>
+                  </div>
+                  <div id="sol-q2-${idx}" class="hidden text-xs p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
+                    ${it.exp}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <!-- QUESTION 3: INEQUALITIES, DOMAINS & INVERSES -->
+        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
+            <h2 class="text-base font-bold">${v.q3.title}</h2>
+            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">6.0 Marks</span>
+          </div>
+          <div class="space-y-4">
+            ${v.q3.problems.map((p, idx) => {
+              const key = `${currentVersionIndex}-q3-${idx}`;
+              const sel = userAnswers[key];
+              return `
+                <div id="box-q3-${idx}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
+                  <div class="text-sm font-semibold">${idx + 1}) ${p.prompt}</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    ${p.options.map((opt, oIdx) => `
+                      <button 
+                        onclick="recordAnswer('q3', ${idx}, ${oIdx})"
+                        id="btn-q3-${idx}-${oIdx}"
+                        class="p-2.5 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                      >
+                        <span>${opt}</span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <div id="sol-q3-${idx}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
+                    <b>Solution:</b> ${p.exp}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <!-- QUESTION 4: EXACT TRIG VALUES & LIMITS -->
+        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
+            <h2 class="text-base font-bold">${v.q4.title}</h2>
+            <span class="text-xs px-2.5 py-1 rounded bg-blue-500/10 text-blue-500 font-bold">8.0 Marks</span>
+          </div>
+          <div class="space-y-4">
+            ${v.q4.problems.map((p, idx) => {
+              const key = `${currentVersionIndex}-q4-${idx}`;
+              const sel = userAnswers[key];
+              return `
+                <div id="box-q4-${idx}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
+                  <div class="text-sm font-semibold">${idx + 1}) ${p.prompt}</div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                    ${p.options.map((opt, oIdx) => `
+                      <button 
+                        onclick="recordAnswer('q4', ${idx}, ${oIdx})"
+                        id="btn-q4-${idx}-${oIdx}"
+                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-bold' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                      >
+                        <span>${opt}</span>
+                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                      </button>
+                    `).join('')}
+                  </div>
+                  <div id="sol-q4-${idx}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
+                    <b>Solution:</b> ${p.exp}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function recordAnswer(sec, id, val) {
+      const key = `${currentVersionIndex}-${sec}-${id}`;
+      userAnswers[key] = val;
+      renderExamContent();
+      updateScorePreview();
+    }
+
+    function updateScorePreview() {
+      const v = examData[currentVersionIndex];
+      let answered = 0;
+      let totalParts = 10 + 6 + 4 + 4; // 24 total elements
+
+      v.q1.mcqs.forEach(m => { if (userAnswers[`${currentVersionIndex}-q1-${m.id}`] !== undefined) answered++; });
+      v.q2.items.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q2-${i}`] !== undefined) answered++; });
+      v.q3.problems.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q3-${i}`] !== undefined) answered++; });
+      v.q4.problems.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q4-${i}`] !== undefined) answered++; });
+
+      document.getElementById('progressIndicator').innerText = `${answered} of ${totalParts} Parts Completed`;
+    }
+
+    function gradeCurrentExam() {
+      const v = examData[currentVersionIndex];
+      let q1Score = 0; // out of 5 (0.5 each)
+      let q2Score = 0; // out of 6 (1.0 each)
+      let q3Score = 0; // out of 6 (1.5 each)
+      let q4Score = 0; // out of 8 (2.0 each)
+
+      // Grade Q1
+      v.q1.mcqs.forEach(m => {
+        const sel = userAnswers[`${currentVersionIndex}-q1-${m.id}`];
+        const isCorrect = sel === m.correct;
+        const box = document.getElementById(`box-q1-${m.id}`);
+        const sol = document.getElementById(`sol-q1-${m.id}`);
+        sol.classList.remove('hidden');
+
+        if (isCorrect) {
+          q1Score += 0.5;
+          box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+        } else {
+          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+        }
+      });
+
+      // Grade Q2
+      v.q2.items.forEach((it, idx) => {
+        const sel = userAnswers[`${currentVersionIndex}-q2-${idx}`];
+        const isCorrect = sel === it.correct;
+        const box = document.getElementById(`box-q2-${idx}`);
+        const sol = document.getElementById(`sol-q2-${idx}`);
+        sol.classList.remove('hidden');
+
+        if (isCorrect) {
+          q2Score += 1.0;
+          box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+        } else {
+          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+        }
+      });
+
+      // Grade Q3
+      v.q3.problems.forEach((p, idx) => {
+        const sel = userAnswers[`${currentVersionIndex}-q3-${idx}`];
+        const isCorrect = sel === p.correct;
+        const box = document.getElementById(`box-q3-${idx}`);
+        const sol = document.getElementById(`sol-q3-${idx}`);
+        sol.classList.remove('hidden');
+
+        if (isCorrect) {
+          q3Score += 1.5;
+          box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+        } else {
+          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+        }
+      });
+
+      // Grade Q4
+      v.q4.problems.forEach((p, idx) => {
+        const sel = userAnswers[`${currentVersionIndex}-q4-${idx}`];
+        const isCorrect = sel === p.correct;
+        const box = document.getElementById(`box-q4-${idx}`);
+        const sol = document.getElementById(`sol-q4-${idx}`);
+        sol.classList.remove('hidden');
+
+        if (isCorrect) {
+          q4Score += 2.0;
+          box.classList.add('border-emerald-500/50', 'bg-emerald-500/5');
+        } else {
+          box.classList.add('border-rose-500/50', 'bg-rose-500/5');
+        }
+      });
+
+      const finalTotal = q1Score + q2Score + q3Score + q4Score;
+      document.getElementById('totalLiveScore').innerText = finalTotal.toFixed(1);
+
+      const banner = document.getElementById('resultsCard');
+      banner.classList.remove('hidden');
+      const scoreDisp = document.getElementById('finalScoreDisplay');
+      const feedDisp = document.getElementById('finalFeedbackDisplay');
+
+      scoreDisp.innerText = `${finalTotal.toFixed(1)} / 25.0 Marks`;
+
+      if (finalTotal === 25) {
+        scoreDisp.className = "text-center text-4xl font-extrabold text-emerald-500";
+        feedDisp.innerText = "🔥 25/25 FULL MARK! Absolute mastery across every section! You are set for Tuesday!";
+      } else if (finalTotal >= 20) {
+        scoreDisp.className = "text-center text-4xl font-extrabold text-blue-500";
+        feedDisp.innerText = `💪 Outstanding score of ${finalTotal.toFixed(1)}/25! Review the red-bordered problems above to lock in that remaining mark!`;
+      } else {
+        scoreDisp.className = "text-center text-4xl font-extrabold text-amber-500";
+        feedDisp.innerText = `Score: ${finalTotal.toFixed(1)}/25. Check the green model solution boxes above, then click 'Clear Version' to re-test yourself!`;
+      }
+
+      banner.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCurrentExam() {
+      const prefix = `${currentVersionIndex}-`;
+      for (let k in userAnswers) {
+        if (k.startsWith(prefix)) delete userAnswers[k];
+      }
+      document.getElementById('totalLiveScore').innerText = "0.0";
+      document.getElementById('resultsCard').classList.add('hidden');
+      renderExamContent();
+      updateScorePreview();
+    }
+
+    function startTimer() {
+      timer = setInterval(() => {
+        seconds++;
+        const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        document.getElementById('examTimer').innerText = `${m}:${s}`;
+      }, 1000);
+    }
+
+    renderVersionSelector();
+    renderExamContent();
+    startTimer();
+  </script>
+</body>
+</html>

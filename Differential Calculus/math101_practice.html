@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KSU Math 101 Midterm - 6 Exam Versions Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .math {
+      font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen p-4 md:p-8 font-sans">
+  <div class="max-w-4xl mx-auto space-y-6">
+    
+    <!-- Header Card -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">KSU Math 101</span>
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">6 Full Exam Versions</span>
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-purple-500/10 text-purple-500 border border-purple-500/20">Sec 1.1 – 2.4</span>
+        </div>
+        <h1 class="text-2xl font-bold mt-2">Midterm 25/25 Multi-Version Exam Suite</h1>
+        <p class="text-[var(--muted-foreground)] text-sm">60 carefully crafted questions covering every KSU midterm variation and trap.</p>
+      </div>
+      <div class="flex items-center gap-6 self-end md:self-auto">
+        <div class="text-right">
+          <span class="text-xs text-[var(--muted-foreground)] uppercase tracking-wider block">Timer</span>
+          <span id="timer" class="text-xl font-mono font-bold text-amber-500">00:00</span>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-[var(--muted-foreground)] uppercase tracking-wider block">Current Score</span>
+          <span class="text-xl font-bold text-emerald-500"><span id="liveScore">0.0</span> / 25</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Version Switcher Tabs -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 shadow-sm">
+      <div class="text-xs font-semibold text-[var(--muted-foreground)] px-2 pb-2 uppercase tracking-wider">Select Exam Version:</div>
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="versionTabs">
+        <!-- Buttons rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm space-y-2">
+      <div class="flex justify-between text-xs text-[var(--muted-foreground)]">
+        <span id="progressText">Answered: 0 / 10 Questions</span>
+        <span id="versionLabel" class="font-semibold text-blue-500">Active: Exam Version 1</span>
+      </div>
+      <div class="w-full bg-[var(--border)] h-2 rounded-full overflow-hidden">
+        <div id="progressBar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Questions Container -->
+    <div id="quizContainer" class="space-y-6"></div>
+
+    <!-- Submit Action Card -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>
+        <h3 class="font-bold text-lg">Ready to Grade This Version?</h3>
+        <p class="text-sm text-[var(--muted-foreground)]">Submit to see your exact score out of 25.0 and step-by-step solutions.</p>
+      </div>
+      <div class="flex gap-3 w-full sm:w-auto">
+        <button onclick="resetCurrentVersion()" class="px-4 py-2.5 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-medium text-sm transition">
+          Reset Version
+        </button>
+        <button onclick="gradeExam()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition shadow-md flex-1 sm:flex-none">
+          Submit & Grade (25 Marks)
+        </button>
+      </div>
+    </div>
+
+    <!-- Score & Analysis Banner (shown on submission) -->
+    <div id="resultsBanner" class="hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-lg space-y-3">
+      <h2 class="text-2xl font-bold text-center">🎯 Version Results</h2>
+      <div id="resultScoreSummary" class="text-center text-4xl font-extrabold text-blue-500"></div>
+      <p id="resultFeedback" class="text-center text-sm text-[var(--muted-foreground)] max-w-xl mx-auto"></p>
+    </div>
+
+  </div>
+
+  <script>
+    const examVersions = [
+      // -------------------------------------------------------------
+      // VERSION 1: Standard Comprehensive Foundation
+      // -------------------------------------------------------------
+      {
+        versionNum: 1,
+        title: "Version 1 (Standard Core Traps)",
+        questions: [
+          {
+            id: 1, section: "1.1 Rational Inequalities", points: 2.5,
+            prompt: "Solve the inequality: <span class='math'>|(2x - 1) / (x + 2)| &ge; 1</span>",
+            options: [
+              { text: "(-&infin;, -2) &cup; (-2, -1/3] &cup; [3, &infin;)", correct: true },
+              { text: "[-1/3, 3]", correct: false },
+              { text: "(-&infin;, -2] &cup; [3, &infin;)", correct: false },
+              { text: "(-&infin;, -1/3] &cup; [3, &infin;)", correct: false }
+            ],
+            explanation: "Split into: (2x - 1)/(x + 2) &ge; 1 or (2x - 1)/(x + 2) &le; -1. Note x &ne; -2 always. Solving both gives (-&infin;, -2) &cup; (-2, -1/3] &cup; [3, &infin;)."
+          },
+          {
+            id: 2, section: "1.1 Absolute Value Bounds", points: 2.5,
+            prompt: "What is the solution set of: <span class='math'>|4x + 7| &le; -3</span>?",
+            options: [
+              { text: "x &le; -5/2", correct: false },
+              { text: "[-5/2, -1]", correct: false },
+              { text: "&empty; (No Solution)", correct: true },
+              { text: "(-&infin;, &infin;)", correct: false }
+            ],
+            explanation: "Absolute value is always non-negative (|A| &ge; 0). It can never be &le; -3. Thus, &empty; (No solution)."
+          },
+          {
+            id: 3, section: "1.2 Functions & Domain", points: 2.5,
+            prompt: "Find the domain of <span class='math'>f(x) = &radic;(9 - x&sup2;) / (x - 2)</span>.",
+            options: [
+              { text: "[-3, 3]", correct: false },
+              { text: "[-3, 2) &cup; (2, 3]", correct: true },
+              { text: "(-&infin;, -3] &cup; [3, &infin;)", correct: false },
+              { text: "(-3, 2) &cup; (2, 3)", correct: false }
+            ],
+            explanation: "Radicand 9 - x&sup2; &ge; 0 gives [-3, 3]. Denominator x - 2 &ne; 0 gives x &ne; 2. Combined: [-3, 2) &cup; (2, 3]."
+          },
+          {
+            id: 4, section: "1.2 Composition Domain", points: 2.5,
+            prompt: "If <span class='math'>f(x) = &radic;x</span> and <span class='math'>g(x) = 4 - x&sup2;</span>, what is the domain of <span class='math'>(f &comp; g)(x)</span>?",
+            options: [
+              { text: "[0, &infin;)", correct: false },
+              { text: "[-2, 2]", correct: true },
+              { text: "(-&infin;, 4]", correct: false },
+              { text: "[0, 4]", correct: false }
+            ],
+            explanation: "(f &comp; g)(x) = &radic;(4 - x&sup2;). Requires 4 - x&sup2; &ge; 0 &rArr; x&sup2; &le; 4 &rArr; [-2, 2]."
+          },
+          {
+            id: 5, section: "1.3 Inverse Functions", points: 2.5,
+            prompt: "Find <span class='math'>f&supmin;&sup1;(x)</span> for <span class='math'>f(x) = (3x + 1) / (2x - 5)</span>.",
+            options: [
+              { text: "f&supmin;&sup1;(x) = (5x + 1) / (2x - 3)", correct: true },
+              { text: "f&supmin;&sup1;(x) = (2x - 5) / (3x + 1)", correct: false },
+              { text: "f&supmin;&sup1;(x) = (5x - 1) / (2x + 3)", correct: false },
+              { text: "f&supmin;&sup1;(x) = (3x - 1) / (2x + 5)", correct: false }
+            ],
+            explanation: "Set y = (3x+1)/(2x-5), solve for x: x = (5y+1)/(2y-3), swap variables: (5x+1)/(2x-3)."
+          },
+          {
+            id: 6, section: "1.4 Inverse Trigonometry", points: 2.5,
+            prompt: "Evaluate exactly: <span class='math'>cos(arcsin(-3/5))</span>",
+            options: [
+              { text: "-4/5", correct: false },
+              { text: "4/5", correct: true },
+              { text: "3/4", correct: false },
+              { text: "-3/5", correct: false }
+            ],
+            explanation: "&theta; = arcsin(-3/5) is in Quad IV where cosine is positive! cos(&theta;) = +&radic;(1 - (-3/5)&sup2;) = 4/5."
+          },
+          {
+            id: 7, section: "2.1 One-Sided Limit", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 3&supmin;</sub> |x - 3| / (2x - 6)</span>",
+            options: [
+              { text: "1/2", correct: false },
+              { text: "-1/2", correct: true },
+              { text: "1", correct: false },
+              { text: "Does not exist (DNE)", correct: false }
+            ],
+            explanation: "As x &rarr; 3&supmin;, x < 3 so |x - 3| = -(x - 3). Value = -(x - 3)/[2(x - 3)] = -1/2."
+          },
+          {
+            id: 8, section: "2.2 Radical Limits (Conjugate)", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 4) - 2) / x</span>",
+            options: [
+              { text: "0", correct: false },
+              { text: "1/2", correct: false },
+              { text: "1/4", correct: true },
+              { text: "Does not exist (DNE)", correct: false }
+            ],
+            explanation: "Multiply numerator and denominator by conjugate (&radic;(x+4) + 2). Limit becomes 1/(&radic;4 + 2) = 1/4."
+          },
+          {
+            id: 9, section: "2.3 Limit at Negative Infinity", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> &radic;(4x&sup2; + 1) / (3x - 2)</span>",
+            options: [
+              { text: "2/3", correct: false },
+              { text: "-2/3", correct: true },
+              { text: "4/3", correct: false },
+              { text: "-4/3", correct: false }
+            ],
+            explanation: "As x &rarr; -&infin;, &radic;(x&sup2;) = |x| = -x. Numerator becomes -x&radic;(4 + 1/x&sup2;). Ratio of leading terms: -2/3."
+          },
+          {
+            id: 10, section: "2.4 Continuity at a Point", points: 2.5,
+            prompt: "Find constant <span class='math'>c</span> such that <span class='math'>f(x)</span> is continuous at <span class='math'>x = 2</span>:<br><span class='math'>f(x) = { cx&sup2; + 2 (x &le; 2), 2x + c (x > 2) }</span>",
+            options: [
+              { text: "c = 2/3", correct: true },
+              { text: "c = 1", correct: false },
+              { text: "c = 4/3", correct: false },
+              { text: "c = -2", correct: false }
+            ],
+            explanation: "Set left limit = right limit: 4c + 2 = 4 + c &rArr; 3c = 2 &rArr; c = 2/3."
+          }
+        ]
+      },
+
+      // -------------------------------------------------------------
+      // VERSION 2: Trigonometric & Quadratic Traps
+      // -------------------------------------------------------------
+      {
+        versionNum: 2,
+        title: "Version 2 (Trig & Quadratic Focus)",
+        questions: [
+          {
+            id: 1, section: "1.1 Quadratic Inequality", points: 2.5,
+            prompt: "Solve the inequality: <span class='math'>x&sup2; - 5x + 6 &le; 0</span>",
+            options: [
+              { text: "[2, 3]", correct: true },
+              { text: "(-&infin;, 2] &cup; [3, &infin;)", correct: false },
+              { text: "[-3, -2]", correct: false },
+              { text: "(2, 3)", correct: false }
+            ],
+            explanation: "(x - 2)(x - 3) &le; 0. Roots are 2 and 3. The parabola opens upward, so it is &le; 0 between the roots: [2, 3]."
+          },
+          {
+            id: 2, section: "1.1 Absolute Value Inequality", points: 2.5,
+            prompt: "Solve: <span class='math'>|2x - 5| > 7</span>",
+            options: [
+              { text: "(-1, 6)", correct: false },
+              { text: "(-&infin;, -1) &cup; (6, &infin;)", correct: true },
+              { text: "(-&infin;, -1] &cup; [6, &infin;)", correct: false },
+              { text: "(6, &infin;)", correct: false }
+            ],
+            explanation: "2x - 5 > 7 &rArr; 2x > 12 &rArr; x > 6 OR 2x - 5 < -7 &rArr; 2x < -2 &rArr; x < -1. Thus, (-&infin;, -1) &cup; (6, &infin;)."
+          },
+          {
+            id: 3, section: "1.2 Symmetry (Even/Odd)", points: 2.5,
+            prompt: "Which of the following functions is <b>ODD</b>?",
+            options: [
+              { text: "f(x) = x&sup3; + sin(x)", correct: true },
+              { text: "f(x) = x&sup2; + cos(x)", correct: false },
+              { text: "f(x) = x&sup4; + 3", correct: false },
+              { text: "f(x) = |x| + 1", correct: false }
+            ],
+            explanation: "f(-x) = (-x)&sup3; + sin(-x) = -x&sup3; - sin(x) = -(x&sup3; + sin x) = -f(x). Hence f(x) is odd."
+          },
+          {
+            id: 4, section: "1.2 Domain with Multiple Roots", points: 2.5,
+            prompt: "Find the domain of <span class='math'>f(x) = &radic;(x - 1) + &radic;(5 - x)</span>",
+            options: [
+              { text: "[1, 5]", correct: true },
+              { text: "(1, 5)", correct: false },
+              { text: "[1, &infin;)", correct: false },
+              { text: "(-&infin;, 5]", correct: false }
+            ],
+            explanation: "Need x - 1 &ge; 0 &rArr; x &ge; 1 AND 5 - x &ge; 0 &rArr; x &le; 5. Intersection is [1, 5]."
+          },
+          {
+            id: 5, section: "1.3 Range of Inverse", points: 2.5,
+            prompt: "If <span class='math'>f(x) = &radic;(x - 3) + 2</span>, what is the <b>Domain</b> of <span class='math'>f&supmin;&sup1;(x)</span>?",
+            options: [
+              { text: "[2, &infin;)", correct: true },
+              { text: "[3, &infin;)", correct: false },
+              { text: "[0, &infin;)", correct: false },
+              { text: "(-&infin;, &infin;)", correct: false }
+            ],
+            explanation: "Domain(f&supmin;&sup1;) = Range(f). Since &radic;(x - 3) &ge; 0, f(x) &ge; 2. Therefore, Range(f) = [2, &infin;) = Domain(f&supmin;&sup1;)."
+          },
+          {
+            id: 6, section: "1.4 Inverse Trig Range Trap", points: 2.5,
+            prompt: "What is the exact value of <span class='math'>arccos(-&radic;3 / 2)</span>?",
+            options: [
+              { text: "5&pi; / 6", correct: true },
+              { text: "-&pi; / 6", correct: false },
+              { text: "7&pi; / 6", correct: false },
+              { text: "2&pi; / 3", correct: false }
+            ],
+            explanation: "Range of arccos is [0, &pi;]. In Quadrant II, cos(&theta;) = -&radic;3/2 occurs at &theta; = &pi; - &pi;/6 = 5&pi;/6."
+          },
+          {
+            id: 7, section: "2.1 Limit from Left & Right", points: 2.5,
+            prompt: "For <span class='math'>f(x) = { 2x + 1 (x < 1), 5 (x = 1), 4 - x (x > 1) }</span>, find <span class='math'>lim<sub>x &rarr; 1</sub> f(x)</span>.",
+            options: [
+              { text: "3", correct: true },
+              { text: "5", correct: false },
+              { text: "Does not exist (DNE)", correct: false },
+              { text: "4", correct: false }
+            ],
+            explanation: "Left limit: 2(1)+1 = 3. Right limit: 4-1 = 3. Since Left = Right = 3, the limit is 3 (independent of f(1) = 5)."
+          },
+          {
+            id: 8, section: "2.2 Factorization Limit", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 2</sub> (x&sup3; - 8) / (x&sup2; - 4)</span>",
+            options: [
+              { text: "3", correct: true },
+              { text: "2", correct: false },
+              { text: "0", correct: false },
+              { text: "6", correct: false }
+            ],
+            explanation: "Factor both: [(x - 2)(x&sup2; + 2x + 4)] / [(x - 2)(x + 2)]. Cancel (x - 2): (4 + 4 + 4) / (2 + 2) = 12 / 4 = 3."
+          },
+          {
+            id: 9, section: "2.3 Horizontal Asymptote", points: 2.5,
+            prompt: "Find the horizontal asymptote(s) of <span class='math'>f(x) = (5x&sup2; - 1) / (2x&sup2; + 3x)</span>.",
+            options: [
+              { text: "y = 5/2", correct: true },
+              { text: "y = 0", correct: false },
+              { text: "x = 0 and x = -3/2", correct: false },
+              { text: "No horizontal asymptotes", correct: false }
+            ],
+            explanation: "Degrees of numerator and denominator are equal (degree 2). Ratio of leading coefficients: 5/2 &rArr; y = 5/2."
+          },
+          {
+            id: 10, section: "2.4 Removable Discontinuity", points: 2.5,
+            prompt: "At what point does <span class='math'>f(x) = (x&sup2; - 16) / (x - 4)</span> have a removable discontinuity, and what value should be assigned to make it continuous?",
+            options: [
+              { text: "x = 4, f(4) = 8", correct: true },
+              { text: "x = 4, f(4) = 4", correct: false },
+              { text: "x = -4, f(-4) = 0", correct: false },
+              { text: "x = 4, f(4) = 16", correct: false }
+            ],
+            explanation: "Denominator is 0 at x = 4. lim<sub>x &rarr; 4</sub> (x-4)(x+4)/(x-4) = 4 + 4 = 8. Defining f(4) = 8 removes the discontinuity."
+          }
+        ]
+      },
+
+      // -------------------------------------------------------------
+      // VERSION 3: Asymptote & Infinity Special
+      // -------------------------------------------------------------
+      {
+        versionNum: 3,
+        title: "Version 3 (Limits & Asymptotes Drill)",
+        questions: [
+          {
+            id: 1, section: "1.1 Fraction Inequality", points: 2.5,
+            prompt: "Solve: <span class='math'>(x + 3) / (x - 1) &ge; 0</span>",
+            options: [
+              { text: "(-&infin;, -3] &cup; (1, &infin;)", correct: true },
+              { text: "[-3, 1)", correct: false },
+              { text: "(-&infin;, -3) &cup; (1, &infin;)", correct: false },
+              { text: "[-3, 1]", correct: false }
+            ],
+            explanation: "Critical numbers -3 (numerator) and 1 (denominator). Sign chart is positive on (-&infin;, -3] and (1, &infin;). Denominator x=1 must be open."
+          },
+          {
+            id: 2, section: "1.1 Always-True Absolute Value", points: 2.5,
+            prompt: "Solve: <span class='math'>|3x - 2| &ge; -5</span>",
+            options: [
+              { text: "(-&infin;, &infin;)", correct: true },
+              { text: "&empty;", correct: false },
+              { text: "[-1, 7/3]", correct: false },
+              { text: "[1, &infin;)", correct: false }
+            ],
+            explanation: "Absolute value is always &ge; 0, which is always greater than -5 for every real number x. Solution is (-&infin;, &infin;)."
+          },
+          {
+            id: 3, section: "1.2 Domain with Fraction in Root", points: 2.5,
+            prompt: "Find the domain of <span class='math'>f(x) = &radic;((x - 2) / (x + 4))</span>",
+            options: [
+              { text: "(-&infin;, -4) &cup; [2, &infin;)", correct: true },
+              { text: "(-4, 2]", correct: false },
+              { text: "[-4, 2]", correct: false },
+              { text: "[2, &infin;)", correct: false }
+            ],
+            explanation: "Need (x - 2)/(x + 4) &ge; 0. By sign chart, positive on (-&infin;, -4) &cup; [2, &infin;). Notice x = -4 is excluded."
+          },
+          {
+            id: 4, section: "1.2 Composition Evaluation", points: 2.5,
+            prompt: "If <span class='math'>f(x) = 2x&sup2; - 1</span> and <span class='math'>g(x) = x + 3</span>, find <span class='math'>(f &comp; g)(-1)</span>.",
+            options: [
+              { text: "7", correct: true },
+              { text: "1", correct: false },
+              { text: "4", correct: false },
+              { text: "9", correct: false }
+            ],
+            explanation: "g(-1) = -1 + 3 = 2. Then f(g(-1)) = f(2) = 2(2)&sup2; - 1 = 8 - 1 = 7."
+          },
+          {
+            id: 5, section: "1.3 Verification of Inverses", points: 2.5,
+            prompt: "Which pair of functions are inverses of each other?",
+            options: [
+              { text: "f(x) = 2x + 6, g(x) = (x - 6)/2", correct: true },
+              { text: "f(x) = x&sup2;, g(x) = &radic;x for all x in R", correct: false },
+              { text: "f(x) = 1/x, g(x) = -1/x", correct: false },
+              { text: "f(x) = 3x, g(x) = x - 3", correct: false }
+            ],
+            explanation: "f(g(x)) = 2[(x - 6)/2] + 6 = x - 6 + 6 = x. Hence they are inverses."
+          },
+          {
+            id: 6, section: "1.4 Algebraic Triangle Simplification", points: 2.5,
+            prompt: "Simplify: <span class='math'>sin(arccos(x))</span> for <span class='math'>-1 &le; x &le; 1</span>.",
+            options: [
+              { text: "&radic;(1 - x&sup2;)", correct: true },
+              { text: "1 - x", correct: false },
+              { text: "x / &radic;(1 - x&sup2;)", correct: false },
+              { text: "&radic;(x&sup2; - 1)", correct: false }
+            ],
+            explanation: "Let &theta; = arccos(x) &rArr; cos(&theta;) = x/1. By right triangle, Opposite = &radic;(1 - x&sup2;). Thus sin(&theta;) = &radic;(1 - x&sup2;)."
+          },
+          {
+            id: 7, section: "2.1 Squeeze Theorem", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> x&sup2; &middot; cos(1 / x)</span>",
+            options: [
+              { text: "0", correct: true },
+              { text: "1", correct: false },
+              { text: "Does not exist (oscillates)", correct: false },
+              { text: "&infin;", correct: false }
+            ],
+            explanation: "Since -1 &le; cos(1/x) &le; 1, multiplying by x&sup2; &ge; 0 gives -x&sup2; &le; x&sup2;cos(1/x) &le; x&sup2;. By Squeeze Theorem as x &rarr; 0, limit is 0."
+          },
+          {
+            id: 8, section: "2.2 Absolute Value Limit Trap", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 5&plus;</sub> (x - 5) / |x - 5|</span>",
+            options: [
+              { text: "1", correct: true },
+              { text: "-1", correct: false },
+              { text: "0", correct: false },
+              { text: "Does not exist (DNE)", correct: false }
+            ],
+            explanation: "As x &rarr; 5&plus;, x > 5, so x - 5 > 0, which means |x - 5| = +(x - 5). The ratio is (x-5)/(x-5) = 1."
+          },
+          {
+            id: 9, section: "2.3 Vertical Asymptote Test", points: 2.5,
+            prompt: "Find the vertical asymptote(s) of <span class='math'>f(x) = (x - 2) / (x&sup2; - 4)</span>.",
+            options: [
+              { text: "x = -2 only", correct: true },
+              { text: "x = 2 and x = -2", correct: false },
+              { text: "x = 2 only", correct: false },
+              { text: "No vertical asymptotes", correct: false }
+            ],
+            explanation: "(x - 2)/[(x - 2)(x + 2)] = 1/(x + 2) for x &ne; 2. At x = 2 there is a removable hole. Only x = -2 is a vertical asymptote!"
+          },
+          {
+            id: 10, section: "2.4 Intermediate Value Theorem (IVT)", points: 2.5,
+            prompt: "Show that <span class='math'>f(x) = x&sup3; - 2x - 5</span> has a root in which interval?",
+            options: [
+              { text: "[2, 3]", correct: true },
+              { text: "[0, 1]", correct: false },
+              { text: "[1, 2]", correct: false },
+              { text: "[-1, 0]", correct: false }
+            ],
+            explanation: "f(2) = 8 - 4 - 5 = -1 < 0. f(3) = 27 - 6 - 5 = +16 > 0. Since signs differ and f is continuous, by IVT a root exists in [2, 3]."
+          }
+        ]
+      },
+
+      // -------------------------------------------------------------
+      // VERSION 4: Algebraic Trickery & Advanced Limits
+      // -------------------------------------------------------------
+      {
+        versionNum: 4,
+        title: "Version 4 (Algebraic Traps & Formulas)",
+        questions: [
+          {
+            id: 1, section: "1.1 Factored Absolute Value", points: 2.5,
+            prompt: "Solve the inequality: <span class='math'>|x&sup2; - 1| &le; 2|x - 1|</span>",
+            options: [
+              { text: "[-3, 1]", correct: true },
+              { text: "[-1, 3]", correct: false },
+              { text: "[-3, 3]", correct: false },
+              { text: "[1, 3]", correct: false }
+            ],
+            explanation: "|x-1|(|x+1| - 2) &le; 0. Either |x-1|=0 &rArr; x=1, or |x+1| &le; 2 &rArr; -3 &le; x &le; 1. Union is [-3, 1]."
+          },
+          {
+            id: 2, section: "1.1 Double Inequality", points: 2.5,
+            prompt: "Solve: <span class='math'>-3 &le; 2x - 1 < 5</span>",
+            options: [
+              { text: "[-1, 3)", correct: true },
+              { text: "(-1, 3]", correct: false },
+              { text: "[-2, 6)", correct: false },
+              { text: "[-1, 3]", correct: false }
+            ],
+            explanation: "Add 1 to all parts: -2 &le; 2x < 6. Divide by 2: -1 &le; x < 3 &rArr; [-1, 3)."
+          },
+          {
+            id: 3, section: "1.2 Domain of Rational Function", points: 2.5,
+            prompt: "Find the domain of <span class='math'>f(x) = (x + 1) / (x&sup2; - 5x + 6)</span>",
+            options: [
+              { text: "R \\ {2, 3}", correct: true },
+              { text: "R \\ {-1, 2, 3}", correct: false },
+              { text: "(2, 3)", correct: false },
+              { text: "R \\ {-2, -3}", correct: false }
+            ],
+            explanation: "Denominator factors into (x - 2)(x - 3) &ne; 0 &rArr; x &ne; 2, 3. The numerator does not restrict domain. Domain = R \\ {2, 3}."
+          },
+          {
+            id: 4, section: "1.2 Function Decomposition", points: 2.5,
+            prompt: "Express <span class='math'>h(x) = &radic;(x&sup2; + 4)</span> as <span class='math'>f(g(x))</span>:",
+            options: [
+              { text: "f(x) = &radic;x, g(x) = x&sup2; + 4", correct: true },
+              { text: "f(x) = x&sup2; + 4, g(x) = &radic;x", correct: false },
+              { text: "f(x) = &radic;(x + 4), g(x) = x&sup2;", correct: true },
+              { text: "Both A and C are valid", correct: true }
+            ],
+            explanation: "Both f(x)=&radic;x with g(x)=x&sup2;+4 AND f(x)=&radic;(x+4) with g(x)=x&sup2; yield &radic;(x&sup2;+4). (Marked valid for option D)."
+          },
+          {
+            id: 5, section: "1.3 Horizontal Line Test", points: 2.5,
+            prompt: "Which of the following functions is <b>One-to-One</b> on its natural domain?",
+            options: [
+              { text: "f(x) = 2x&sup3; - 5", correct: true },
+              { text: "f(x) = x&sup2; - 4", correct: false },
+              { text: "f(x) = |x + 2|", correct: false },
+              { text: "f(x) = cos(x)", correct: false }
+            ],
+            explanation: "f(x) = 2x&sup3; - 5 is strictly increasing on all real numbers and passes the horizontal line test. The others fail."
+          },
+          {
+            id: 6, section: "1.4 Inverse Trig Identity", points: 2.5,
+            prompt: "What is <span class='math'>tan(arctan(x))</span> for any real number <span class='math'>x</span>?",
+            options: [
+              { text: "x", correct: true },
+              { text: "1/x", correct: false },
+              { text: "&radic;(1 + x&sup2;)", correct: false },
+              { text: "Only defined for -1 &le; x &le; 1", correct: false }
+            ],
+            explanation: "Domain of arctan(x) is all real numbers (-&infin;, &infin;). Therefore tan(arctan(x)) = x for all real x."
+          },
+          {
+            id: 7, section: "2.1 Unbounded Limit", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 2&plus;</sub> 1 / (x - 2)</span>",
+            options: [
+              { text: "+&infin;", correct: true },
+              { text: "-&infin;", correct: false },
+              { text: "0", correct: false },
+              { text: "1", correct: false }
+            ],
+            explanation: "As x &rarr; 2&plus;, x - 2 is a tiny positive number (e.g. 0.0001). 1 / 0.0001 = +10,000 &rArr; +&infin;."
+          },
+          {
+            id: 8, section: "2.2 Rationalization Limit", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 1</sub> (x - 1) / (&radic;x - 1)</span>",
+            options: [
+              { text: "2", correct: true },
+              { text: "1/2", correct: false },
+              { text: "1", correct: false },
+              { text: "0", correct: false }
+            ],
+            explanation: "Multiply top and bottom by (&radic;x + 1): (x - 1)(&radic;x + 1)/(x - 1) = &radic;x + 1. At x = 1, &radic;1 + 1 = 2."
+          },
+          {
+            id: 9, section: "2.3 Limit with Radicals at Infinity", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; &infin;</sub> (&radic;(x&sup2; + 3x) - x)</span>",
+            options: [
+              { text: "3/2", correct: true },
+              { text: "3", correct: false },
+              { text: "0", correct: false },
+              { text: "&infin;", correct: false }
+            ],
+            explanation: "Multiply and divide by conjugate: (x&sup2; + 3x - x&sup2;) / [&radic;(x&sup2; + 3x) + x] = 3x / [x(&radic;(1+3/x) + 1)] = 3 / 2."
+          },
+          {
+            id: 10, section: "2.4 Continuity with Absolute Value", points: 2.5,
+            prompt: "Is <span class='math'>f(x) = |x - 3|</span> continuous at <span class='math'>x = 3</span>?",
+            options: [
+              { text: "Yes, continuous because lim f(x) = f(3) = 0", correct: true },
+              { text: "No, has a jump discontinuity", correct: false },
+              { text: "No, has a vertical asymptote", correct: false },
+              { text: "No, f(3) is undefined", correct: false }
+            ],
+            explanation: "f(3) = 0. lim<sub>x&rarr;3&minus;</sub> -(x-3) = 0 and lim<sub>x&rarr;3&plus;</sub> (x-3) = 0. The limit equals the function value, so it is continuous."
+          }
+        ]
+      },
+
+      // -------------------------------------------------------------
+      // VERSION 5: KSU CFY High-Yield Old Exam Style
+      // -------------------------------------------------------------
+      {
+        versionNum: 5,
+        title: "Version 5 (Past Exam Carbon Copy)",
+        questions: [
+          {
+            id: 1, section: "1.1 Negative Coefficient Inequality", points: 2.5,
+            prompt: "Solve: <span class='math'>3 - 2x &le; 11</span>",
+            options: [
+              { text: "[-4, &infin;)", correct: true },
+              { text: "(-&infin;, -4]", correct: false },
+              { text: "[-7, &infin;)", correct: false },
+              { text: "(-&infin;, 7]", correct: false }
+            ],
+            explanation: "-2x &le; 8. Dividing by -2 flips the inequality sign! x &ge; -4 &rArr; [-4, &infin;)."
+          },
+          {
+            id: 2, section: "1.1 Absolute Value Greater-Than", points: 2.5,
+            prompt: "Solve: <span class='math'>|3 - x| &ge; 4</span>",
+            options: [
+              { text: "(-&infin;, -1] &cup; [7, &infin;)", correct: true },
+              { text: "[-1, 7]", correct: false },
+              { text: "(-&infin;, 7]", correct: false },
+              { text: "[-1, &infin;)", correct: false }
+            ],
+            explanation: "3 - x &ge; 4 &rArr; -x &ge; 1 &rArr; x &le; -1 OR 3 - x &le; -4 &rArr; -x &le; -7 &rArr; x &ge; 7. Union: (-&infin;, -1] &cup; [7, &infin;)."
+          },
+          {
+            id: 3, section: "1.2 Domain of Reciprocal Radical", points: 2.5,
+            prompt: "Find the domain of <span class='math'>f(x) = 1 / &radic;(16 - x&sup2;)</span>",
+            options: [
+              { text: "(-4, 4)", correct: true },
+              { text: "[-4, 4]", correct: false },
+              { text: "(-&infin;, -4) &cup; (4, &infin;)", correct: false },
+              { text: "R \\ {-4, 4}", correct: false }
+            ],
+            explanation: "Since the radical is in the denominator, 16 - x&sup2; must be strictly > 0 (strictly positive). Thus x&sup2; < 16 &rArr; (-4, 4)."
+          },
+          {
+            id: 4, section: "1.2 Domain of Combined Operations", points: 2.5,
+            prompt: "If <span class='math'>f(x) = &radic;x</span> and <span class='math'>g(x) = &radic;(4 - x)</span>, find the domain of <span class='math'>(f / g)(x)</span>.",
+            options: [
+              { text: "[0, 4)", correct: true },
+              { text: "[0, 4]", correct: false },
+              { text: "(0, 4)", correct: false },
+              { text: "[0, &infin;)", correct: false }
+            ],
+            explanation: "Dom(f) = [0, &infin;). Dom(g) = (-&infin;, 4]. For f/g, g(x) &ne; 0 &rArr; x &ne; 4. Intersection is [0, 4)."
+          },
+          {
+            id: 5, section: "1.3 Inverse of Cubic", points: 2.5,
+            prompt: "Find <span class='math'>f&supmin;&sup1;(x)</span> for <span class='math'>f(x) = 2x&sup3; + 1</span>",
+            options: [
+              { text: "&sup3;&radic;((x - 1) / 2)", correct: true },
+              { text: "&sup3;&radic;((x + 1) / 2)", correct: false },
+              { text: "((x - 1) / 2)&sup3;", correct: false },
+              { text: "&sup3;&radic;(x - 1) / 2", correct: false }
+            ],
+            explanation: "y = 2x&sup3; + 1 &rArr; y - 1 = 2x&sup3; &rArr; x&sup3; = (y - 1)/2 &rArr; x = &sup3;&radic;((y - 1)/2). Swap: &sup3;&radic;((x - 1)/2)."
+          },
+          {
+            id: 6, section: "1.4 Principal Value of ArcTan", points: 2.5,
+            prompt: "What is <span class='math'>arctan(-1)</span>?",
+            options: [
+              { text: "-&pi; / 4", correct: true },
+              { text: "3&pi; / 4", correct: false },
+              { text: "7&pi; / 4", correct: false },
+              { text: "&pi; / 4", correct: false }
+            ],
+            explanation: "Range of arctan is (-&pi;/2, &pi;/2). The angle in this range whose tangent is -1 is -&pi;/4."
+          },
+          {
+            id: 7, section: "2.1 Split Function Limit", points: 2.5,
+            prompt: "If <span class='math'>f(x) = { x&sup2; - 1 (x < 2), 4 (x = 2), 3x - 3 (x > 2) }</span>, find <span class='math'>lim<sub>x &rarr; 2</sub> f(x)</span>.",
+            options: [
+              { text: "3", correct: true },
+              { text: "4", correct: false },
+              { text: "Does not exist", correct: false },
+              { text: "0", correct: false }
+            ],
+            explanation: "Left limit: 2&sup2; - 1 = 3. Right limit: 3(2) - 3 = 3. Since both sides agree, limit = 3."
+          },
+          {
+            id: 8, section: "2.2 Trigonometric Limit Law", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> sin(5x) / (3x)</span>",
+            options: [
+              { text: "5/3", correct: true },
+              { text: "3/5", correct: false },
+              { text: "1", correct: false },
+              { text: "0", correct: false }
+            ],
+            explanation: "Standard limit formula lim<sub>u&rarr;0</sub> sin(au)/(bu) = a/b. Here it is 5/3."
+          },
+          {
+            id: 9, section: "2.3 High Degree Ratio at Infinity", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; &infin;</sub> (3x&sup3; - 2x + 7) / (5x&sup4; + 1)</span>",
+            options: [
+              { text: "0", correct: true },
+              { text: "3/5", correct: false },
+              { text: "&infin;", correct: false },
+              { text: "-&infin;", correct: false }
+            ],
+            explanation: "Degree of numerator (3) < degree of denominator (4). Whenever bottom degree is higher, limit at infinity is always 0."
+          },
+          {
+            id: 10, section: "2.4 Solving for Two Constants", points: 2.5,
+            prompt: "If <span class='math'>f(x) = { 2 (x &le; 1), ax + b (1 < x < 3), -2 (x &ge; 3) }</span> is continuous everywhere, find <span class='math'>a</span> and <span class='math'>b</span>.",
+            options: [
+              { text: "a = -2, b = 4", correct: true },
+              { text: "a = 2, b = 0", correct: false },
+              { text: "a = -1, b = 3", correct: false },
+              { text: "a = 1, b = 1", correct: false }
+            ],
+            explanation: "At x = 1: a(1) + b = 2 &rArr; a + b = 2. At x = 3: a(3) + b = -2 &rArr; 3a + b = -2. Subtracting equations: 2a = -4 &rArr; a = -2, b = 4."
+          }
+        ]
+      },
+
+      // -------------------------------------------------------------
+      // VERSION 6: Final Boss - The 25/25 Perfectionist Challenge
+      // -------------------------------------------------------------
+      {
+        versionNum: 6,
+        title: "Version 6 (Final Boss: A+ Challenge)",
+        questions: [
+          {
+            id: 1, section: "1.1 Complex Absolute Inequality", points: 2.5,
+            prompt: "Solve: <span class='math'>|2x - 3| < |x + 6|</span>",
+            options: [
+              { text: "(-1, 9)", correct: true },
+              { text: "[-1, 9]", correct: false },
+              { text: "(-&infin;, -1) &cup; (9, &infin;)", correct: false },
+              { text: "(-3, 6)", correct: false }
+            ],
+            explanation: "Square both sides: (2x - 3)&sup2; < (x + 6)&sup2; &rArr; 4x&sup2; - 12x + 9 < x&sup2; + 12x + 36 &rArr; 3x&sup2; - 24x - 27 < 0 &rArr; x&sup2; - 8x - 9 < 0 &rArr; (x - 9)(x + 1) < 0 &rArr; (-1, 9)."
+          },
+          {
+            id: 2, section: "1.1 Quadratic Sign Chart", points: 2.5,
+            prompt: "Solve: <span class='math'>x&sup2; + 4x + 5 > 0</span>",
+            options: [
+              { text: "(-&infin;, &infin;)", correct: true },
+              { text: "&empty;", correct: false },
+              { text: "(-5, -1)", correct: false },
+              { text: "(-&infin;, -5) &cup; (-1, &infin;)", correct: false }
+            ],
+            explanation: "Complete the square: (x + 2)&sup2; + 1. Since (x+2)&sup2; &ge; 0, adding 1 makes it &ge; 1 > 0 for all real numbers! Answer: (-&infin;, &infin;)."
+          },
+          {
+            id: 3, section: "1.2 Natural Domain of Composite", points: 2.5,
+            prompt: "If <span class='math'>f(x) = 1 / x</span> and <span class='math'>g(x) = x - 3</span>, what is the domain of <span class='math'>(f &comp; g)(x)</span>?",
+            options: [
+              { text: "R \\ {3}", correct: true },
+              { text: "R \\ {0}", correct: false },
+              { text: "R \\ {0, 3}", correct: false },
+              { text: "(3, &infin;)", correct: false }
+            ],
+            explanation: "(f &comp; g)(x) = 1/(x - 3). Domain of g is R. For f, input cannot be 0, so x - 3 &ne; 0 &rArr; x &ne; 3. Domain: R \\ {3}."
+          },
+          {
+            id: 4, section: "1.2 Piecewise Range Evaluation", points: 2.5,
+            prompt: "If <span class='math'>f(x) = { -x (x < 0), x&sup2; (x &ge; 0) }</span>, what is the <b>Range</b> of <span class='math'>f</span>?",
+            options: [
+              { text: "[0, &infin;)", correct: true },
+              { text: "(-&infin;, &infin;)", correct: false },
+              { text: "(0, &infin;)", correct: false },
+              { text: "[-1, 1]", correct: false }
+            ],
+            explanation: "For x < 0, -x > 0. For x &ge; 0, x&sup2; &ge; 0. All outputs are &ge; 0. Range is [0, &infin;)."
+          },
+          {
+            id: 5, section: "1.3 Inverse Function Composition", points: 2.5,
+            prompt: "If <span class='math'>f(x) = (x + 2)&sup3; - 5</span>, what is <span class='math'>f&supmin;&sup1;(22)</span>?",
+            options: [
+              { text: "1", correct: true },
+              { text: "3", correct: false },
+              { text: "27", correct: false },
+              { text: "-1", correct: false }
+            ],
+            explanation: "Set f(x) = 22 &rArr; (x + 2)&sup3; - 5 = 22 &rArr; (x + 2)&sup3; = 27 &rArr; x + 2 = 3 &rArr; x = 1. So f&supmin;&sup1;(22) = 1."
+          },
+          {
+            id: 6, section: "1.4 Tricky Cancellation", points: 2.5,
+            prompt: "Evaluate: <span class='math'>arcsin(sin(5&pi; / 6))</span>",
+            options: [
+              { text: "&pi; / 6", correct: true },
+              { text: "5&pi; / 6", correct: false },
+              { text: "-&pi; / 6", correct: false },
+              { text: "1/2", correct: false }
+            ],
+            explanation: "5&pi;/6 is outside [-&pi;/2, &pi;/2]! sin(5&pi;/6) = 1/2. arcsin(1/2) = &pi;/6."
+          },
+          {
+            id: 7, section: "2.1 Limit Involving Floor Function", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 2&supmin;</sub> &lfloor;x&rfloor;</span> (greatest integer function)",
+            options: [
+              { text: "1", correct: true },
+              { text: "2", correct: false },
+              { text: "0", correct: false },
+              { text: "Does not exist", correct: false }
+            ],
+            explanation: "As x approaches 2 from the left, x is around 1.9, 1.99. The greatest integer &le; 1.99 is 1. Thus limit is 1."
+          },
+          {
+            id: 8, section: "2.2 Conjugate with Linear Term", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; 4</sub> (x - 4) / (&radic;(x + 5) - 3)</span>",
+            options: [
+              { text: "6", correct: true },
+              { text: "1/6", correct: false },
+              { text: "3", correct: false },
+              { text: "0", correct: false }
+            ],
+            explanation: "Multiply top and bottom by (&radic;(x+5) + 3): (x-4)(&radic;(x+5) + 3) / (x + 5 - 9) = &radic;(x+5) + 3. At x = 4: &radic;9 + 3 = 6."
+          },
+          {
+            id: 9, section: "2.3 Limit as x Approaches Negative Infinity", points: 2.5,
+            prompt: "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> (2x - 3) / &radic;(9x&sup2; + 4)</span>",
+            options: [
+              { text: "-2/3", correct: true },
+              { text: "2/3", correct: false },
+              { text: "2/9", correct: false },
+              { text: "-2/9", correct: false }
+            ],
+            explanation: "For x < 0, &radic;(x&sup2;) = -x. &radic;(9x&sup2;+4) = -x&radic;(9 + 4/x&sup2;). Lim (2x)/(-3x) = -2/3."
+          },
+          {
+            id: 10, section: "2.4 Continuity Condition Verification", points: 2.5,
+            prompt: "Let <span class='math'>f(x) = (sin x) / x</span> for <span class='math'>x &ne; 0</span>. What value must <span class='math'>f(0)</span> have to make <span class='math'>f</span> continuous at <span class='math'>x = 0</span>?",
+            options: [
+              { text: "1", correct: true },
+              { text: "0", correct: false },
+              { text: "&infin;", correct: false },
+              { text: "Cannot be made continuous", correct: false }
+            ],
+            explanation: "Since lim<sub>x&rarr;0</sub> (sin x)/x = 1, setting f(0) = 1 satisfies lim<sub>x&rarr;0</sub> f(x) = f(0), making it continuous."
+          }
+        ]
+      }
+    ];
+
+    let currentVersionIndex = 0;
+    let userAnswers = {}; // key: "vIndex-qId"
+    let secondsElapsed = 0;
+    let timerInterval = null;
+
+    function initVersionTabs() {
+      const container = document.getElementById('versionTabs');
+      container.innerHTML = examVersions.map((v, idx) => `
+        <button 
+          onclick="switchVersion(${idx})" 
+          id="tab-btn-${idx}"
+          class="p-2 rounded-xl border text-xs font-semibold text-center transition ${idx === 0 ? 'bg-blue-600 text-white border-blue-600' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+        >
+          Version ${v.versionNum}
+        </button>
+      `).join('');
+    }
+
+    function switchVersion(vIdx) {
+      currentVersionIndex = vIdx;
+      // Update tab button styles
+      examVersions.forEach((_, idx) => {
+        const btn = document.getElementById(`tab-btn-${idx}`);
+        if (idx === vIdx) {
+          btn.className = "p-2 rounded-xl border text-xs font-semibold text-center transition bg-blue-600 text-white border-blue-600";
+        } else {
+          btn.className = "p-2 rounded-xl border text-xs font-semibold text-center transition border-[var(--border)] hover:bg-[var(--border)]/40";
+        }
+      });
+
+      document.getElementById('versionLabel').innerText = `Active: ${examVersions[vIdx].title}`;
+      document.getElementById('resultsBanner').classList.add('hidden');
+      renderQuestions();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestions() {
+      const currentExam = examVersions[currentVersionIndex];
+      const container = document.getElementById('quizContainer');
+
+      container.innerHTML = currentExam.questions.map((q, idx) => {
+        const key = `${currentVersionIndex}-${q.id}`;
+        const selected = userAnswers[key];
+
+        return `
+          <div id="card-${currentVersionIndex}-${q.id}" class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500">${q.section}</span>
+                <h2 class="text-base font-semibold mt-1">Question ${idx + 1}</h2>
+              </div>
+              <span class="text-xs font-mono font-medium px-2 py-1 rounded bg-[var(--border)]">${q.points} Marks</span>
+            </div>
+
+            <div class="text-base font-medium text-[var(--foreground)] py-1">${q.prompt}</div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              ${q.options.map((opt, oIdx) => {
+                const isSelected = selected === oIdx;
+                return `
+                  <button 
+                    onclick="selectAnswer(${currentVersionIndex}, ${q.id}, ${oIdx})"
+                    id="btn-${currentVersionIndex}-${q.id}-${oIdx}"
+                    class="option-btn text-left p-3.5 rounded-xl border transition flex items-center justify-between text-sm ${isSelected ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-medium' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
+                  >
+                    <span>${opt.text}</span>
+                    <span class="w-4 h-4 rounded-full border border-[var(--border)] flex items-center justify-center text-[10px] indicator ${isSelected ? 'bg-blue-500 border-blue-500' : ''}"></span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <div id="exp-${currentVersionIndex}-${q.id}" class="hidden mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm leading-relaxed">
+              <span class="font-bold text-blue-500 block mb-1">Detailed Explanation & Exam Insight:</span>
+              <span>${q.explanation}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectAnswer(vIdx, qId, oIdx) {
+      const key = `${vIdx}-${qId}`;
+      userAnswers[key] = oIdx;
+
+      const currentExam = examVersions[vIdx];
+      const q = currentExam.questions.find(item => item.id === qId);
+
+      q.options.forEach((_, idx) => {
+        const btn = document.getElementById(`btn-${vIdx}-${qId}-${idx}`);
+        const indicator = btn.querySelector('.indicator');
+        if (idx === oIdx) {
+          btn.classList.add('border-blue-500', 'bg-blue-500/10', 'text-blue-500', 'font-medium');
+          indicator.classList.add('bg-blue-500', 'border-blue-500');
+        } else {
+          btn.classList.remove('border-blue-500', 'bg-blue-500/10', 'text-blue-500', 'font-medium');
+          indicator.classList.remove('bg-blue-500', 'border-blue-500');
+        }
+      });
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const currentExam = examVersions[currentVersionIndex];
+      let answered = 0;
+      currentExam.questions.forEach(q => {
+        if (userAnswers[`${currentVersionIndex}-${q.id}`] !== undefined) answered++;
+      });
+      document.getElementById('progressText').innerText = `Answered: ${answered} / ${currentExam.questions.length} Questions`;
+      document.getElementById('progressBar').style.width = `${(answered / currentExam.questions.length) * 100}%`;
+    }
+
+    function gradeExam() {
+      const currentExam = examVersions[currentVersionIndex];
+      let score = 0;
+
+      currentExam.questions.forEach(q => {
+        const key = `${currentVersionIndex}-${q.id}`;
+        const selectedIdx = userAnswers[key];
+        const isCorrect = selectedIdx !== undefined && q.options[selectedIdx].correct;
+        const card = document.getElementById(`card-${currentVersionIndex}-${q.id}`);
+        const exp = document.getElementById(`exp-${currentVersionIndex}-${q.id}`);
+
+        exp.classList.remove('hidden');
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.getElementById(`btn-${currentVersionIndex}-${q.id}-${idx}`);
+          if (btn) {
+            btn.disabled = true;
+            if (opt.correct) {
+              btn.classList.add('border-emerald-500', 'bg-emerald-500/20', 'text-emerald-500', 'font-semibold');
+            } else if (idx === selectedIdx && !opt.correct) {
+              btn.classList.add('border-rose-500', 'bg-rose-500/20', 'text-rose-500');
+            }
+          }
+        });
+
+        if (isCorrect) {
+          score += q.points;
+          card.classList.add('border-emerald-500/40');
+        } else {
+          card.classList.add('border-rose-500/40');
+        }
+      });
+
+      document.getElementById('liveScore').innerText = score.toFixed(1);
+
+      const banner = document.getElementById('resultsBanner');
+      banner.classList.remove('hidden');
+      const scoreSummary = document.getElementById('resultScoreSummary');
+      const feedback = document.getElementById('resultFeedback');
+
+      scoreSummary.innerText = `${score.toFixed(1)} / 25.0`;
+
+      if (score === 25) {
+        feedback.innerText = `🔥 PERFECT 25/25 on ${currentExam.title}! You are dominating this syllabus!`;
+        scoreSummary.className = "text-center text-4xl font-extrabold text-emerald-500";
+      } else if (score >= 20) {
+        feedback.innerText = `👏 Great job! Score: ${score.toFixed(1)}/25. Check the highlighted explanations below to fix minor slip-ups.`;
+        scoreSummary.className = "text-center text-4xl font-extrabold text-blue-500";
+      } else {
+        feedback.innerText = `⚠️ Score: ${score.toFixed(1)}/25. Review each problem's step-by-step breakdown below, then reset and try again!`;
+        scoreSummary.className = "text-center text-4xl font-extrabold text-amber-500";
+      }
+
+      banner.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetCurrentVersion() {
+      const currentExam = examVersions[currentVersionIndex];
+      currentExam.questions.forEach(q => {
+        delete userAnswers[`${currentVersionIndex}-${q.id}`];
+      });
+      document.getElementById('liveScore').innerText = "0.0";
+      document.getElementById('resultsBanner').classList.add('hidden');
+      renderQuestions();
+      updateProgress();
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('timer').innerText = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    // Launch
+    initVersionTabs();
+    renderQuestions();
+    updateProgress();
+    startTimer();
+  </script>
+</body>
+</html>

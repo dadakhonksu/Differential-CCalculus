@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="math.js"></script>
+  <script src="dialog.js"></script>
   <script>
     // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
     (function () {
@@ -2787,6 +2788,7 @@
 ];
 
     const MARKS = { q1: 0.5, q2a: 0.5, q2b: 2.0, q3: 2.0, q4: 1.6 };
+    window.dialogAccent = '#dc2626';
     const EXAM_SECONDS = 90 * 60;
     const STORAGE_KEY = 'math101-predictive-suite-v1';
 
@@ -2891,8 +2893,12 @@
     const isRevealed = (vi, sec, id) => !!state.revealed[`${vi}-${sec}-${id}`];
 
     // Shows one part's answer and solution before grading. The part then locks, so it is still graded honestly.
-    function revealAnswer(sec, id) {
-      if (!confirm('Show the answer and solution? This part will lock: your current choice stays, and an unanswered part stays unanswered.')) return;
+    async function revealAnswer(sec, id) {
+      if (!(await askConfirm({
+        title: 'Show the answer and solution?',
+        message: 'This part will lock: your current choice stays, and an unanswered part stays unanswered.',
+        confirmLabel: 'Show answer'
+      }))) return;
       state.revealed[`${currentVersionIndex}-${sec}-${id}`] = true;
       saveState();
       renderExamContent();
@@ -3105,11 +3111,15 @@
       updateStatus();
     }
 
-    function gradeCurrentExam(timeUp = false) {
+    async function gradeCurrentExam(timeUp = false) {
       const vi = currentVersionIndex;
       if (isGraded(vi)) return showResults(false);
       const { answered, total } = countAnswered(vi);
-      if (!timeUp && answered < total && !confirm(`You have ${total - answered} unanswered part(s). Grade anyway?`)) return;
+      if (!timeUp && answered < total && !(await askConfirm({
+        title: 'Grade this exam?',
+        message: `You have ${total - answered} unanswered part(s). They will score 0.`,
+        confirmLabel: 'Grade anyway'
+      }))) return;
       state.graded[vi] = true;
       saveState();
       renderExamContent();
@@ -3117,9 +3127,13 @@
       showResults(timeUp);
     }
 
-    function resetCurrentExam() {
+    async function resetCurrentExam() {
       const vi = currentVersionIndex;
-      if (hasAnswers(vi) && !isGraded(vi) && !confirm('Clear all your answers for this version?')) return;
+      if (hasAnswers(vi) && !isGraded(vi) && !(await askConfirm({
+        title: 'Clear your answers?',
+        message: 'All your answers for this mock exam will be removed and the clock will restart.',
+        confirmLabel: 'Clear answers'
+      }))) return;
       const prefix = `${vi}-`;
       for (const k in state.answers) {
         if (k.startsWith(prefix)) delete state.answers[k];

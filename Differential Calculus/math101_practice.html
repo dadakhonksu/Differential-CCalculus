@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="math.js"></script>
+  <script src="dialog.js"></script>
   <script>
     // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
     (function () {
@@ -854,6 +855,7 @@
     ];
 
     const STORAGE_KEY = 'math101-quick-drills-v1';
+    window.dialogAccent = '#2563eb';
 
     // answers / revealed: "drill-questionId" -> original option index / true. graded / elapsed / attempts are keyed by drill index.
     let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, revealed: {}, current: 0 };
@@ -994,8 +996,12 @@
     }
 
     // Shows one question's answer and solution before grading. The question then locks, so it is still graded honestly.
-    function revealAnswer(qId) {
-      if (!confirm('Show the answer and solution? This question will lock: your current choice stays, and an unanswered question stays unanswered.')) return;
+    async function revealAnswer(qId) {
+      if (!(await askConfirm({
+        title: 'Show the answer and solution?',
+        message: 'This question will lock: your current choice stays, and an unanswered question stays unanswered.',
+        confirmLabel: 'Show answer'
+      }))) return;
       state.revealed[`${currentVersionIndex}-${qId}`] = true;
       saveState();
       renderQuestions();
@@ -1052,12 +1058,16 @@
       if (scroll) banner.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function gradeExam() {
+    async function gradeExam() {
       const vIdx = currentVersionIndex;
       if (isGraded(vIdx)) return showResults(true);
       const questions = examVersions[vIdx].questions;
       const blank = questions.filter(q => answerOf(vIdx, q.id) === undefined).length;
-      if (blank > 0 && !confirm(`You have ${blank} unanswered question(s). Grade anyway?`)) return;
+      if (blank > 0 && !(await askConfirm({
+        title: 'Grade this drill?',
+        message: `You have ${blank} unanswered question(s). They will score 0.`,
+        confirmLabel: 'Grade anyway'
+      }))) return;
       state.graded[vIdx] = true;
       saveState();
       renderQuestions();
@@ -1065,9 +1075,13 @@
       showResults(true);
     }
 
-    function resetCurrentVersion() {
+    async function resetCurrentVersion() {
       const vIdx = currentVersionIndex;
-      if (hasAnswers(vIdx) && !isGraded(vIdx) && !confirm('Clear all your answers for this drill?')) return;
+      if (hasAnswers(vIdx) && !isGraded(vIdx) && !(await askConfirm({
+        title: 'Clear your answers?',
+        message: 'All your answers for this drill will be removed and the timer will restart.',
+        confirmLabel: 'Clear answers'
+      }))) return;
       for (const k in state.answers) {
         if (k.startsWith(`${vIdx}-`)) delete state.answers[k];
       }

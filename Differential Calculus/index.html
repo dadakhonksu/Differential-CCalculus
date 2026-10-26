@@ -4,51 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KSU Math 101 Midterm - Predictive Exam Suite (5 Versions)</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+  <script>
+    // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
+    (function () {
+      let t = null;
+      try { t = localStorage.getItem('math101-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    })();
+    function toggleTheme() {
+      const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('math101-theme', t); } catch (e) {}
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+  </style>
   <style>
+    :root {
+      --background: #f5f5f6;
+      --foreground: #18181b;
+      --card: #ffffff;
+      --border: #e2e2e6;
+      --muted-foreground: #6b6b75;
+      --good: #047857;
+      --bad: #b91c1c;
+    }
+    :root[data-theme="dark"] {
+      --background: #0c0c0e;
+      --foreground: #f4f4f5;
+      --card: #17171a;
+      --border: #2c2c31;
+      --muted-foreground: #a1a1aa;
+      --good: #34d399;
+      --bad: #f87171;
+    }
+    body { background: var(--background); color: var(--foreground); }
     .math {
       font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
       font-style: italic;
     }
+    .text-good { color: var(--good); }
+    .text-bad { color: var(--bad); }
+    button:disabled { cursor: default; }
   </style>
 </head>
-<body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen p-3 md:p-8 font-sans">
+<body class="min-h-screen p-3 md:p-8 font-sans">
   <div class="max-w-4xl mx-auto space-y-6">
-    
+
     <!-- Top Header -->
     <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm">
       <div class="text-center space-y-1 border-b border-[var(--border)] pb-4">
         <h2 class="text-xs uppercase tracking-widest text-[var(--muted-foreground)] font-semibold">King Saud University &bull; Common First Year Deanship &bull; Basic Sciences</h2>
         <h1 class="text-xl md:text-2xl font-black tracking-tight text-[var(--foreground)]">MATH 101 MIDTERM PREDICTIVE SUITE (1448 H / 2026)</h1>
         <p class="text-xs text-[var(--muted-foreground)]">Modeled Directly on 1446H &amp; 1447H Real Exam Papers &bull; 25.0 Marks &bull; Time: 90 Min</p>
+        <a href="math101_practice.html" class="inline-block pt-1 text-xs font-semibold text-red-600 dark:text-red-400 hover:underline">Need more drills? Open the 6-version practice suite &rarr;</a>
       </div>
 
       <div class="flex flex-wrap justify-between items-center gap-4 pt-4">
         <div class="flex items-center gap-2">
           <span class="text-xs font-bold text-[var(--muted-foreground)]">VERSION:</span>
-          <div class="flex gap-1.5" id="versionSelector"></div>
+          <div class="flex flex-wrap gap-1.5" id="versionSelector"></div>
         </div>
         <div class="flex items-center gap-6">
+          <button onclick="toggleTheme()" aria-label="Switch between light and dark mode" class="px-3 py-1.5 rounded-lg border border-[var(--border)] hover:bg-[var(--border)]/40 text-xs font-semibold transition whitespace-nowrap">
+            <span class="dark:hidden">&#127769; Dark</span><span class="hidden dark:inline">&#9728;&#65039; Light</span>
+          </button>
           <div class="text-right">
-            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Timer</span>
-            <span id="examTimer" class="font-mono text-lg font-bold text-amber-500">00:00</span>
+            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Time Left</span>
+            <span id="examTimer" class="font-mono text-lg font-bold text-amber-600 dark:text-amber-400">90:00</span>
           </div>
           <div class="text-right">
-            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Live Score</span>
-            <span class="text-lg font-black text-red-500"><span id="totalLiveScore">0.0</span> / 25.0</span>
+            <span class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)] block">Score</span>
+            <span class="text-lg font-black text-red-600 dark:text-red-400"><span id="totalLiveScore">&ndash;</span> / 25.0</span>
           </div>
         </div>
       </div>
     </header>
 
     <!-- Version Title Banner -->
-    <div class="flex justify-between items-center bg-[var(--card)] border border-[var(--border)] px-5 py-3 rounded-xl shadow-xs">
-      <div>
-        <span id="currentVersionBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/10 text-red-500 border border-red-500/20">Version 1</span>
-        <span id="currentVersionDesc" class="text-sm font-semibold ml-2">Prediction Exam Alpha</span>
+    <div class="sticky top-2 z-10 bg-[var(--card)] border border-[var(--border)] px-5 py-3 rounded-xl shadow-sm space-y-2">
+      <div class="flex flex-wrap justify-between items-center gap-2">
+        <div>
+          <span id="currentVersionBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">Version 1</span>
+          <span id="currentVersionDesc" class="text-sm font-semibold ml-2">Prediction Exam Alpha</span>
+        </div>
+        <div class="text-xs text-[var(--muted-foreground)]" id="progressIndicator">
+          0 Parts Answered
+        </div>
       </div>
-      <div class="text-xs text-[var(--muted-foreground)]" id="progressIndicator">
-        0 Parts Answered
+      <div class="w-full h-1.5 rounded-full bg-[var(--border)] overflow-hidden">
+        <div id="progressBar" class="h-full bg-red-600 transition-all" style="width: 0%"></div>
       </div>
     </div>
 
@@ -59,23 +107,28 @@
     <footer class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
       <div>
         <h3 class="font-bold text-base">Submit for Real Exam Scoring</h3>
-        <p class="text-xs text-[var(--muted-foreground)]">Grades out of 25.0 marks and reveals step-by-step solutions for every problem.</p>
+        <p class="text-xs text-[var(--muted-foreground)]">Grades out of 25.0 marks and reveals step-by-step solutions for every problem. Your answers are saved in this browser.</p>
       </div>
       <div class="flex gap-3 w-full sm:w-auto">
         <button onclick="resetCurrentExam()" class="px-4 py-2.5 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-semibold text-xs transition">
-          Clear Version
+          Retry Version
         </button>
-        <button onclick="gradeCurrentExam()" class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition shadow-md">
+        <button id="gradeBtn" onclick="gradeCurrentExam()" class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:hover:bg-red-600 text-white font-bold text-sm transition shadow-md">
           Grade Exam (25 Marks)
         </button>
       </div>
     </footer>
 
-    <!-- Results Modal -->
+    <!-- Results Card -->
     <div id="resultsCard" class="hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-xl space-y-4">
       <h2 class="text-2xl font-black text-center">🎯 Official Exam Score Report</h2>
       <div id="finalScoreDisplay" class="text-center text-4xl font-extrabold text-red-500"></div>
+      <div id="finalBreakdown" class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl mx-auto"></div>
       <p id="finalFeedbackDisplay" class="text-center text-sm max-w-xl mx-auto text-[var(--muted-foreground)]"></p>
+      <div class="flex justify-center gap-3">
+        <button onclick="jumpToFirstMistake()" id="reviewBtn" class="px-4 py-2 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-semibold text-xs transition">Review first mistake</button>
+        <button onclick="resetCurrentExam()" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-xs transition">Retry with shuffled options</button>
+      </div>
     </div>
 
   </div>
@@ -270,13 +323,13 @@
                     "id": "q3_3",
                     "prompt": "Find the exact value: <span class='math'>cos(tan&supmin;&sup1;(-1) - cos&supmin;&sup1;(2/5))</span>",
                     "options": [
+                        "(2&radic;2 - &radic;42) / 10",
                         "(2&radic;2 + &radic;42) / 10",
-                        "(-2&radic;2 + &radic;42) / 10",
                         "(2 + &radic;21) / 10",
                         "-&radic;2 / 5"
                     ],
                     "correct": 0,
-                    "exp": "Let &alpha; = tan&supmin;&sup1;(-1) = -&pi;/4 &rArr; cos &alpha; = &radic;2/2, sin &alpha; = -&radic;2/2. Let &beta; = cos&supmin;&sup1;(2/5) &rArr; cos &beta; = 2/5, sin &beta; = &radic;(1 - 4/25) = &radic;21/5. cos(&alpha; - &beta;) = cos &alpha; cos &beta; + sin &alpha; sin &beta; = (&radic;2/2)(2/5) + (-&radic;2/2)(&radic;21/5) ... watch signs: cos(-&pi;/4 - &beta;) = cos(&pi;/4 + &beta;) = cos(&pi;/4)cos(&beta;) - sin(&pi;/4)sin(&beta;) = (2&radic;2 - &radic;42)/10."
+                    "exp": "Let &alpha; = tan&supmin;&sup1;(-1) = -&pi;/4 &rArr; cos &alpha; = &radic;2/2, sin &alpha; = -&radic;2/2. Let &beta; = cos&supmin;&sup1;(2/5) &rArr; cos &beta; = 2/5, sin &beta; = &radic;(1 - 4/25) = &radic;21/5. cos(&alpha; - &beta;) = cos &alpha; cos &beta; + sin &alpha; sin &beta; = (&radic;2/2)(2/5) + (-&radic;2/2)(&radic;21/5) = (2&radic;2 - &radic;42)/10."
                 }
             ]
         },
@@ -378,7 +431,7 @@
                 },
                 {
                     "id": 3,
-                    "prompt": "If graph shows a jump at x = 3 with left limit 4 and right limit 4, then <span class='math'>lim<sub>x &rarr; 3</sub> f(x)</span> is &hellip;",
+                    "prompt": "If a graph shows a hole at x = 3 with left limit 4 and right limit 4, then <span class='math'>lim<sub>x &rarr; 3</sub> f(x)</span> is &hellip;",
                     "options": [
                         "4",
                         "Does Not Exist",
@@ -534,10 +587,10 @@
                     "id": "q3_3",
                     "prompt": "Find exact value: <span class='math'>sin(cos&supmin;&sup1;(3/5) + sin&supmin;&sup1;(5/13))</span>",
                     "options": [
-                        "56/65",
+                        "63/65",
                         "16/65",
                         "33/65",
-                        "63/65"
+                        "56/65"
                     ],
                     "correct": 0,
                     "exp": "sin(&alpha; + &beta;) = sin &alpha; cos &beta; + cos &alpha; sin &beta; = (4/5)(12/13) + (3/5)(5/13) = 48/65 + 15/65 = 63/65."
@@ -604,8 +657,8 @@
                         "Does Not Exist",
                         "0"
                     ],
-                    "correct": 0,
-                    "exp": "Left limit: (2(1) + 3) - (4 - 1) = 5 - 3 = 2. Right limit: 5 - 2 = 3... Wait! Left = 2, Right = 3 &rArr; Does Not Exist! Option marked DNE."
+                    "correct": 2,
+                    "exp": "Left limit: (2(1) + 3) - (4 - 1) = 5 - 3 = 2. Right limit: 5 - 2 = 3. Left &ne; Right &rArr; the limit Does Not Exist."
                 }
             ]
         }
@@ -1080,7 +1133,7 @@
                     "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 3</sub> (x&sup2; - 9) / (x&sup2; - 2x - 3)</span>",
                     "options": [
                         "3/2",
-                        "6/4",
+                        "3",
                         "1",
                         "0"
                     ],
@@ -1404,383 +1457,348 @@
     }
 ];
 
+    const MARKS = { q1: 0.5, q2a: 0.5, q2b: 2.0, q3: 2.0, q4: 1.6 };
+    const EXAM_SECONDS = 90 * 60;
+    const STORAGE_KEY = 'math101-predictive-suite-v1';
+
+    // answers: "version-section-id" -> choice. graded / elapsed / attempts are keyed by version index.
+    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, current: 0 };
     let currentVersionIndex = 0;
-    let userAnswers = {};
-    let seconds = 0;
-    let timer = null;
 
-    function renderVersionSelector() {
-      const c = document.getElementById('versionSelector');
-      c.innerHTML = examData.map((v, i) => `
-        <button 
-          onclick="setVersion(${i})" 
-          id="vBtn-${i}"
-          class="px-2.5 py-1 rounded-lg text-xs font-bold border transition ${i === 0 ? 'bg-red-600 text-white border-red-600 shadow-md' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-        >
-          V${v.version}
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && saved.answers) state = Object.assign(state, saved);
+      } catch (e) {}
+      currentVersionIndex = Math.min(Math.max(0, state.current || 0), examData.length - 1);
+    }
+
+    function saveState() {
+      state.current = currentVersionIndex;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    // Deterministic shuffle: stable across reloads, reshuffled on every retry, so the key is never "always A".
+    function seededOrder(n, seedStr) {
+      let h = 2166136261;
+      for (let i = 0; i < seedStr.length; i++) h = Math.imul(h ^ seedStr.charCodeAt(i), 16777619);
+      const rand = () => {
+        h = (h + 0x6D2B79F5) | 0;
+        let t = Math.imul(h ^ (h >>> 15), 1 | h);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+      const order = [...Array(n).keys()];
+      for (let i = n - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      return order;
+    }
+
+    function sectionsOf(v) {
+      return [
+        { sec: 'q1', items: v.q1.mcqs.map(m => ({ ...m })) },
+        { sec: 'q2a', items: v.q2.partA.items.map((it, i) => ({ ...it, id: i })) },
+        { sec: 'q2b', items: v.q2.partB.problems.map((p, i) => ({ ...p, id: i })) },
+        { sec: 'q3', items: v.q3.problems.map((p, i) => ({ ...p, id: i })) },
+        { sec: 'q4', items: v.q4.problems.map((p, i) => ({ ...p, id: i })) }
+      ];
+    }
+
+    const answerOf = (vi, sec, id) => state.answers[`${vi}-${sec}-${id}`];
+    const isGraded = vi => !!state.graded[vi];
+    const hasAnswers = vi => Object.keys(state.answers).some(k => k.startsWith(`${vi}-`));
+
+    function countAnswered(vi) {
+      let answered = 0, total = 0;
+      sectionsOf(examData[vi]).forEach(({ sec, items }) => items.forEach(it => {
+        total++;
+        if (answerOf(vi, sec, it.id) !== undefined) answered++;
+      }));
+      return { answered, total };
+    }
+
+    function scoreVersion(vi) {
+      const by = { q1: 0, q2a: 0, q2b: 0, q3: 0, q4: 0 };
+      sectionsOf(examData[vi]).forEach(({ sec, items }) => items.forEach(it => {
+        if (answerOf(vi, sec, it.id) === it.correct) by[sec] += MARKS[sec];
+      }));
+      const q = { q1: by.q1, q2: by.q2a + by.q2b, q3: by.q3, q4: by.q4 };
+      return { ...q, total: q.q1 + q.q2 + q.q3 + q.q4 };
+    }
+
+    // ---------- Rendering ----------
+
+    const OPT_IDLE = 'border-[var(--border)] hover:bg-[var(--border)]/40';
+    const OPT_SEL = 'border-red-500 bg-red-500/15 text-red-600 dark:text-red-400 font-bold shadow-sm';
+    const OPT_RIGHT = 'border-emerald-500 bg-emerald-500/15 text-good font-bold';
+    const OPT_WRONG = 'border-red-600 bg-red-600/15 text-bad font-bold';
+    const OPT_DIM = 'border-[var(--border)] opacity-60';
+
+    function optionClass(graded, isSel, isCorrect) {
+      if (!graded) return isSel ? OPT_SEL : OPT_IDLE;
+      if (isCorrect) return OPT_RIGHT;
+      return isSel ? OPT_WRONG : OPT_DIM;
+    }
+
+    function boxClass(graded, sel, correct) {
+      if (!graded) return 'border-[var(--border)]';
+      return sel === correct ? 'border-emerald-500 bg-emerald-500/5' : 'border-red-600 bg-red-600/5';
+    }
+
+    function statusTag(graded, sel, correct, marks) {
+      if (!graded) return '';
+      if (sel === correct) return `<span class="text-good">&check; +${marks}</span>`;
+      if (sel === undefined) return `<span class="text-bad">Not answered &middot; 0</span>`;
+      return `<span class="text-bad">&cross; 0</span>`;
+    }
+
+    function solutionBlock(graded, label, exp) {
+      if (!graded) return '';
+      return `<div class="text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-good font-medium"><b>${label}:</b> ${exp}</div>`;
+    }
+
+    function renderChoice(sec, item, label, cols, solLabel) {
+      const vi = currentVersionIndex;
+      const graded = isGraded(vi);
+      const sel = answerOf(vi, sec, item.id);
+      const order = seededOrder(item.options.length, `${vi}-${state.attempts[vi] || 0}-${sec}-${item.id}`);
+      return `
+        <div id="box-${sec}-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3.5 rounded-xl border space-y-2 ${boxClass(graded, sel, item.correct)}">
+          <div class="flex justify-between gap-2 text-xs font-semibold text-[var(--muted-foreground)]">
+            <span>${label}</span>${statusTag(graded, sel, item.correct, MARKS[sec])}
+          </div>
+          <div class="text-sm font-medium">${item.prompt}</div>
+          <div class="grid ${cols} gap-2 pt-1">
+            ${order.map((oIdx, pos) => `
+              <button ${graded ? 'disabled' : ''} onclick="recordAnswer('${sec}', ${item.id}, ${oIdx})"
+                class="p-2.5 text-xs rounded-lg border text-left transition flex items-start gap-2 ${optionClass(graded, sel === oIdx, oIdx === item.correct)}">
+                <span class="font-bold opacity-60">${'ABCDEF'[pos]}</span>
+                <span class="flex-1">${item.options[oIdx]}</span>
+              </button>
+            `).join('')}
+          </div>
+          ${solutionBlock(graded, solLabel, item.exp)}
+        </div>
+      `;
+    }
+
+    function renderClassification(item) {
+      const vi = currentVersionIndex;
+      const graded = isGraded(vi);
+      const sel = answerOf(vi, 'q2a', item.id);
+      const choice = (val, text) => `
+        <button ${graded ? 'disabled' : ''} onclick="recordAnswer('q2a', ${item.id}, '${val}')"
+          class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${optionClass(graded, sel === val, item.correct === val)}">
+          ${text}
         </button>
-      `).join('');
+      `;
+      return `
+        <div id="box-q2a-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3 rounded-xl border flex flex-col justify-between gap-2 ${boxClass(graded, sel, item.correct)}">
+          <div class="flex justify-between gap-2">
+            <span class="text-sm font-semibold">${item.text}</span>
+            <span class="text-xs font-semibold">${statusTag(graded, sel, item.correct, MARKS.q2a)}</span>
+          </div>
+          <div class="flex gap-2">${choice('rational', 'Rational (Q)')}${choice('irrational', 'Irrational (I)')}</div>
+          ${solutionBlock(graded, 'Why', item.exp)}
+        </div>
+      `;
     }
 
-    function setVersion(idx) {
-      currentVersionIndex = idx;
-      examData.forEach((_, i) => {
-        const btn = document.getElementById(`vBtn-${i}`);
-        if (i === idx) {
-          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition bg-red-600 text-white border-red-600 shadow-md";
-        } else {
-          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition border-[var(--border)] hover:bg-[var(--border)]/40";
-        }
-      });
-
-      document.getElementById('currentVersionBadge').innerText = `Version ${examData[idx].version}`;
-      document.getElementById('currentVersionDesc').innerText = examData[idx].title;
-      document.getElementById('resultsCard').classList.add('hidden');
-      renderExamContent();
-      updateScorePreview();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function renderExamContent() {
-      const v = examData[currentVersionIndex];
-      const container = document.getElementById('examContainer');
-
-      container.innerHTML = `
-        <!-- QUESTION 1: MCQS (3 MARKS) -->
-        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
-          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
-            <h2 class="text-base font-bold text-[var(--foreground)]">${v.q1.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold border border-red-500/20">3.0 Marks</span>
+    function sectionCard(title, marks, scored, body) {
+      const badge = scored === null
+        ? `${marks.toFixed(1)} Marks`
+        : `${scored.toFixed(1)} / ${marks.toFixed(1)}`;
+      return `
+        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+          <div class="flex justify-between items-center gap-3 border-b border-[var(--border)] pb-3">
+            <h2 class="text-base font-bold">${title}</h2>
+            <span class="shrink-0 text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-600 dark:text-red-400 font-bold border border-red-500/20">${badge}</span>
           </div>
-          <div class="space-y-4">
-            ${v.q1.mcqs.map((m, idx) => {
-              const key = `${currentVersionIndex}-q1-${m.id}`;
-              const sel = userAnswers[key];
-              return `
-                <div id="box-q1-${m.id}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
-                  <div class="text-xs font-semibold text-[var(--muted-foreground)]">Part ${idx + 1}</div>
-                  <div class="text-sm font-medium">${m.prompt}</div>
-                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                    ${m.options.map((opt, oIdx) => `
-                      <button 
-                        onclick="recordAnswer('q1', ${m.id}, ${oIdx})"
-                        id="btn-q1-${m.id}-${oIdx}"
-                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
-                      </button>
-                    `).join('')}
-                  </div>
-                  <div id="sol-q1-${m.id}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
-                    <b>Explanation:</b> ${m.exp}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </section>
-
-        <!-- QUESTION 2: CLASSIFICATION (4 MARKS) + RATIONAL INEQUALITIES (4 MARKS) -->
-        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-6">
-          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
-            <div>
-              <h2 class="text-base font-bold">${v.q2.title}</h2>
-            </div>
-            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold border border-red-500/20">8.0 Marks</span>
-          </div>
-
-          <!-- Part A: Classification -->
-          <div class="space-y-3">
-            <h3 class="text-xs uppercase tracking-wider font-bold text-[var(--muted-foreground)]">${v.q2.partA.title}</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              ${v.q2.partA.items.map((it, idx) => {
-                const key = `${currentVersionIndex}-q2a-${idx}`;
-                const sel = userAnswers[key];
-                return `
-                  <div id="box-q2a-${idx}" class="p-3 rounded-xl border border-[var(--border)] flex flex-col justify-between gap-2">
-                    <div class="text-sm font-semibold">${it.text}</div>
-                    <div class="flex gap-2">
-                      <button 
-                        onclick="recordAnswer('q2a', ${idx}, 'rational')"
-                        id="btn-q2a-${idx}-rational"
-                        class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'rational' ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        Rational (Q)
-                      </button>
-                      <button 
-                        onclick="recordAnswer('q2a', ${idx}, 'irrational')"
-                        id="btn-q2a-${idx}-irrational"
-                        class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${sel === 'irrational' ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        Irrational (I)
-                      </button>
-                    </div>
-                    <div id="sol-q2a-${idx}" class="hidden text-xs p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
-                      ${it.exp}
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          </div>
-
-          <!-- Part B: Rational Inequalities & Composition -->
-          <div class="space-y-4 pt-2 border-t border-[var(--border)]">
-            <h3 class="text-xs uppercase tracking-wider font-bold text-[var(--muted-foreground)]">${v.q2.partB.title}</h3>
-            ${v.q2.partB.problems.map((p, idx) => {
-              const key = `${currentVersionIndex}-q2b-${idx}`;
-              const sel = userAnswers[key];
-              return `
-                <div id="box-q2b-${idx}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
-                  <div class="text-sm font-semibold">${idx + 1}) ${p.prompt}</div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                    ${p.options.map((opt, oIdx) => `
-                      <button 
-                        onclick="recordAnswer('q2b', ${idx}, ${oIdx})"
-                        id="btn-q2b-${idx}-${oIdx}"
-                        class="p-2.5 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
-                      </button>
-                    `).join('')}
-                  </div>
-                  <div id="sol-q2b-${idx}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
-                    <b>Solution:</b> ${p.exp}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </section>
-
-        <!-- QUESTION 3: ONE-TO-ONE & EXACT TRIG (6 MARKS) -->
-        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
-          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
-            <h2 class="text-base font-bold">${v.q3.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold border border-red-500/20">6.0 Marks</span>
-          </div>
-          <div class="space-y-4">
-            ${v.q3.problems.map((p, idx) => {
-              const key = `${currentVersionIndex}-q3-${idx}`;
-              const sel = userAnswers[key];
-              return `
-                <div id="box-q3-${idx}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
-                  <div class="text-sm font-semibold">${idx + 1}) ${p.prompt}</div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                    ${p.options.map((opt, oIdx) => `
-                      <button 
-                        onclick="recordAnswer('q3', ${idx}, ${oIdx})"
-                        id="btn-q3-${idx}-${oIdx}"
-                        class="p-2.5 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
-                      </button>
-                    `).join('')}
-                  </div>
-                  <div id="sol-q3-${idx}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
-                    <b>Solution:</b> ${p.exp}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </section>
-
-        <!-- QUESTION 4: LIMITS SUITE (8 MARKS) -->
-        <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
-          <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
-            <h2 class="text-base font-bold">${v.q4.title}</h2>
-            <span class="text-xs px-2.5 py-1 rounded bg-red-500/10 text-red-500 font-bold border border-red-500/20">8.0 Marks</span>
-          </div>
-          <div class="space-y-4">
-            ${v.q4.problems.map((p, idx) => {
-              const key = `${currentVersionIndex}-q4-${idx}`;
-              const sel = userAnswers[key];
-              return `
-                <div id="box-q4-${idx}" class="p-3.5 rounded-xl border border-[var(--border)] space-y-2">
-                  <div class="text-sm font-semibold">${idx + 1}) ${p.prompt}</div>
-                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                    ${p.options.map((opt, oIdx) => `
-                      <button 
-                        onclick="recordAnswer('q4', ${idx}, ${oIdx})"
-                        id="btn-q4-${idx}-${oIdx}"
-                        class="p-2 text-xs rounded-lg border text-left transition flex items-center justify-between ${sel === oIdx ? 'border-red-500 bg-red-500/15 text-red-500 font-bold shadow-sm' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                      >
-                        <span>${opt}</span>
-                        <span class="w-3 h-3 rounded-full border border-[var(--border)] ${sel === oIdx ? 'bg-red-500 border-red-500' : ''}"></span>
-                      </button>
-                    `).join('')}
-                  </div>
-                  <div id="sol-q4-${idx}" class="hidden text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-medium">
-                    <b>Solution:</b> ${p.exp}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
+          ${body}
         </section>
       `;
     }
 
-    function recordAnswer(sec, id, val) {
-      const key = `${currentVersionIndex}-${sec}-${id}`;
-      userAnswers[key] = val;
-      renderExamContent();
-      updateScorePreview();
+    function renderExamContent() {
+      const vi = currentVersionIndex;
+      const v = examData[vi];
+      const s = isGraded(vi) ? scoreVersion(vi) : null;
+      const pick = key => (s ? s[key] : null);
+
+      document.getElementById('examContainer').innerHTML = [
+        sectionCard(v.q1.title, 3, pick('q1'), `
+          <div class="space-y-4">
+            ${v.q1.mcqs.map((m, idx) => renderChoice('q1', m, `Part ${idx + 1}`, 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4', 'Explanation')).join('')}
+          </div>
+        `),
+        sectionCard(v.q2.title, 8, pick('q2'), `
+          <div class="space-y-3">
+            <h3 class="text-xs uppercase tracking-wider font-bold text-[var(--muted-foreground)]">${v.q2.partA.title}</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ${v.q2.partA.items.map((it, idx) => renderClassification({ ...it, id: idx })).join('')}
+            </div>
+          </div>
+          <div class="space-y-4 pt-4 border-t border-[var(--border)]">
+            <h3 class="text-xs uppercase tracking-wider font-bold text-[var(--muted-foreground)]">${v.q2.partB.title}</h3>
+            ${v.q2.partB.problems.map((p, idx) => renderChoice('q2b', { ...p, id: idx }, `Problem ${idx + 1}`, 'grid-cols-1 sm:grid-cols-2', 'Solution')).join('')}
+          </div>
+        `),
+        sectionCard(v.q3.title, 6, pick('q3'), `
+          <div class="space-y-4">
+            ${v.q3.problems.map((p, idx) => renderChoice('q3', { ...p, id: idx }, `Problem ${idx + 1}`, 'grid-cols-1 sm:grid-cols-2', 'Solution')).join('')}
+          </div>
+        `),
+        sectionCard(v.q4.title, 8, pick('q4'), `
+          <div class="space-y-4">
+            ${v.q4.problems.map((p, idx) => renderChoice('q4', { ...p, id: idx }, `Problem ${idx + 1}`, 'grid-cols-2 md:grid-cols-4', 'Solution')).join('')}
+          </div>
+        `)
+      ].join('');
     }
 
-    function updateScorePreview() {
-      const v = examData[currentVersionIndex];
-      let answered = 0;
-      let totalParts = 6 + 8 + 2 + 3 + 5; // 24 parts
-
-      v.q1.mcqs.forEach(m => { if (userAnswers[`${currentVersionIndex}-q1-${m.id}`] !== undefined) answered++; });
-      v.q2.partA.items.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q2a-${i}`] !== undefined) answered++; });
-      v.q2.partB.problems.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q2b-${i}`] !== undefined) answered++; });
-      v.q3.problems.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q3-${i}`] !== undefined) answered++; });
-      v.q4.problems.forEach((_, i) => { if (userAnswers[`${currentVersionIndex}-q4-${i}`] !== undefined) answered++; });
-
-      document.getElementById('progressIndicator').innerText = `${answered} of ${totalParts} Parts Completed`;
+    function renderVersionSelector() {
+      document.getElementById('versionSelector').innerHTML = examData.map((v, i) => {
+        const active = i === currentVersionIndex;
+        const done = isGraded(i);
+        const cls = active
+          ? 'bg-red-600 text-white border-red-600 shadow-md'
+          : 'border-[var(--border)] hover:bg-[var(--border)]/40';
+        const title = done ? `Graded: ${scoreVersion(i).total.toFixed(1)} / 25` : (hasAnswers(i) ? 'In progress' : 'Not started');
+        return `
+          <button onclick="setVersion(${i})" title="${title}" class="px-2.5 py-1 rounded-lg text-xs font-bold border transition ${cls}">
+            V${v.version}${done ? ' &check;' : (hasAnswers(i) ? ' &bull;' : '')}
+          </button>
+        `;
+      }).join('');
     }
 
-    function gradeCurrentExam() {
-      const v = examData[currentVersionIndex];
-      let q1Score = 0; // out of 3.0 (0.5 each)
-      let q2aScore = 0; // out of 4.0 (0.5 each)
-      let q2bScore = 0; // out of 4.0 (2.0 each)
-      let q3Score = 0; // out of 6.0 (2.0 each)
-      let q4Score = 0; // out of 8.0 (1.6 each)
+    function renderTimer() {
+      const left = Math.max(0, EXAM_SECONDS - (state.elapsed[currentVersionIndex] || 0));
+      const el = document.getElementById('examTimer');
+      el.innerText = `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
+      el.className = `font-mono text-lg font-bold ${left < 600 ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'}`;
+    }
 
-      // Q1
-      v.q1.mcqs.forEach(m => {
-        const sel = userAnswers[`${currentVersionIndex}-q1-${m.id}`];
-        const isCorrect = sel === m.correct;
-        const box = document.getElementById(`box-q1-${m.id}`);
-        const sol = document.getElementById(`sol-q1-${m.id}`);
-        sol.classList.remove('hidden');
+    function updateStatus() {
+      const vi = currentVersionIndex;
+      const { answered, total } = countAnswered(vi);
+      const graded = isGraded(vi);
+      document.getElementById('progressIndicator').innerText = graded
+        ? `Graded • ${answered} of ${total} parts answered`
+        : `${answered} of ${total} parts completed${hasAnswers(vi) ? '' : ' • clock starts on your first answer'}`;
+      document.getElementById('progressBar').style.width = `${(answered / total) * 100}%`;
+      document.getElementById('totalLiveScore').innerText = graded ? scoreVersion(vi).total.toFixed(1) : '–';
+      const gradeBtn = document.getElementById('gradeBtn');
+      gradeBtn.disabled = graded;
+      gradeBtn.innerText = graded ? 'Graded' : 'Grade Exam (25 Marks)';
+      renderVersionSelector();
+      renderTimer();
+    }
 
-        if (isCorrect) {
-          q1Score += 0.5;
-          box.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        } else {
-          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
-        }
-      });
-
-      // Q2 Part A
-      v.q2.partA.items.forEach((it, idx) => {
-        const sel = userAnswers[`${currentVersionIndex}-q2a-${idx}`];
-        const isCorrect = sel === it.correct;
-        const box = document.getElementById(`box-q2a-${idx}`);
-        const sol = document.getElementById(`sol-q2a-${idx}`);
-        sol.classList.remove('hidden');
-
-        if (isCorrect) {
-          q2aScore += 0.5;
-          box.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        } else {
-          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
-        }
-      });
-
-      // Q2 Part B
-      v.q2.partB.problems.forEach((p, idx) => {
-        const sel = userAnswers[`${currentVersionIndex}-q2b-${idx}`];
-        const isCorrect = sel === p.correct;
-        const box = document.getElementById(`box-q2b-${idx}`);
-        const sol = document.getElementById(`sol-q2b-${idx}`);
-        sol.classList.remove('hidden');
-
-        if (isCorrect) {
-          q2bScore += 2.0;
-          box.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        } else {
-          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
-        }
-      });
-
-      // Q3
-      v.q3.problems.forEach((p, idx) => {
-        const sel = userAnswers[`${currentVersionIndex}-q3-${idx}`];
-        const isCorrect = sel === p.correct;
-        const box = document.getElementById(`box-q3-${idx}`);
-        const sol = document.getElementById(`sol-q3-${idx}`);
-        sol.classList.remove('hidden');
-
-        if (isCorrect) {
-          q3Score += 2.0;
-          box.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        } else {
-          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
-        }
-      });
-
-      // Q4
-      v.q4.problems.forEach((p, idx) => {
-        const sel = userAnswers[`${currentVersionIndex}-q4-${idx}`];
-        const isCorrect = sel === p.correct;
-        const box = document.getElementById(`box-q4-${idx}`);
-        const sol = document.getElementById(`sol-q4-${idx}`);
-        sol.classList.remove('hidden');
-
-        if (isCorrect) {
-          q4Score += 1.6;
-          box.classList.add('border-emerald-500', 'bg-emerald-500/10');
-        } else {
-          box.classList.add('border-red-600', 'bg-red-600/15', 'shadow-md');
-        }
-      });
-
-      const finalTotal = q1Score + q2aScore + q2bScore + q3Score + q4Score;
-      document.getElementById('totalLiveScore').innerText = finalTotal.toFixed(1);
-
-      const banner = document.getElementById('resultsCard');
-      banner.classList.remove('hidden');
+    function showResults(timeUp) {
+      const vi = currentVersionIndex;
+      const s = scoreVersion(vi);
       const scoreDisp = document.getElementById('finalScoreDisplay');
       const feedDisp = document.getElementById('finalFeedbackDisplay');
 
-      scoreDisp.innerText = `${finalTotal.toFixed(1)} / 25.0 Marks`;
+      scoreDisp.innerText = `${s.total.toFixed(1)} / 25.0 Marks`;
+      document.getElementById('finalBreakdown').innerHTML = [
+        ['Q1 MCQ', s.q1, 3], ['Q2 Classify & Ineq.', s.q2, 8], ['Q3 Inverse & Trig', s.q3, 6], ['Q4 Limits', s.q4, 8]
+      ].map(([label, got, max]) => `
+        <div class="rounded-xl border border-[var(--border)] p-2 text-center">
+          <div class="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)]">${label}</div>
+          <div class="font-bold ${got >= max - 1e-9 ? 'text-good' : ''}">${got.toFixed(1)} / ${max}</div>
+        </div>
+      `).join('');
 
-      if (finalTotal >= 24.5) {
-        scoreDisp.className = "text-center text-4xl font-extrabold text-emerald-500";
-        feedDisp.innerText = "🔥 25/25 FULL MARK! You mastered the exact 1447H exam style! You are ready for tomorrow!";
-      } else if (finalTotal >= 20) {
-        scoreDisp.className = "text-center text-4xl font-extrabold text-red-500";
-        feedDisp.innerText = `💪 Strong score of ${finalTotal.toFixed(1)}/25! Review the red-bordered problems above to lock in the final traps.`;
+      const prefix = timeUp ? '⏰ Time is up! ' : '';
+      if (s.total >= 24.5) {
+        scoreDisp.className = 'text-center text-4xl font-extrabold text-good';
+        feedDisp.innerText = `${prefix}🔥 25/25 FULL MARK! You have mastered the 1447H exam style. Try another version to confirm it was not luck.`;
+      } else if (s.total >= 20) {
+        scoreDisp.className = 'text-center text-4xl font-extrabold text-red-600 dark:text-red-400';
+        feedDisp.innerText = `${prefix}💪 Strong score of ${s.total.toFixed(1)}/25! Review the red-bordered problems above to lock in the final traps.`;
       } else {
-        scoreDisp.className = "text-center text-4xl font-extrabold text-amber-500";
-        feedDisp.innerText = `Score: ${finalTotal.toFixed(1)}/25. Check the green model explanations above, then clear and try again!`;
+        scoreDisp.className = 'text-center text-4xl font-extrabold text-amber-600 dark:text-amber-400';
+        feedDisp.innerText = `${prefix}Score: ${s.total.toFixed(1)}/25. Study the green model solutions above, then retry this version with shuffled options.`;
       }
+      document.getElementById('reviewBtn').classList.toggle('hidden', s.total >= 25 - 1e-9);
 
-      banner.scrollIntoView({ behavior: 'smooth' });
+      const card = document.getElementById('resultsCard');
+      card.classList.remove('hidden');
+      card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ---------- Actions ----------
+
+    function setVersion(idx) {
+      currentVersionIndex = idx;
+      saveState();
+      document.getElementById('currentVersionBadge').innerText = `Version ${examData[idx].version}`;
+      document.getElementById('currentVersionDesc').innerText = examData[idx].title;
+      document.getElementById('resultsCard').classList.add('hidden');
+      renderExamContent();
+      updateStatus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function recordAnswer(sec, id, val) {
+      if (isGraded(currentVersionIndex)) return;
+      state.answers[`${currentVersionIndex}-${sec}-${id}`] = val;
+      saveState();
+      renderExamContent();
+      updateStatus();
+    }
+
+    function gradeCurrentExam(timeUp = false) {
+      const vi = currentVersionIndex;
+      if (isGraded(vi)) return showResults(false);
+      const { answered, total } = countAnswered(vi);
+      if (!timeUp && answered < total && !confirm(`You have ${total - answered} unanswered part(s). Grade anyway?`)) return;
+      state.graded[vi] = true;
+      saveState();
+      renderExamContent();
+      updateStatus();
+      showResults(timeUp);
     }
 
     function resetCurrentExam() {
-      const prefix = `${currentVersionIndex}-`;
-      for (let k in userAnswers) {
-        if (k.startsWith(prefix)) delete userAnswers[k];
+      const vi = currentVersionIndex;
+      if (hasAnswers(vi) && !isGraded(vi) && !confirm('Clear all your answers for this version?')) return;
+      const prefix = `${vi}-`;
+      for (const k in state.answers) {
+        if (k.startsWith(prefix)) delete state.answers[k];
       }
-      document.getElementById('totalLiveScore').innerText = "0.0";
+      delete state.graded[vi];
+      delete state.elapsed[vi];
+      state.attempts[vi] = (state.attempts[vi] || 0) + 1;
+      saveState();
       document.getElementById('resultsCard').classList.add('hidden');
       renderExamContent();
-      updateScorePreview();
+      updateStatus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function startTimer() {
-      timer = setInterval(() => {
-        seconds++;
-        const m = String(Math.floor(seconds / 60)).padStart(2, '0');
-        const s = String(seconds % 60).padStart(2, '0');
-        document.getElementById('examTimer').innerText = `${m}:${s}`;
-      }, 1000);
+    function jumpToFirstMistake() {
+      const box = document.querySelector('[data-wrong="true"]');
+      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    renderVersionSelector();
-    renderExamContent();
-    startTimer();
+    // The 90-minute clock runs only for the open version, from its first answer until it is graded.
+    function tick() {
+      const vi = currentVersionIndex;
+      if (isGraded(vi) || !hasAnswers(vi)) return;
+      state.elapsed[vi] = (state.elapsed[vi] || 0) + 1;
+      renderTimer();
+      if (state.elapsed[vi] >= EXAM_SECONDS) gradeCurrentExam(true);
+      else saveState();
+    }
+
+    loadState();
+    setVersion(currentVersionIndex);
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>

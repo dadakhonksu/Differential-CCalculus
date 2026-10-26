@@ -4,12 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KSU Math 101 Midterm - 6 Exam Versions Simulator</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+  <script>
+    // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
+    (function () {
+      let t = null;
+      try { t = localStorage.getItem('math101-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    })();
+    function toggleTheme() {
+      const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('math101-theme', t); } catch (e) {}
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+  </style>
   <style>
     .math {
       font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
       font-style: italic;
     }
+    :root {
+      --background: #f5f5f6;
+      --foreground: #18181b;
+      --card: #ffffff;
+      --border: #e2e2e6;
+      --muted-foreground: #6b6b75;
+    }
+    :root[data-theme="dark"] {
+      --background: #0c0c0e;
+      --foreground: #f4f4f5;
+      --card: #17171a;
+      --border: #2c2c31;
+      --muted-foreground: #a1a1aa;
+    }
+    body { background: var(--background); color: var(--foreground); }
   </style>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen p-4 md:p-8 font-sans">
@@ -23,10 +55,14 @@
           <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">6 Full Exam Versions</span>
           <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-purple-500/10 text-purple-500 border border-purple-500/20">Sec 1.1 – 2.4</span>
         </div>
-        <h1 class="text-2xl font-bold mt-2">Midterm 25/25 Multi-Version Exam Suite</h1>
+        <a href="index.html" class="inline-block mt-2 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">&larr; Back to the 5 predictive exam versions</a>
+        <h1 class="text-2xl font-bold mt-1">Midterm 25/25 Multi-Version Exam Suite</h1>
         <p class="text-[var(--muted-foreground)] text-sm">60 carefully crafted questions covering every KSU midterm variation and trap.</p>
       </div>
       <div class="flex items-center gap-6 self-end md:self-auto">
+        <button onclick="toggleTheme()" aria-label="Switch between light and dark mode" class="px-3 py-1.5 rounded-lg border border-[var(--border)] hover:bg-[var(--border)]/40 text-xs font-semibold transition whitespace-nowrap">
+            <span class="dark:hidden">&#127769; Dark</span><span class="hidden dark:inline">&#9728;&#65039; Light</span>
+          </button>
         <div class="text-right">
           <span class="text-xs text-[var(--muted-foreground)] uppercase tracking-wider block">Timer</span>
           <span id="timer" class="text-xl font-mono font-bold text-amber-500">00:00</span>
@@ -491,12 +527,12 @@
             id: 4, section: "1.2 Function Decomposition", points: 2.5,
             prompt: "Express <span class='math'>h(x) = &radic;(x&sup2; + 4)</span> as <span class='math'>f(g(x))</span>:",
             options: [
-              { text: "f(x) = &radic;x, g(x) = x&sup2; + 4", correct: true },
+              { text: "f(x) = &radic;x, g(x) = x&sup2; + 4", correct: false },
               { text: "f(x) = x&sup2; + 4, g(x) = &radic;x", correct: false },
-              { text: "f(x) = &radic;(x + 4), g(x) = x&sup2;", correct: true },
+              { text: "f(x) = &radic;(x + 4), g(x) = x&sup2;", correct: false },
               { text: "Both A and C are valid", correct: true }
             ],
-            explanation: "Both f(x)=&radic;x with g(x)=x&sup2;+4 AND f(x)=&radic;(x+4) with g(x)=x&sup2; yield &radic;(x&sup2;+4). (Marked valid for option D)."
+            explanation: "Both f(x)=&radic;x with g(x)=x&sup2;+4 AND f(x)=&radic;(x+4) with g(x)=x&sup2; yield &radic;(x&sup2;+4), so the complete answer is D."
           },
           {
             id: 5, section: "1.3 Horizontal Line Test", points: 2.5,
@@ -999,6 +1035,16 @@
     }
 
     // Launch
+    // Shuffle answer positions on each load so the key is not always "A".
+    // Questions whose options refer to other options by letter keep their order.
+    examVersions.forEach(v => v.questions.forEach(q => {
+      if (q.options.some(o => /[A-D] and [A-D]/.test(o.text))) return;
+      for (let i = q.options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+      }
+    }));
+
     initVersionTabs();
     renderQuestions();
     updateProgress();

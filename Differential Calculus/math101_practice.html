@@ -855,8 +855,8 @@
 
     const STORAGE_KEY = 'math101-quick-drills-v1';
 
-    // answers: "drill-questionId" -> original option index. graded / elapsed / attempts are keyed by drill index.
-    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, current: 0 };
+    // answers / revealed: "drill-questionId" -> original option index / true. graded / elapsed / attempts are keyed by drill index.
+    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, revealed: {}, current: 0 };
     let currentVersionIndex = 0;
 
     function loadState() {
@@ -898,6 +898,7 @@
 
     const answerOf = (vIdx, qId) => state.answers[`${vIdx}-${qId}`];
     const isGraded = vIdx => !!state.graded[vIdx];
+    const isRevealed = (vIdx, qId) => !!state.revealed[`${vIdx}-${qId}`];
     const hasAnswers = vIdx => Object.keys(state.answers).some(k => k.startsWith(`${vIdx}-`));
 
     function scoreOf(vIdx) {
@@ -945,10 +946,13 @@
       document.getElementById('quizContainer').innerHTML = examVersions[vIdx].questions.map((q, idx) => {
         const selected = answerOf(vIdx, q.id);
         const right = selected !== undefined && q.options[selected].correct;
-        const cardBorder = !graded ? 'border-[var(--border)]' : (right ? 'border-emerald-500/60' : 'border-rose-500/60');
-        const status = !graded ? '' : (right
-          ? '<span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">&check; Correct</span>'
-          : `<span class="text-xs font-bold text-rose-700 dark:text-rose-400">${selected === undefined ? 'Not answered' : '&cross; Wrong'}</span>`);
+        const shown = graded || isRevealed(vIdx, q.id);
+        const cardBorder = !shown ? 'border-[var(--border)]' : (!graded ? 'border-amber-500/60' : (right ? 'border-emerald-500/60' : 'border-rose-500/60'));
+        const status = !shown ? '' : (!graded
+          ? '<span class="text-xs font-bold text-amber-600 dark:text-amber-400">Answer shown</span>'
+          : (right
+            ? '<span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">&check; Correct</span>'
+            : `<span class="text-xs font-bold text-rose-700 dark:text-rose-400">${selected === undefined ? 'Not answered' : '&cross; Wrong'}</span>`));
 
         return `
           <div id="card-${vIdx}-${q.id}" data-wrong="${graded && !right}" class="bg-[var(--card)] border ${cardBorder} rounded-2xl p-6 shadow-sm space-y-4">
@@ -967,28 +971,38 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               ${optionOrder(vIdx, q).map((oIdx, pos) => `
-                <button ${graded ? 'disabled' : ''} onclick="selectAnswer(${q.id}, ${oIdx})"
-                  class="text-left p-3.5 rounded-xl border transition flex items-start gap-2 text-sm ${optionClass(graded, selected === oIdx, q.options[oIdx].correct)}">
+                <button ${shown ? 'disabled' : ''} onclick="selectAnswer(${q.id}, ${oIdx})"
+                  class="text-left p-3.5 rounded-xl border transition flex items-start gap-2 text-sm ${optionClass(shown, selected === oIdx, q.options[oIdx].correct)}">
                   <span class="font-bold opacity-60">${'ABCDEF'[pos]}</span>
                   <span class="flex-1 math-auto">${q.options[oIdx].text}</span>
                 </button>
               `).join('')}
             </div>
 
-            ${graded ? `
+            ${shown ? `
               <div class="mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm leading-relaxed">
                 <span class="font-bold text-blue-600 dark:text-blue-400 block mb-1">Detailed Explanation & Exam Insight:</span>
                 <div>${stepsHtml(q.explanation)}</div>
               </div>
-            ` : ''}
+            ` : `
+              <button onclick="revealAnswer(${q.id})" class="text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] underline underline-offset-2">Show answer &amp; solution</button>
+            `}
           </div>
         `;
       }).join('');
       renderMath(document.getElementById('quizContainer'));
     }
 
+    // Shows one question's answer and solution before grading. The question then locks, so it is still graded honestly.
+    function revealAnswer(qId) {
+      if (!confirm('Show the answer and solution? This question will lock: your current choice stays, and an unanswered question stays unanswered.')) return;
+      state.revealed[`${currentVersionIndex}-${qId}`] = true;
+      saveState();
+      renderQuestions();
+    }
+
     function selectAnswer(qId, oIdx) {
-      if (isGraded(currentVersionIndex)) return;
+      if (isGraded(currentVersionIndex) || isRevealed(currentVersionIndex, qId)) return;
       state.answers[`${currentVersionIndex}-${qId}`] = oIdx;
       saveState();
       renderQuestions();
@@ -1056,6 +1070,9 @@
       if (hasAnswers(vIdx) && !isGraded(vIdx) && !confirm('Clear all your answers for this drill?')) return;
       for (const k in state.answers) {
         if (k.startsWith(`${vIdx}-`)) delete state.answers[k];
+      }
+      for (const k in state.revealed) {
+        if (k.startsWith(`${vIdx}-`)) delete state.revealed[k];
       }
       delete state.graded[vIdx];
       delete state.elapsed[vIdx];

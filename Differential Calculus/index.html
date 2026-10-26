@@ -2790,8 +2790,8 @@
     const EXAM_SECONDS = 90 * 60;
     const STORAGE_KEY = 'math101-predictive-suite-v1';
 
-    // answers: "version-section-id" -> choice. graded / elapsed / attempts are keyed by version index.
-    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, current: 0 };
+    // answers / revealed: "version-section-id" -> choice / true. graded / elapsed / attempts are keyed by version index.
+    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, revealed: {}, current: 0 };
     let currentVersionIndex = 0;
 
     function loadState() {
@@ -2888,27 +2888,47 @@
       return `<div class="text-sm p-3.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 leading-relaxed"><b class="text-good">${label}:</b> ${stepsHtml(exp)}</div>`;
     }
 
+    const isRevealed = (vi, sec, id) => !!state.revealed[`${vi}-${sec}-${id}`];
+
+    // Shows one part's answer and solution before grading. The part then locks, so it is still graded honestly.
+    function revealAnswer(sec, id) {
+      if (!confirm('Show the answer and solution? This part will lock: your current choice stays, and an unanswered part stays unanswered.')) return;
+      state.revealed[`${currentVersionIndex}-${sec}-${id}`] = true;
+      saveState();
+      renderExamContent();
+    }
+
+    function revealControl(shown, sec, id) {
+      if (shown) return '';
+      return `<button onclick="revealAnswer('${sec}', ${id})" class="text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] underline underline-offset-2">Show answer &amp; solution</button>`;
+    }
+
+    // Status for a part revealed before grading.
+    const shownTag = '<span class="text-amber-600 dark:text-amber-400">Answer shown</span>';
+
     function renderChoice(sec, item, label, cols, solLabel) {
       const vi = currentVersionIndex;
       const graded = isGraded(vi);
       const sel = answerOf(vi, sec, item.id);
+      const shown = graded || isRevealed(vi, sec, item.id);
       const order = seededOrder(item.options.length, `${vi}-${state.attempts[vi] || 0}-${sec}-${item.id}`);
       return `
-        <div id="box-${sec}-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3.5 rounded-xl border space-y-2 ${boxClass(graded, sel, item.correct)}">
+        <div id="box-${sec}-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3.5 rounded-xl border space-y-2 ${shown && !graded ? 'border-amber-500/60' : boxClass(graded, sel, item.correct)}">
           <div class="flex justify-between gap-2 text-xs font-semibold text-[var(--muted-foreground)]">
-            <span>${label}</span>${statusTag(graded, sel, item.correct, MARKS[sec])}
+            <span>${label}</span>${graded ? statusTag(graded, sel, item.correct, MARKS[sec]) : (shown ? shownTag : '')}
           </div>
           <div class="text-sm font-medium">${item.prompt}</div>
           <div class="grid ${cols} gap-2 pt-1">
             ${order.map((oIdx, pos) => `
-              <button ${graded ? 'disabled' : ''} onclick="recordAnswer('${sec}', ${item.id}, ${oIdx})"
-                class="p-2.5 text-xs rounded-lg border text-left transition flex items-start gap-2 ${optionClass(graded, sel === oIdx, oIdx === item.correct)}">
+              <button ${shown ? 'disabled' : ''} onclick="recordAnswer('${sec}', ${item.id}, ${oIdx})"
+                class="p-2.5 text-xs rounded-lg border text-left transition flex items-start gap-2 ${optionClass(shown, sel === oIdx, oIdx === item.correct)}">
                 <span class="font-bold opacity-60">${'ABCDEF'[pos]}</span>
                 <span class="flex-1 math-auto">${item.options[oIdx]}</span>
               </button>
             `).join('')}
           </div>
-          ${solutionBlock(graded, solLabel, item.exp)}
+          ${solutionBlock(shown, solLabel, item.exp)}
+          ${revealControl(shown, sec, item.id)}
         </div>
       `;
     }
@@ -2917,20 +2937,22 @@
       const vi = currentVersionIndex;
       const graded = isGraded(vi);
       const sel = answerOf(vi, 'q2a', item.id);
+      const shown = graded || isRevealed(vi, 'q2a', item.id);
       const choice = (val, text) => `
-        <button ${graded ? 'disabled' : ''} onclick="recordAnswer('q2a', ${item.id}, '${val}')"
-          class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${optionClass(graded, sel === val, item.correct === val)}">
+        <button ${shown ? 'disabled' : ''} onclick="recordAnswer('q2a', ${item.id}, '${val}')"
+          class="flex-1 py-1.5 text-xs font-semibold rounded-lg border transition ${optionClass(shown, sel === val, item.correct === val)}">
           ${text}
         </button>
       `;
       return `
-        <div id="box-q2a-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3 rounded-xl border flex flex-col justify-between gap-2 ${boxClass(graded, sel, item.correct)}">
+        <div id="box-q2a-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3 rounded-xl border flex flex-col justify-between gap-2 ${shown && !graded ? 'border-amber-500/60' : boxClass(graded, sel, item.correct)}">
           <div class="flex justify-between gap-2">
             <span class="text-sm font-semibold math-auto">${item.text}</span>
-            <span class="text-xs font-semibold">${statusTag(graded, sel, item.correct, MARKS.q2a)}</span>
+            <span class="text-xs font-semibold">${graded ? statusTag(graded, sel, item.correct, MARKS.q2a) : (shown ? shownTag : '')}</span>
           </div>
           <div class="flex gap-2">${choice('rational', 'Rational (Q)')}${choice('irrational', 'Irrational (I)')}</div>
-          ${solutionBlock(graded, 'Why', item.exp)}
+          ${solutionBlock(shown, 'Why', item.exp)}
+          ${revealControl(shown, 'q2a', item.id)}
         </div>
       `;
     }
@@ -3076,7 +3098,7 @@
     }
 
     function recordAnswer(sec, id, val) {
-      if (isGraded(currentVersionIndex)) return;
+      if (isGraded(currentVersionIndex) || isRevealed(currentVersionIndex, sec, id)) return;
       state.answers[`${currentVersionIndex}-${sec}-${id}`] = val;
       saveState();
       renderExamContent();
@@ -3101,6 +3123,9 @@
       const prefix = `${vi}-`;
       for (const k in state.answers) {
         if (k.startsWith(prefix)) delete state.answers[k];
+      }
+      for (const k in state.revealed) {
+        if (k.startsWith(prefix)) delete state.revealed[k];
       }
       delete state.graded[vi];
       delete state.elapsed[vi];

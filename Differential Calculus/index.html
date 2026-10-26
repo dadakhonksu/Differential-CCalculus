@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Math 101 Full Mock Exams</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="math.js"></script>
   <script>
     // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
     (function () {
@@ -46,6 +49,8 @@
       font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
       font-style: italic;
     }
+    .math[data-tex], .math-auto[data-tex] { font-family: inherit; font-style: normal; }
+    .katex { font-size: 1.12em; }
     .text-good { color: var(--good); }
     .text-bad { color: var(--bad); }
     button:not(:disabled) { cursor: pointer; }
@@ -281,15 +286,15 @@
                     },
                     {
                         "id": "q2_b2",
-                        "prompt": "Let <span class='math'>f(x) = &radic;x</span> and <span class='math'>g(x) = &radic;(3 - x&sup2;)</span>. Find <span class='math'>(f &comp; g)(x)</span> and its natural domain:",
+                        "prompt": "Let <span class='math'>f(x) = &radic;x</span> and <span class='math'>g(x) = &radic;(3 - x&sup2;)</span>. Find <span class='math'>(f &#8728; g)(x)</span> and its natural domain:",
                         "options": [
-                            "(f &comp; g)(x) = &sup4;&radic;(3 - x&sup2;), Domain = [-&radic;3, &radic;3]",
-                            "(f &comp; g)(x) = &radic;(3 - x), Domain = [0, 3]",
-                            "(f &comp; g)(x) = 3 - x&sup2;, Domain = R",
-                            "(f &comp; g)(x) = &radic;(x - 3), Domain = [3, &infin;)"
+                            "(f &#8728; g)(x) = &#8308;&radic;(3 - x&sup2;), Domain = [-&radic;3, &radic;3]",
+                            "(f &#8728; g)(x) = &radic;(3 - x), Domain = [0, 3]",
+                            "(f &#8728; g)(x) = 3 - x&sup2;, Domain = R",
+                            "(f &#8728; g)(x) = &radic;(x - 3), Domain = [3, &infin;)"
                         ],
                         "correct": 0,
-                        "exp": "(f &comp; g)(x) = &radic;(&radic;(3 - x&sup2;)) = &sup4;&radic;(3 - x&sup2;). Requires 3 - x&sup2; &ge; 0 &rArr; x&sup2; &le; 3 &rArr; [-&radic;3, &radic;3]."
+                        "exp": "(f &#8728; g)(x) = &radic;(&radic;(3 - x&sup2;)) = &#8308;&radic;(3 - x&sup2;). Requires 3 - x&sup2; &ge; 0 &rArr; x&sup2; &le; 3 &rArr; [-&radic;3, &radic;3]."
                     }
                 ]
             }
@@ -323,7 +328,7 @@
                 },
                 {
                     "id": "q3_3",
-                    "prompt": "Find the exact value: <span class='math'>cos(tan&supmin;&sup1;(-1) - cos&supmin;&sup1;(2/5))</span>",
+                    "prompt": "Find the exact value: <span class='math'>cos(tan&#8315;&sup1;(-1) - cos&#8315;&sup1;(2/5))</span>",
                     "options": [
                         "(2&radic;2 - &radic;42) / 10",
                         "(2&radic;2 + &radic;42) / 10",
@@ -331,7 +336,7 @@
                         "-&radic;2 / 5"
                     ],
                     "correct": 0,
-                    "exp": "Let &alpha; = tan&supmin;&sup1;(-1) = -&pi;/4 &rArr; cos &alpha; = &radic;2/2, sin &alpha; = -&radic;2/2. Let &beta; = cos&supmin;&sup1;(2/5) &rArr; cos &beta; = 2/5, sin &beta; = &radic;(1 - 4/25) = &radic;21/5. cos(&alpha; - &beta;) = cos &alpha; cos &beta; + sin &alpha; sin &beta; = (&radic;2/2)(2/5) + (-&radic;2/2)(&radic;21/5) = (2&radic;2 - &radic;42)/10."
+                    "exp": "Let &alpha; = tan&#8315;&sup1;(-1) = -&pi;/4 &rArr; cos &alpha; = &radic;2/2, sin &alpha; = -&radic;2/2. Let &beta; = cos&#8315;&sup1;(2/5) &rArr; cos &beta; = 2/5, sin &beta; = &radic;(1 - 4/25) = &radic;21/5. cos(&alpha; - &beta;) = cos &alpha; cos &beta; + sin &alpha; sin &beta; = (&radic;2/2)(2/5) + (-&radic;2/2)(&radic;21/5) = (2&radic;2 - &radic;42)/10."
                 }
             ]
         },
@@ -409,15 +414,15 @@
             "mcqs": [
                 {
                     "id": 1,
-                    "prompt": "The solution set of <span class='math'>2 - 3x &le; 8</span> is &hellip;",
+                    "prompt": "Solve: <span class='math'>5 - 3x &le; (10 - 9x) / 6 &le; 17</span>",
                     "options": [
-                        "[-2, &infin;)",
-                        "(-&infin;, -2]",
-                        "[2, &infin;)",
-                        "(-&infin;, 2]"
+                        "[20/9, &infin;)",
+                        "(-&infin;, 20/9]",
+                        "[-92/9, 20/9]",
+                        "[-92/9, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "-3x &le; 6 &rArr; x &ge; -2 &rArr; [-2, &infin;)."
+                    "exp": "Left part: 5 - 3x &le; (10 - 9x)/6 &rArr; 30 - 18x &le; 10 - 9x &rArr; 20 &le; 9x &rArr; x &ge; 20/9. Right part: (10 - 9x)/6 &le; 17 &rArr; 10 - 9x &le; 102 &rArr; x &ge; -92/9. Both must hold, so x &ge; 20/9: [20/9, &infin;)."
                 },
                 {
                     "id": 2,
@@ -433,15 +438,15 @@
                 },
                 {
                     "id": 3,
-                    "prompt": "If a graph shows a hole at x = 3 with left limit 4 and right limit 4, then <span class='math'>lim<sub>x &rarr; 3</sub> f(x)</span> is &hellip;",
+                    "prompt": "Use the graph of <span class='math'>y = f(x)</span> below to find <span class='math'>lim<sub>x &rarr; 1</sub> f(x)</span>.<svg viewBox='0 -14 225 174' style='display:block;width:15rem;max-width:100%;height:auto;margin:.6rem 0' role='img' aria-label='Graph of y = f(x)'><line x1='65' y1='140' x2='65' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='65' y='153' font-size='10' text-anchor='middle' fill='currentColor'>1</text><line x1='100' y1='140' x2='100' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='100' y='153' font-size='10' text-anchor='middle' fill='currentColor'>2</text><line x1='135' y1='140' x2='135' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='135' y='153' font-size='10' text-anchor='middle' fill='currentColor'>3</text><line x1='170' y1='140' x2='170' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='170' y='153' font-size='10' text-anchor='middle' fill='currentColor'>4</text><line x1='205' y1='140' x2='205' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='205' y='153' font-size='10' text-anchor='middle' fill='currentColor'>5</text><line x1='30' y1='110' x2='215.5' y2='110' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='113.5' font-size='10' text-anchor='end' fill='currentColor'>1</text><line x1='30' y1='80' x2='215.5' y2='80' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='83.5' font-size='10' text-anchor='end' fill='currentColor'>2</text><line x1='30' y1='50' x2='215.5' y2='50' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='53.5' font-size='10' text-anchor='end' fill='currentColor'>3</text><line x1='30' y1='20' x2='215.5' y2='20' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='23.5' font-size='10' text-anchor='end' fill='currentColor'>4</text><line x1='30' y1='140' x2='222.5' y2='140' stroke='currentColor'/><line x1='30' y1='140' x2='30' y2='5.0' stroke='currentColor'/><text x='226.5' y='144' font-size='11' font-style='italic' fill='currentColor'>x</text><text x='26' y='2.0' font-size='11' font-style='italic' fill='currentColor'>y</text><polyline points='30,125.0 47.5,111.5 65,80' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><polyline points='65,20 100,44.0 135,56.0 170,62.0 205,65.0' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><circle cx='65' cy='80' r='3.6' stroke='currentColor' stroke-width='1.6' style='fill:var(--card)'/><circle cx='65' cy='20' r='3.6' stroke='currentColor' stroke-width='1.6' fill='currentColor'/></svg>",
                     "options": [
+                        "Does Not Exist (D.N.E)",
+                        "2",
                         "4",
-                        "Does Not Exist",
-                        "3",
-                        "0"
+                        "3"
                     ],
                     "correct": 0,
-                    "exp": "Since both one-sided limits are 4, the two-sided limit is 4."
+                    "exp": "From the left the graph heads to the open circle at height 2; from the right it starts at the filled dot at height 4. Left limit 2 &ne; right limit 4, so the limit does not exist. (f(1) = 4 is only the value.)"
                 },
                 {
                     "id": 4,
@@ -507,14 +512,14 @@
                         "exp": "Repeating fraction 36/99 = 4/11 (Rational)"
                     },
                     {
-                        "text": "&radic;13",
+                        "text": "&#8731;(-8) / &radic;2",
                         "correct": "irrational",
-                        "exp": "Prime square root (Irrational)"
+                        "exp": "&#8731;(-8) = -2, and -2/&radic;2 = -&radic;2 (Irrational)."
                     },
                     {
-                        "text": "sin(&pi;)",
+                        "text": "(&radic;3)<sup>6</sup>",
                         "correct": "rational",
-                        "exp": "0 (Rational)"
+                        "exp": "((&radic;3)&sup2;)&sup3; = 3&sup3; = 27 (Rational)."
                     },
                     {
                         "text": "22 / 7",
@@ -545,7 +550,7 @@
                     },
                     {
                         "id": "q2_b2",
-                        "prompt": "If <span class='math'>f(x) = x&sup2; + 1</span> and <span class='math'>g(x) = &radic;(x - 3)</span>, find <span class='math'>Domain(g &comp; f)</span>:",
+                        "prompt": "If <span class='math'>f(x) = x&sup2; + 1</span> and <span class='math'>g(x) = &radic;(x - 3)</span>, find <span class='math'>Domain(g &#8728; f)</span>:",
                         "options": [
                             "(-&infin;, -&radic;2] &cup; [&radic;2, &infin;)",
                             "[-&radic;2, &radic;2]",
@@ -587,7 +592,7 @@
                 },
                 {
                     "id": "q3_3",
-                    "prompt": "Find exact value: <span class='math'>sin(cos&supmin;&sup1;(3/5) + sin&supmin;&sup1;(5/13))</span>",
+                    "prompt": "Find exact value: <span class='math'>sin(cos&#8315;&sup1;(3/5) + sin&#8315;&sup1;(5/13))</span>",
                     "options": [
                         "63/65",
                         "16/65",
@@ -733,15 +738,15 @@
                 },
                 {
                     "id": 6,
-                    "prompt": "Domain of <span class='math'>f(x) = &radic;(4 - x)</span> is &hellip;",
+                    "prompt": "Domain of <span class='math'>f(x) = &radic;(3 - &radic;x)</span> is &hellip;",
                     "options": [
-                        "(-&infin;, 4]",
-                        "[4, &infin;)",
-                        "(-&infin;, 4)",
-                        "R"
+                        "[0, 9]",
+                        "[0, 3]",
+                        "(-&infin;, 9]",
+                        "[0, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "4 - x &ge; 0 &rArr; x &le; 4."
+                    "exp": "Two conditions. The inner root needs x &ge; 0. The outer root needs 3 - &radic;x &ge; 0 &rArr; &radic;x &le; 3 &rArr; x &le; 9. Together: [0, 9]."
                 }
             ]
         },
@@ -827,7 +832,7 @@
             "problems": [
                 {
                     "id": "q3_1",
-                    "prompt": "Find <span class='math'>f&supmin;&sup1;(x)</span> for <span class='math'>f(x) = (3x + 2)/(x - 1)</span>:",
+                    "prompt": "Find <span class='math'>f&#8315;&sup1;(x)</span> for <span class='math'>f(x) = (3x + 2)/(x - 1)</span>:",
                     "options": [
                         "(x + 2)/(x - 3)",
                         "(x - 1)/(3x + 2)",
@@ -851,7 +856,7 @@
                 },
                 {
                     "id": "q3_3",
-                    "prompt": "Find exact value: <span class='math'>tan(sin&supmin;&sup1;(5/13))</span>",
+                    "prompt": "Find exact value: <span class='math'>tan(sin&#8315;&sup1;(5/13))</span>",
                     "options": [
                         "5/12",
                         "12/5",
@@ -892,7 +897,7 @@
                 },
                 {
                     "id": "q4_3",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> (3x&sup4; - 2x + 1)</span>",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> (3x&#8308; - 2x + 1)</span>",
                     "options": [
                         "+&infin;",
                         "-&infin;",
@@ -900,7 +905,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Even power: 3(-&infin;)&sup4; = +&infin;."
+                    "exp": "Even power: 3(-&infin;)&#8308; = +&infin;."
                 },
                 {
                     "id": "q4_4",
@@ -1073,7 +1078,7 @@
                     },
                     {
                         "id": "q2_b2",
-                        "prompt": "If <span class='math'>f(x) = &radic;(x + 1)</span> and <span class='math'>g(x) = 2x - 3</span>, find <span class='math'>Domain(f &comp; g)</span>:",
+                        "prompt": "If <span class='math'>f(x) = &radic;(x + 1)</span> and <span class='math'>g(x) = 2x - 3</span>, find <span class='math'>Domain(f &#8728; g)</span>:",
                         "options": [
                             "[1, &infin;)",
                             "[0, &infin;)",
@@ -1103,15 +1108,15 @@
                 },
                 {
                     "id": "q3_2",
-                    "prompt": "Find exact value: <span class='math'>tan(240&deg;)</span>",
+                    "prompt": "Find exact value: <span class='math'>cos&#8315;&sup1;(cos(5&pi; / 4))</span>",
                     "options": [
-                        "&radic;3",
-                        "-&radic;3",
-                        "&radic;3 / 3",
-                        "-1"
+                        "3&pi; / 4",
+                        "5&pi; / 4",
+                        "-3&pi; / 4",
+                        "&pi; / 4"
                     ],
                     "correct": 0,
-                    "exp": "Quad III: +tan(60&deg;) = &radic;3."
+                    "exp": "cos(5&pi;/4) = -&radic;2/2. cos&#8315;&sup1; returns an angle in [0, &pi;], and the one with cosine -&radic;2/2 is 3&pi;/4. 5&pi;/4 is outside [0, &pi;], so it cannot be the answer."
                 },
                 {
                     "id": "q3_3",
@@ -1168,7 +1173,7 @@
                 },
                 {
                     "id": "q4_4",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> x&sup4; &middot; cos(1/x&sup2;)</span>",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> x&#8308; &middot; cos(1/x&sup2;)</span>",
                     "options": [
                         "0",
                         "1",
@@ -1176,7 +1181,7 @@
                         "&infin;"
                     ],
                     "correct": 0,
-                    "exp": "-x&sup4; &le; x&sup4; cos(1/x&sup2;) &le; x&sup4; &rArr; Limit is 0 by Squeeze Theorem."
+                    "exp": "-x&#8308; &le; x&#8308; cos(1/x&sup2;) &le; x&#8308; &rArr; Limit is 0 by Squeeze Theorem."
                 },
                 {
                     "id": "q4_5",
@@ -1195,128 +1200,128 @@
     },
     {
         "version": 5,
-        "title": "Prediction Exam Omega: The 25/25 Graduation Standard",
+        "title": "Prediction Exam Omega: 1447H Layout + 1446H Extras",
         "q1": {
             "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
             "mcqs": [
                 {
                     "id": 1,
-                    "prompt": "Solve: <span class='math'>5 - x &gt; 2x - 1</span>",
+                    "prompt": "<span class='math'>|5 - &radic;7|</span> = &hellip;",
                     "options": [
-                        "x < 2",
-                        "x > 2",
-                        "x < -2",
-                        "x > -2"
+                        "5 - &radic;7",
+                        "&radic;7 - 5",
+                        "5 + &radic;7",
+                        "-5 - &radic;7"
                     ],
                     "correct": 0,
-                    "exp": "6 > 3x &rArr; x < 2."
+                    "exp": "&radic;7 &asymp; 2.65 is less than 5, so 5 - &radic;7 is positive and the absolute value leaves it unchanged: |5 - &radic;7| = 5 - &radic;7."
                 },
                 {
                     "id": 2,
-                    "prompt": "Numerical values as x &rarr; 1 give 0.99, 0.999 from left and 1.001 from right. Limit is &hellip;",
+                    "prompt": "The solution set of the inequality <span class='math'>x&sup2; &gt; 0</span> is &hellip;",
                     "options": [
-                        "1",
-                        "0",
-                        "Undefined",
-                        "2"
+                        "&#8477; - {0}",
+                        "&#8477;",
+                        "&empty;",
+                        "{0}"
                     ],
                     "correct": 0,
-                    "exp": "Converges to 1."
+                    "exp": "x&sup2; is never negative, and it equals 0 only at x = 0. So x&sup2; &gt; 0 for every real x except 0: &#8477; - {0}."
                 },
                 {
                     "id": 3,
-                    "prompt": "If <span class='math'>lim<sub>x &rarr; 2&plus;</sub> f(x) = -&infin;</span>, then x = 2 is a &hellip;",
+                    "prompt": "Use the graph of <span class='math'>y = f(x)</span> below to find <span class='math'>lim<sub>x &rarr; 2</sub> f(x)</span>.<svg viewBox='0 -14 225 174' style='display:block;width:15rem;max-width:100%;height:auto;margin:.6rem 0' role='img' aria-label='Graph of y = f(x)'><line x1='65' y1='140' x2='65' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='65' y='153' font-size='10' text-anchor='middle' fill='currentColor'>1</text><line x1='100' y1='140' x2='100' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='100' y='153' font-size='10' text-anchor='middle' fill='currentColor'>2</text><line x1='135' y1='140' x2='135' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='135' y='153' font-size='10' text-anchor='middle' fill='currentColor'>3</text><line x1='170' y1='140' x2='170' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='170' y='153' font-size='10' text-anchor='middle' fill='currentColor'>4</text><line x1='205' y1='140' x2='205' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='205' y='153' font-size='10' text-anchor='middle' fill='currentColor'>5</text><line x1='30' y1='110' x2='215.5' y2='110' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='113.5' font-size='10' text-anchor='end' fill='currentColor'>1</text><line x1='30' y1='80' x2='215.5' y2='80' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='83.5' font-size='10' text-anchor='end' fill='currentColor'>2</text><line x1='30' y1='50' x2='215.5' y2='50' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='53.5' font-size='10' text-anchor='end' fill='currentColor'>3</text><line x1='30' y1='20' x2='215.5' y2='20' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='23.5' font-size='10' text-anchor='end' fill='currentColor'>4</text><line x1='30' y1='140' x2='222.5' y2='140' stroke='currentColor'/><line x1='30' y1='140' x2='30' y2='5.0' stroke='currentColor'/><text x='226.5' y='144' font-size='11' font-style='italic' fill='currentColor'>x</text><text x='26' y='2.0' font-size='11' font-style='italic' fill='currentColor'>y</text><polyline points='30,110 100,50' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><polyline points='100,50 135,63.5 170,81.5 205,92.0' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><circle cx='100' cy='50' r='3.6' stroke='currentColor' stroke-width='1.6' style='fill:var(--card)'/><circle cx='100' cy='110' r='3.6' stroke='currentColor' stroke-width='1.6' fill='currentColor'/></svg>",
                     "options": [
-                        "Vertical Asymptote",
-                        "Horizontal Asymptote",
-                        "Hole",
-                        "Continuous point"
+                        "3",
+                        "1",
+                        "Does Not Exist (D.N.E)",
+                        "2"
                     ],
                     "correct": 0,
-                    "exp": "Definition of vertical asymptote."
+                    "exp": "From both sides the graph heads to the open circle at height 3, so the limit is 3. The filled dot only shows the value f(2) = 1; a limit ignores the value at the point itself."
                 },
                 {
                     "id": 4,
-                    "prompt": "Simplify: <span class='math'>(sin x) / (1 + cos x)</span> =",
+                    "prompt": "Simplify: <span class='math'>cos x / (1 - sin x)</span> =",
                     "options": [
-                        "csc x - cot x",
+                        "sec x + tan x",
                         "sec x - tan x",
-                        "tan x",
-                        "cot x"
+                        "csc x + cot x",
+                        "csc x - cot x"
                     ],
                     "correct": 0,
-                    "exp": "Multiply by (1 - cos x): sin x(1 - cos x)/sin&sup2; x = (1 - cos x)/sin x = csc x - cot x."
+                    "exp": "Multiply top and bottom by (1 + sin x): cos x(1 + sin x)/(1 - sin&sup2; x) = cos x(1 + sin x)/cos&sup2; x = (1 + sin x)/cos x = sec x + tan x. Check with x = 0: 1/1 = 1 and sec 0 + tan 0 = 1."
                 },
                 {
                     "id": 5,
-                    "prompt": "Evaluate <span class='math'>lim<sub>x &rarr; 0</sub> (sin 2x) / (5x)</span> =",
+                    "prompt": "The reference angle of <span class='math'>&theta; = 10&pi; / 3</span> is &hellip;",
                     "options": [
-                        "2/5",
-                        "5/2",
-                        "1",
-                        "0"
+                        "&theta;' = &pi; / 3",
+                        "&theta;' = &pi; / 6",
+                        "&theta;' = &pi; / 4",
+                        "&theta;' = -&pi; / 3"
                     ],
                     "correct": 0,
-                    "exp": "2/5."
+                    "exp": "10&pi;/3 - 2&pi; = 4&pi;/3, which lies in Quadrant III. Reference angle = 4&pi;/3 - &pi; = &pi;/3. A reference angle is always positive."
                 },
                 {
                     "id": 6,
-                    "prompt": "The domain of <span class='math'>f(x) = &radic;(x - 5) + &radic;(10 - x)</span> is &hellip;",
+                    "prompt": "If <span class='math'>f</span> is a one-to-one function, then the range of <span class='math'>f</span> is &hellip;",
                     "options": [
-                        "[5, 10]",
-                        "(5, 10)",
-                        "[5, &infin;)",
-                        "[-10, 5]"
+                        "D<sub>f&#8315;&sup1;</sub>",
+                        "D<sub>f</sub>",
+                        "Range of f&#8315;&sup1;",
+                        "&#8477;"
                     ],
                     "correct": 0,
-                    "exp": "x &ge; 5 and x &le; 10 &rArr; [5, 10]."
+                    "exp": "f&#8315;&sup1; swaps inputs and outputs: Range of f = Domain of f&#8315;&sup1;, and Domain of f = Range of f&#8315;&sup1;."
                 }
             ]
         },
         "q2": {
-            "title": "Question 2: Classification & Rational Inequalities (8 Marks)",
+            "title": "Question 2: Hard Classification & Rational Inequality (8 Marks)",
             "partA": {
                 "title": "Part A (4 Marks): Classify into Rational or Irrational",
                 "items": [
                     {
-                        "text": "&radic;2 &middot; &radic;32",
-                        "correct": "rational",
-                        "exp": "&radic;64 = 8 (Rational)"
-                    },
-                    {
-                        "text": "(&radic;2 + &radic;7)&sup2;",
+                        "text": "&#8731;(-125) / &radic;5",
                         "correct": "irrational",
-                        "exp": "2 + 2&radic;14 + 7 = 9 + 2&radic;14 (Irrational)"
+                        "exp": "&#8731;(-125) = -5, and -5/&radic;5 = -&radic;5 (Irrational)."
                     },
                     {
-                        "text": "&pi; &middot; cos(&pi;)",
+                        "text": "(&radic;2 + &radic;18)&sup2;",
+                        "correct": "rational",
+                        "exp": "&radic;18 = 3&radic;2, so (&radic;2 + 3&radic;2)&sup2; = (4&radic;2)&sup2; = 32 (Rational)."
+                    },
+                    {
+                        "text": "2.476476&hellip;",
+                        "correct": "rational",
+                        "exp": "Repeating decimal: 1000x - x = 2474, so x = 2474/999 (Rational)."
+                    },
+                    {
+                        "text": "(&radic;3 + &radic;12)&sup3;",
                         "correct": "irrational",
-                        "exp": "&pi;(-1) = -&pi; (Irrational)"
+                        "exp": "&radic;12 = 2&radic;3, so (3&radic;3)&sup3; = 27 &middot; 3&radic;3 = 81&radic;3 (Irrational)."
                     },
                     {
-                        "text": "22 / 7",
+                        "text": "&radic;(9 / 16)",
                         "correct": "rational",
-                        "exp": "Rational"
+                        "exp": "&radic;9 / &radic;16 = 3/4 (Rational)."
                     },
                     {
-                        "text": "3.14",
-                        "correct": "rational",
-                        "exp": "Rational"
-                    },
-                    {
-                        "text": "2.5&#773;",
-                        "correct": "rational",
-                        "exp": "23/9 (Rational)"
-                    },
-                    {
-                        "text": "1 / &radic;5",
+                        "text": "(&radic;2)<sup>7</sup>",
                         "correct": "irrational",
-                        "exp": "Irrational"
+                        "exp": "(&radic;2)<sup>6</sup> &middot; &radic;2 = 8&radic;2 (Irrational). Even powers of &radic;2 are rational, odd powers are not."
                     },
                     {
-                        "text": "2 &frac12;",
+                        "text": "(&radic;5)<sup>4</sup>",
                         "correct": "rational",
-                        "exp": "5/2 (Rational)"
+                        "exp": "(&radic;5)&sup2; &middot; (&radic;5)&sup2; = 5 &middot; 5 = 25 (Rational)."
+                    },
+                    {
+                        "text": "&radic;2 / &radic;3 + &radic;3 / &radic;2",
+                        "correct": "irrational",
+                        "exp": "Common denominator &radic;6: (2 + 3)/&radic;6 = 5/&radic;6 = 5&radic;6/6 (Irrational)."
                     }
                 ]
             },
@@ -1325,78 +1330,78 @@
                 "problems": [
                     {
                         "id": "q2_b1",
-                        "prompt": "Solve the rational inequality: <span class='math'>x/3 &lt; 1 + 6/x</span>",
+                        "prompt": "Solve and write in interval notation: <span class='math'>5 / (x + 2) &le; x / 3</span>",
                         "options": [
-                            "(-&infin;, -3) &cup; (0, 6)",
-                            "(-3, 0) &cup; (6, &infin;)",
-                            "[-3, 6]",
-                            "(-&infin;, 6)"
+                            "[-5, -2) &cup; [3, &infin;)",
+                            "[-5, -2] &cup; [3, &infin;)",
+                            "(-&infin;, -5] &cup; (-2, 3]",
+                            "(-2, 3]"
                         ],
                         "correct": 0,
-                        "exp": "x/3 - 1 - 6/x < 0 &rArr; (x&sup2; - 3x - 18)/(3x) < 0 &rArr; (x - 6)(x + 3)/(3x) < 0. Critical numbers: -3, 0, 6. Sign chart is < 0 on (-&infin;, -3) &cup; (0, 6)."
+                        "exp": "5/(x + 2) - x/3 &le; 0 &rArr; (15 - x&sup2; - 2x) / (3(x + 2)) &le; 0. Multiply by -1 and flip the sign: (x + 5)(x - 3) / (x + 2) &ge; 0. Critical numbers -5, -2, 3. Signs: - on (-&infin;, -5), + on (-5, -2), - on (-2, 3), + on (3, &infin;). Include -5 and 3 (they give 0) but never -2 (division by zero): [-5, -2) &cup; [3, &infin;)."
                     },
                     {
                         "id": "q2_b2",
-                        "prompt": "Let <span class='math'>f(x) = &radic;x</span> and <span class='math'>g(x) = &radic;(2 - x&sup2;)</span>. Find <span class='math'>(g &comp; f)(x)</span> and its natural domain:",
+                        "prompt": "Let <span class='math'>f(x) = x&sup2; + 3</span> and <span class='math'>g(x) = &radic;(x + 7)</span>. Find <span class='math'>(g &#8728; f)(x)</span> and its domain:",
                         "options": [
-                            "(g &comp; f)(x) = &radic;(2 - x), Domain = [0, 2]",
-                            "(g &comp; f)(x) = &radic;(2 - x&sup2;), Domain = [-&radic;2, &radic;2]",
-                            "(g &comp; f)(x) = 2 - x, Domain = [0, &infin;)",
-                            "(g &comp; f)(x) = &radic;(x - 2), Domain = [2, &infin;)"
+                            "(g &#8728; f)(x) = &radic;(x&sup2; + 10), Domain = &#8477;",
+                            "(g &#8728; f)(x) = x + 10, Domain = [-7, &infin;)",
+                            "(g &#8728; f)(x) = &radic;(x&sup2; + 10), Domain = [-&radic;10, &radic;10]",
+                            "(g &#8728; f)(x) = &radic;(x&sup2; + 3) + 7, Domain = &#8477;"
                         ],
                         "correct": 0,
-                        "exp": "g(f(x)) = g(&radic;x) = &radic;(2 - (&radic;x)&sup2;) = &radic;(2 - x). Domain requires x &ge; 0 (from inner root) and 2 - x &ge; 0 &rArr; x &le; 2. Combined: [0, 2]."
+                        "exp": "g(f(x)) = &radic;(f(x) + 7) = &radic;(x&sup2; + 3 + 7) = &radic;(x&sup2; + 10). Domain: x must be in D<sub>f</sub> = &#8477;, and x&sup2; + 10 &ge; 0 is always true, so the domain is &#8477;. (x + 10 is (f &#8728; g)(x), the other order.)"
                     }
                 ]
             }
         },
         "q3": {
-            "title": "Question 3: One-to-One Verification & Inverse Trig Exact (6 Marks)",
+            "title": "Question 3: Inverse, Range & Inverse Trig Traps (6 Marks)",
             "problems": [
                 {
                     "id": "q3_1",
-                    "prompt": "Determine whether <span class='math'>f(x) = sin(&pi; x / 2)</span> on <span class='math'>[-1, 1]</span> is one-to-one:",
+                    "prompt": "Let <span class='math'>f(x) = (x + 1) / (2x + 1), x &ne; -1/2</span>. Find <span class='math'>f&#8315;&sup1;(x)</span> and the range of <span class='math'>f</span>:",
                     "options": [
-                        "Yes, one-to-one because it is strictly increasing on [-1, 1]",
-                        "No, because sin(0) = 0 and sin(&pi;) = 0",
-                        "No, fails horizontal line test",
-                        "Only for x &ge; 0"
+                        "f&#8315;&sup1;(x) = (1 - x) / (2x - 1), Range = &#8477; - {1/2}",
+                        "f&#8315;&sup1;(x) = (1 - x) / (2x - 1), Range = &#8477; - {-1/2}",
+                        "f&#8315;&sup1;(x) = (2x + 1) / (x + 1), Range = &#8477; - {-1}",
+                        "f&#8315;&sup1;(x) = (1 + x) / (2x - 1), Range = &#8477; - {1/2}"
                     ],
                     "correct": 0,
-                    "exp": "As x goes from -1 to 1, the angle &pi;x/2 goes from -&pi;/2 to &pi;/2. In this entire interval, sine is strictly increasing from -1 to 1 &rArr; strictly one-to-one."
+                    "exp": "y = (x + 1)/(2x + 1) &rArr; 2xy + y = x + 1 &rArr; x(2y - 1) = 1 - y &rArr; x = (1 - y)/(2y - 1). Swap x and y: f&#8315;&sup1;(x) = (1 - x)/(2x - 1). Range of f = Domain of f&#8315;&sup1;: 2x - 1 &ne; 0, so Range = &#8477; - {1/2}. (-1/2 is the gap in the domain of f, not in its range.)"
                 },
                 {
                     "id": "q3_2",
-                    "prompt": "Find exact value: <span class='math'>sin(135&deg;)</span>",
+                    "prompt": "Find the exact value: <span class='math'>cos&#8315;&sup1;(cos(7&pi; / 6))</span>",
                     "options": [
-                        "&radic;2 / 2",
-                        "-&radic;2 / 2",
-                        "1/2",
-                        "-1/2"
+                        "5&pi; / 6",
+                        "7&pi; / 6",
+                        "-5&pi; / 6",
+                        "&pi; / 6"
                     ],
                     "correct": 0,
-                    "exp": "sin(180&deg; - 45&deg;) = sin(45&deg;) = &radic;2/2."
+                    "exp": "cos(7&pi;/6) = -&radic;3/2 (Quadrant III, reference angle &pi;/6). cos&#8315;&sup1; only returns angles in [0, &pi;], and the angle there with cosine -&radic;3/2 is &pi; - &pi;/6 = 5&pi;/6. 7&pi;/6 is outside [0, &pi;], so it cannot be the answer."
                 },
                 {
                     "id": "q3_3",
-                    "prompt": "Find exact value: <span class='math'>cos(tan&supmin;&sup1;(-1) - cos&supmin;&sup1;(2/5))</span>",
+                    "prompt": "Find the exact value: <span class='math'>sin(tan&#8315;&sup1;(-1) + cos&#8315;&sup1;(3/5))</span>",
                     "options": [
-                        "(2&radic;2 - &radic;42) / 10",
-                        "(2&radic;2 + &radic;42) / 10",
-                        "&radic;2 / 5",
-                        "-2/5"
+                        "&radic;2 / 10",
+                        "-&radic;2 / 10",
+                        "7&radic;2 / 10",
+                        "-7&radic;2 / 10"
                     ],
                     "correct": 0,
-                    "exp": "cos(-&pi;/4 - &theta;) = cos(&pi;/4 + &theta;) = cos(&pi;/4)cos(&theta;) - sin(&pi;/4)sin(&theta;) = (&radic;2/2)(2/5) - (&radic;2/2)(&radic;21/5) = (2&radic;2 - &radic;42)/10."
+                    "exp": "Let A = tan&#8315;&sup1;(-1) = -&pi;/4 (range (-&pi;/2, &pi;/2)), so sin A = -&radic;2/2 and cos A = &radic;2/2. Let B = cos&#8315;&sup1;(3/5): cos B = 3/5, and B is in [0, &pi;] so sin B = +4/5. sin(A + B) = sin A cos B + cos A sin B = (-&radic;2/2)(3/5) + (&radic;2/2)(4/5) = (-3&radic;2 + 4&radic;2)/10 = &radic;2/10."
                 }
             ]
         },
         "q4": {
-            "title": "Question 4: Final High-Impact Limits Suite (8 Marks)",
+            "title": "Question 4: Limits, Squeeze & Piecewise Sum (8 Marks)",
             "problems": [
                 {
                     "id": "q4_1",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (x&sup2; + 1) / (x - 1)</span>",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 1</sub> (x - 1) / (x&sup2; - 3x + 2)</span>",
                     "options": [
                         "-1",
                         "1",
@@ -1404,55 +1409,55 @@
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "(0 + 1)/(0 - 1) = -1."
+                    "exp": "Direct substitution gives 0/0. Factor: x&sup2; - 3x + 2 = (x - 1)(x - 2). Cancel (x - 1): lim 1/(x - 2) = 1/(1 - 2) = -1."
                 },
                 {
                     "id": "q4_2",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 1</sub> (x&sup2; - &radic;x - x + 1) / (x - 1)</span>",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (&radic;(x + 4) - 2) / x</span>",
                     "options": [
+                        "1/4",
                         "1/2",
-                        "1",
-                        "0",
-                        "3/2"
-                    ],
-                    "correct": 0,
-                    "exp": "[x(x - 1) - (&radic;x - 1)] / (x - 1) = x - 1/(&radic;x + 1) = 1 - 1/2 = 1/2."
-                },
-                {
-                    "id": "q4_3",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (tan x - sin x) / x&sup3;</span>",
-                    "options": [
-                        "1/2",
-                        "1",
-                        "0",
-                        "D.N.E"
-                    ],
-                    "correct": 0,
-                    "exp": "sin x(1 - cos x)/(x&sup3; cos x) = [sin x/x] &middot; [(1 - cos x)/x&sup2;] &middot; [1/cos x] = 1 &middot; 1/2 &middot; 1 = 1/2."
-                },
-                {
-                    "id": "q4_4",
-                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; -&infin;</sub> (x&sup3; - 2x&sup2; + 2x)</span>",
-                    "options": [
-                        "-&infin;",
-                        "+&infin;",
-                        "0",
-                        "1"
-                    ],
-                    "correct": 0,
-                    "exp": "(-&infin;)&sup3; dominates &rArr; -&infin;."
-                },
-                {
-                    "id": "q4_5",
-                    "prompt": "Let <span class='math'>f(x) = { x&sup2; - 2x (x &le; 0), x - 1 (x > 0) }</span> and <span class='math'>g(x) = { 1 - x&sup2; (x &le; 0), 2 - x (x > 0) }</span>. Find <span class='math'>lim<sub>x &rarr; 0</sub> (f(x) + g(x))</span>:",
-                    "options": [
-                        "1",
-                        "-1",
                         "0",
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "Left sum = 0 + 1 = 1. Right sum = -1 + 2 = 1. Left = Right = 1 &rArr; Limit is 1."
+                    "exp": "0/0. Multiply top and bottom by the conjugate (&radic;(x + 4) + 2): (x + 4 - 4) / (x(&radic;(x + 4) + 2)) = 1/(&radic;(x + 4) + 2) &rarr; 1/(2 + 2) = 1/4."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x &rarr; 0</sub> (1 - cos x) / (x sin x)</span>",
+                    "options": [
+                        "1/2",
+                        "1",
+                        "0",
+                        "2"
+                    ],
+                    "correct": 0,
+                    "exp": "Split it: [(1 - cos x)/x&sup2;] &middot; [x/sin x] &rarr; (1/2) &middot; 1 = 1/2."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "By the Squeeze Theorem, evaluate: <span class='math'>lim<sub>x &rarr; +&infin;</sub> cos(3x) / x</span>",
+                    "options": [
+                        "0",
+                        "1",
+                        "3",
+                        "Does Not Exist (Oscillates)"
+                    ],
+                    "correct": 0,
+                    "exp": "-1 &le; cos(3x) &le; 1, so for x &gt; 0: -1/x &le; cos(3x)/x &le; 1/x. Both bounds go to 0, so by the Squeeze Theorem the limit is 0. cos(3x) keeps oscillating, but dividing by x crushes it."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Let <span class='math'>f(x) = { 2x (x &le; 1), x + 3 (x &gt; 1) }</span> and <span class='math'>g(x) = { x&sup2; + 4 (x &le; 1), 2x + 1 (x &gt; 1) }</span>. Find <span class='math'>lim<sub>x &rarr; 1</sub> (f(x) + g(x))</span>:",
+                    "options": [
+                        "7",
+                        "Does Not Exist",
+                        "5",
+                        "9"
+                    ],
+                    "correct": 0,
+                    "exp": "f alone: left 2, right 4, so lim f does not exist. g alone: left 5, right 3, so lim g does not exist. But f + g: left 2 + 5 = 7, right 4 + 3 = 7. Both sides equal 7, so lim (f + g) = 7. Never split into lim f + lim g when those limits do not exist."
                 }
             ]
         }
@@ -1577,7 +1582,7 @@
               <button ${graded ? 'disabled' : ''} onclick="recordAnswer('${sec}', ${item.id}, ${oIdx})"
                 class="p-2.5 text-xs rounded-lg border text-left transition flex items-start gap-2 ${optionClass(graded, sel === oIdx, oIdx === item.correct)}">
                 <span class="font-bold opacity-60">${'ABCDEF'[pos]}</span>
-                <span class="flex-1">${item.options[oIdx]}</span>
+                <span class="flex-1 math-auto">${item.options[oIdx]}</span>
               </button>
             `).join('')}
           </div>
@@ -1599,7 +1604,7 @@
       return `
         <div id="box-q2a-${item.id}" data-wrong="${graded && sel !== item.correct}" class="p-3 rounded-xl border flex flex-col justify-between gap-2 ${boxClass(graded, sel, item.correct)}">
           <div class="flex justify-between gap-2">
-            <span class="text-sm font-semibold">${item.text}</span>
+            <span class="text-sm font-semibold math-auto">${item.text}</span>
             <span class="text-xs font-semibold">${statusTag(graded, sel, item.correct, MARKS.q2a)}</span>
           </div>
           <div class="flex gap-2">${choice('rational', 'Rational (Q)')}${choice('irrational', 'Irrational (I)')}</div>
@@ -1658,6 +1663,7 @@
           </div>
         `)
       ].join('');
+      renderMath(document.getElementById('examContainer'));
     }
 
     function renderVersionSelector() {

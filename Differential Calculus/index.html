@@ -48,6 +48,7 @@
     }
     .text-good { color: var(--good); }
     .text-bad { color: var(--bad); }
+    button:not(:disabled) { cursor: pointer; }
     button:disabled { cursor: default; }
   </style>
 </head>
@@ -1698,7 +1699,7 @@
       renderTimer();
     }
 
-    function showResults(timeUp) {
+    function showResults(timeUp, scroll = true) {
       const vi = currentVersionIndex;
       const s = scoreVersion(vi);
       const scoreDisp = document.getElementById('finalScoreDisplay');
@@ -1729,7 +1730,7 @@
 
       const card = document.getElementById('resultsCard');
       card.classList.remove('hidden');
-      card.scrollIntoView({ behavior: 'smooth' });
+      if (scroll) card.scrollIntoView({ behavior: 'smooth' });
     }
 
     // ---------- Actions ----------
@@ -1742,6 +1743,7 @@
       document.getElementById('resultsCard').classList.add('hidden');
       renderExamContent();
       updateStatus();
+      if (isGraded(idx)) showResults(false, false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 

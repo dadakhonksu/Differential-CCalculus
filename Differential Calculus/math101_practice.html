@@ -42,6 +42,7 @@
       --muted-foreground: #a1a1aa;
     }
     body { background: var(--background); color: var(--foreground); }
+    button:not(:disabled) { cursor: pointer; }
   </style>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] min-h-screen p-4 md:p-8 font-sans">
@@ -70,7 +71,7 @@
         </div>
         <div class="text-right">
           <span class="text-xs text-[var(--muted-foreground)] uppercase tracking-wider block">Current Score</span>
-          <span class="text-xl font-bold text-emerald-500"><span id="liveScore">0.0</span> / 25</span>
+          <span class="text-xl font-bold text-emerald-500"><span id="liveScore">&ndash;</span> / 25</span>
         </div>
       </div>
     </header>
@@ -107,7 +108,7 @@
         <button onclick="resetCurrentVersion()" class="px-4 py-2.5 rounded-xl border border-[var(--border)] hover:bg-[var(--border)]/40 font-medium text-sm transition">
           Reset Drill
         </button>
-        <button onclick="gradeExam()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition shadow-md flex-1 sm:flex-none">
+        <button id="gradeBtn" onclick="gradeExam()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 text-white font-semibold text-sm transition shadow-md flex-1 sm:flex-none">
           Submit & Grade (25 Marks)
         </button>
       </div>
@@ -845,211 +846,234 @@
       }
     ];
 
+    const STORAGE_KEY = 'math101-quick-drills-v1';
+
+    // answers: "drill-questionId" -> original option index. graded / elapsed / attempts are keyed by drill index.
+    let state = { answers: {}, graded: {}, elapsed: {}, attempts: {}, current: 0 };
     let currentVersionIndex = 0;
-    let userAnswers = {}; // key: "vIndex-qId"
-    let secondsElapsed = 0;
-    let timerInterval = null;
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && saved.answers) state = Object.assign(state, saved);
+      } catch (e) {}
+      currentVersionIndex = Math.min(Math.max(0, state.current || 0), examVersions.length - 1);
+    }
+
+    function saveState() {
+      state.current = currentVersionIndex;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    // Deterministic shuffle: stable across reloads (so saved answers stay put), reshuffled on every reset.
+    function seededOrder(n, seedStr) {
+      let h = 2166136261;
+      for (let i = 0; i < seedStr.length; i++) h = Math.imul(h ^ seedStr.charCodeAt(i), 16777619);
+      const rand = () => {
+        h = (h + 0x6D2B79F5) | 0;
+        let t = Math.imul(h ^ (h >>> 15), 1 | h);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+      const order = [...Array(n).keys()];
+      for (let i = n - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      return order;
+    }
+
+    // Questions whose options refer to other options by letter keep their order.
+    function optionOrder(vIdx, q) {
+      if (q.options.some(o => /\b[A-D] and [A-D]\b/.test(o.text))) return q.options.map((_, i) => i);
+      return seededOrder(q.options.length, `${vIdx}-${state.attempts[vIdx] || 0}-${q.id}`);
+    }
+
+    const answerOf = (vIdx, qId) => state.answers[`${vIdx}-${qId}`];
+    const isGraded = vIdx => !!state.graded[vIdx];
+    const hasAnswers = vIdx => Object.keys(state.answers).some(k => k.startsWith(`${vIdx}-`));
+
+    function scoreOf(vIdx) {
+      return examVersions[vIdx].questions.reduce((sum, q) => {
+        const sel = answerOf(vIdx, q.id);
+        return sum + (sel !== undefined && q.options[sel].correct ? q.points : 0);
+      }, 0);
+    }
+
+    function optionClass(graded, isSel, isCorrect) {
+      if (!graded) return isSel ? 'border-blue-500 bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium' : 'border-[var(--border)] hover:bg-[var(--border)]/40';
+      if (isCorrect) return 'border-emerald-500 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-semibold';
+      return isSel ? 'border-rose-500 bg-rose-500/20 text-rose-700 dark:text-rose-400' : 'border-[var(--border)] opacity-60';
+    }
 
     function initVersionTabs() {
-      const container = document.getElementById('versionTabs');
-      container.innerHTML = examVersions.map((v, idx) => `
-        <button 
-          onclick="switchVersion(${idx})" 
-          id="tab-btn-${idx}"
-          class="p-2 rounded-xl border text-xs font-semibold text-center transition ${idx === 0 ? 'bg-blue-600 text-white border-blue-600' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-        >
-          Drill ${v.versionNum}
-        </button>
-      `).join('');
+      document.getElementById('versionTabs').innerHTML = examVersions.map((v, idx) => {
+        const active = idx === currentVersionIndex;
+        const mark = isGraded(idx) ? ' &check;' : (hasAnswers(idx) ? ' &bull;' : '');
+        const title = isGraded(idx) ? `Graded: ${scoreOf(idx).toFixed(1)} / 25` : (hasAnswers(idx) ? 'In progress' : 'Not started');
+        return `
+          <button onclick="switchVersion(${idx})" title="${title}"
+            class="p-2 rounded-xl border text-xs font-semibold text-center transition ${active ? 'bg-blue-600 text-white border-blue-600' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}">
+            Drill ${v.versionNum}${mark}
+          </button>
+        `;
+      }).join('');
     }
 
     function switchVersion(vIdx) {
       currentVersionIndex = vIdx;
-      // Update tab button styles
-      examVersions.forEach((_, idx) => {
-        const btn = document.getElementById(`tab-btn-${idx}`);
-        if (idx === vIdx) {
-          btn.className = "p-2 rounded-xl border text-xs font-semibold text-center transition bg-blue-600 text-white border-blue-600";
-        } else {
-          btn.className = "p-2 rounded-xl border text-xs font-semibold text-center transition border-[var(--border)] hover:bg-[var(--border)]/40";
-        }
-      });
-
+      saveState();
       document.getElementById('versionLabel').innerText = `Active: ${examVersions[vIdx].title}`;
-      document.getElementById('resultsBanner').classList.add('hidden');
       renderQuestions();
       updateProgress();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (isGraded(vIdx)) showResults(false);
+      else document.getElementById('resultsBanner').classList.add('hidden');
+      document.getElementById('versionTabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function renderQuestions() {
-      const currentExam = examVersions[currentVersionIndex];
-      const container = document.getElementById('quizContainer');
+      const vIdx = currentVersionIndex;
+      const graded = isGraded(vIdx);
 
-      container.innerHTML = currentExam.questions.map((q, idx) => {
-        const key = `${currentVersionIndex}-${q.id}`;
-        const selected = userAnswers[key];
+      document.getElementById('quizContainer').innerHTML = examVersions[vIdx].questions.map((q, idx) => {
+        const selected = answerOf(vIdx, q.id);
+        const right = selected !== undefined && q.options[selected].correct;
+        const cardBorder = !graded ? 'border-[var(--border)]' : (right ? 'border-emerald-500/60' : 'border-rose-500/60');
+        const status = !graded ? '' : (right
+          ? '<span class="text-xs font-bold text-emerald-700 dark:text-emerald-400">&check; Correct</span>'
+          : `<span class="text-xs font-bold text-rose-700 dark:text-rose-400">${selected === undefined ? 'Not answered' : '&cross; Wrong'}</span>`);
 
         return `
-          <div id="card-${currentVersionIndex}-${q.id}" class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
+          <div id="card-${vIdx}-${q.id}" data-wrong="${graded && !right}" class="bg-[var(--card)] border ${cardBorder} rounded-2xl p-6 shadow-sm space-y-4">
             <div class="flex justify-between items-start gap-4">
               <div>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500">${q.section}</span>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400">${q.section}</span>
                 <h2 class="text-base font-semibold mt-1">Question ${idx + 1}</h2>
               </div>
-              <span class="text-xs font-mono font-medium px-2 py-1 rounded bg-[var(--border)]">${q.points} Marks</span>
+              <div class="flex flex-col items-end gap-1">
+                <span class="text-xs font-mono font-medium px-2 py-1 rounded bg-[var(--border)]">${q.points} Marks</span>
+                ${status}
+              </div>
             </div>
 
             <div class="text-base font-medium text-[var(--foreground)] py-1">${q.prompt}</div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              ${q.options.map((opt, oIdx) => {
-                const isSelected = selected === oIdx;
-                return `
-                  <button 
-                    onclick="selectAnswer(${currentVersionIndex}, ${q.id}, ${oIdx})"
-                    id="btn-${currentVersionIndex}-${q.id}-${oIdx}"
-                    class="option-btn text-left p-3.5 rounded-xl border transition flex items-center justify-between text-sm ${isSelected ? 'border-blue-500 bg-blue-500/10 text-blue-500 font-medium' : 'border-[var(--border)] hover:bg-[var(--border)]/40'}"
-                  >
-                    <span>${opt.text}</span>
-                    <span class="w-4 h-4 rounded-full border border-[var(--border)] flex items-center justify-center text-[10px] indicator ${isSelected ? 'bg-blue-500 border-blue-500' : ''}"></span>
-                  </button>
-                `;
-              }).join('')}
+              ${optionOrder(vIdx, q).map((oIdx, pos) => `
+                <button ${graded ? 'disabled' : ''} onclick="selectAnswer(${q.id}, ${oIdx})"
+                  class="text-left p-3.5 rounded-xl border transition flex items-start gap-2 text-sm ${optionClass(graded, selected === oIdx, q.options[oIdx].correct)}">
+                  <span class="font-bold opacity-60">${'ABCDEF'[pos]}</span>
+                  <span class="flex-1">${q.options[oIdx].text}</span>
+                </button>
+              `).join('')}
             </div>
 
-            <div id="exp-${currentVersionIndex}-${q.id}" class="hidden mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm leading-relaxed">
-              <span class="font-bold text-blue-500 block mb-1">Detailed Explanation & Exam Insight:</span>
-              <span>${q.explanation}</span>
-            </div>
+            ${graded ? `
+              <div class="mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm leading-relaxed">
+                <span class="font-bold text-blue-600 dark:text-blue-400 block mb-1">Detailed Explanation & Exam Insight:</span>
+                <span>${q.explanation}</span>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');
     }
 
-    function selectAnswer(vIdx, qId, oIdx) {
-      const key = `${vIdx}-${qId}`;
-      userAnswers[key] = oIdx;
-
-      const currentExam = examVersions[vIdx];
-      const q = currentExam.questions.find(item => item.id === qId);
-
-      q.options.forEach((_, idx) => {
-        const btn = document.getElementById(`btn-${vIdx}-${qId}-${idx}`);
-        const indicator = btn.querySelector('.indicator');
-        if (idx === oIdx) {
-          btn.classList.add('border-blue-500', 'bg-blue-500/10', 'text-blue-500', 'font-medium');
-          indicator.classList.add('bg-blue-500', 'border-blue-500');
-        } else {
-          btn.classList.remove('border-blue-500', 'bg-blue-500/10', 'text-blue-500', 'font-medium');
-          indicator.classList.remove('bg-blue-500', 'border-blue-500');
-        }
-      });
-
+    function selectAnswer(qId, oIdx) {
+      if (isGraded(currentVersionIndex)) return;
+      state.answers[`${currentVersionIndex}-${qId}`] = oIdx;
+      saveState();
+      renderQuestions();
       updateProgress();
     }
 
-    function updateProgress() {
-      const currentExam = examVersions[currentVersionIndex];
-      let answered = 0;
-      currentExam.questions.forEach(q => {
-        if (userAnswers[`${currentVersionIndex}-${q.id}`] !== undefined) answered++;
-      });
-      document.getElementById('progressText').innerText = `Answered: ${answered} / ${currentExam.questions.length} Questions`;
-      document.getElementById('progressBar').style.width = `${(answered / currentExam.questions.length) * 100}%`;
+    function renderTimer() {
+      const s = state.elapsed[currentVersionIndex] || 0;
+      document.getElementById('timer').innerText = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
     }
 
-    function gradeExam() {
-      const currentExam = examVersions[currentVersionIndex];
-      let score = 0;
+    function updateProgress() {
+      const vIdx = currentVersionIndex;
+      const questions = examVersions[vIdx].questions;
+      const answered = questions.filter(q => answerOf(vIdx, q.id) !== undefined).length;
+      document.getElementById('progressText').innerText = `${isGraded(vIdx) ? 'Graded • ' : ''}Answered: ${answered} / ${questions.length} Questions`;
+      document.getElementById('progressBar').style.width = `${(answered / questions.length) * 100}%`;
+      document.getElementById('liveScore').innerText = isGraded(vIdx) ? scoreOf(vIdx).toFixed(1) : '–';
+      const gradeBtn = document.getElementById('gradeBtn');
+      gradeBtn.disabled = isGraded(vIdx);
+      gradeBtn.innerText = isGraded(vIdx) ? 'Graded' : 'Submit & Grade (25 Marks)';
+      initVersionTabs();
+      renderTimer();
+    }
 
-      currentExam.questions.forEach(q => {
-        const key = `${currentVersionIndex}-${q.id}`;
-        const selectedIdx = userAnswers[key];
-        const isCorrect = selectedIdx !== undefined && q.options[selectedIdx].correct;
-        const card = document.getElementById(`card-${currentVersionIndex}-${q.id}`);
-        const exp = document.getElementById(`exp-${currentVersionIndex}-${q.id}`);
-
-        exp.classList.remove('hidden');
-
-        q.options.forEach((opt, idx) => {
-          const btn = document.getElementById(`btn-${currentVersionIndex}-${q.id}-${idx}`);
-          if (btn) {
-            btn.disabled = true;
-            if (opt.correct) {
-              btn.classList.add('border-emerald-500', 'bg-emerald-500/20', 'text-emerald-500', 'font-semibold');
-            } else if (idx === selectedIdx && !opt.correct) {
-              btn.classList.add('border-rose-500', 'bg-rose-500/20', 'text-rose-500');
-            }
-          }
-        });
-
-        if (isCorrect) {
-          score += q.points;
-          card.classList.add('border-emerald-500/40');
-        } else {
-          card.classList.add('border-rose-500/40');
-        }
-      });
-
-      document.getElementById('liveScore').innerText = score.toFixed(1);
-
-      const banner = document.getElementById('resultsBanner');
-      banner.classList.remove('hidden');
+    function showResults(scroll) {
+      const vIdx = currentVersionIndex;
+      const currentExam = examVersions[vIdx];
+      const score = scoreOf(vIdx);
       const scoreSummary = document.getElementById('resultScoreSummary');
       const feedback = document.getElementById('resultFeedback');
 
       scoreSummary.innerText = `${score.toFixed(1)} / 25.0`;
-
       if (score === 25) {
         feedback.innerText = `🔥 PERFECT 25/25 on ${currentExam.title}! You are dominating this syllabus!`;
-        scoreSummary.className = "text-center text-4xl font-extrabold text-emerald-500";
+        scoreSummary.className = "text-center text-4xl font-extrabold text-emerald-600 dark:text-emerald-400";
       } else if (score >= 20) {
         feedback.innerText = `👏 Great job! Score: ${score.toFixed(1)}/25. Check the highlighted explanations below to fix minor slip-ups.`;
-        scoreSummary.className = "text-center text-4xl font-extrabold text-blue-500";
+        scoreSummary.className = "text-center text-4xl font-extrabold text-blue-600 dark:text-blue-400";
       } else {
         feedback.innerText = `⚠️ Score: ${score.toFixed(1)}/25. Review each problem's step-by-step breakdown below, then reset and try again!`;
-        scoreSummary.className = "text-center text-4xl font-extrabold text-amber-500";
+        scoreSummary.className = "text-center text-4xl font-extrabold text-amber-600 dark:text-amber-400";
       }
 
-      banner.scrollIntoView({ behavior: 'smooth' });
+      const banner = document.getElementById('resultsBanner');
+      banner.classList.remove('hidden');
+      if (scroll) banner.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function gradeExam() {
+      const vIdx = currentVersionIndex;
+      if (isGraded(vIdx)) return showResults(true);
+      const questions = examVersions[vIdx].questions;
+      const blank = questions.filter(q => answerOf(vIdx, q.id) === undefined).length;
+      if (blank > 0 && !confirm(`You have ${blank} unanswered question(s). Grade anyway?`)) return;
+      state.graded[vIdx] = true;
+      saveState();
+      renderQuestions();
+      updateProgress();
+      showResults(true);
     }
 
     function resetCurrentVersion() {
-      const currentExam = examVersions[currentVersionIndex];
-      currentExam.questions.forEach(q => {
-        delete userAnswers[`${currentVersionIndex}-${q.id}`];
-      });
-      document.getElementById('liveScore').innerText = "0.0";
+      const vIdx = currentVersionIndex;
+      if (hasAnswers(vIdx) && !isGraded(vIdx) && !confirm('Clear all your answers for this drill?')) return;
+      for (const k in state.answers) {
+        if (k.startsWith(`${vIdx}-`)) delete state.answers[k];
+      }
+      delete state.graded[vIdx];
+      delete state.elapsed[vIdx];
+      state.attempts[vIdx] = (state.attempts[vIdx] || 0) + 1;
+      saveState();
       document.getElementById('resultsBanner').classList.add('hidden');
       renderQuestions();
       updateProgress();
     }
 
-    function startTimer() {
-      timerInterval = setInterval(() => {
-        secondsElapsed++;
-        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
-        const secs = String(secondsElapsed % 60).padStart(2, '0');
-        document.getElementById('timer').innerText = `${mins}:${secs}`;
-      }, 1000);
+    // The clock runs only for the open drill, from its first answer until it is graded.
+    function tick() {
+      const vIdx = currentVersionIndex;
+      if (isGraded(vIdx) || !hasAnswers(vIdx)) return;
+      state.elapsed[vIdx] = (state.elapsed[vIdx] || 0) + 1;
+      renderTimer();
+      saveState();
     }
 
     // Launch
-    // Shuffle answer positions on each load so the key is not always "A".
-    // Questions whose options refer to other options by letter keep their order.
-    examVersions.forEach(v => v.questions.forEach(q => {
-      if (q.options.some(o => /[A-D] and [A-D]/.test(o.text))) return;
-      for (let i = q.options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
-      }
-    }));
-
-    initVersionTabs();
+    loadState();
+    document.getElementById('versionLabel').innerText = `Active: ${examVersions[currentVersionIndex].title}`;
     renderQuestions();
     updateProgress();
-    startTimer();
+    if (isGraded(currentVersionIndex)) showResults(false);
+    setInterval(tick, 1000);
   </script>
 </body>
 </html>

@@ -32,6 +32,8 @@
     }
     .math[data-tex], .math-auto[data-tex] { font-family: inherit; font-style: normal; }
     .katex { font-size: 1.12em; }
+    .steps { list-style: decimal; padding-left: 1.4rem; margin-top: .35rem; }
+    .steps li { margin: .35rem 0; padding-left: .15rem; }
     :root {
       --background: #f5f5f6;
       --foreground: #18181b;
@@ -146,7 +148,7 @@
               { text: "(-&infin;, -2] &cup; [3, &infin;)", correct: false },
               { text: "(-&infin;, -1/3] &cup; [3, &infin;)", correct: false }
             ],
-            explanation: "Split into: (2x - 1)/(x + 2) &ge; 1 or (2x - 1)/(x + 2) &le; -1. Note x &ne; -2 always. Solving both gives (-&infin;, -2) &cup; (-2, -1/3] &cup; [3, &infin;)."
+            explanation: "Split the absolute value: $(2x - 1) / (x + 2) ≥ 1$ or $(2x - 1) / (x + 2) ≤ -1$, and always $x ≠ -2$.\nFirst case: $(2x - 1) / (x + 2) - 1 ≥ 0 ⇒ (x - 3) / (x + 2) ≥ 0 ⇒ (-∞, -2) ∪ [3, ∞)$.\nSecond case: $(2x - 1) / (x + 2) + 1 ≤ 0 ⇒ (3x + 1) / (x + 2) ≤ 0 ⇒ (-2, -1 / 3]$.\nUnion: $(-∞, -2) ∪ (-2, -1 / 3] ∪ [3, ∞)$."
           },
           {
             id: 2, section: "1.1 Absolute Value Bounds", points: 2.5,
@@ -157,7 +159,7 @@
               { text: "&empty; (No Solution)", correct: true },
               { text: "(-&infin;, &infin;)", correct: false }
             ],
-            explanation: "Absolute value is always non-negative (|A| &ge; 0). It can never be &le; -3. Thus, &empty; (No solution)."
+            explanation: "An absolute value is never negative: $|4x + 7| ≥ 0$.\nSo $|4x + 7| ≤ -3$ is never true.\nAnswer: $∅$ (no solution)."
           },
           {
             id: 3, section: "1.2 Functions & Domain", points: 2.5,
@@ -168,7 +170,7 @@
               { text: "(-&infin;, -3] &cup; [3, &infin;)", correct: false },
               { text: "(-3, 2) &cup; (2, 3)", correct: false }
             ],
-            explanation: "Radicand 9 - x&sup2; &ge; 0 gives [-3, 3]. Denominator x - 2 &ne; 0 gives x &ne; 2. Combined: [-3, 2) &cup; (2, 3]."
+            explanation: "Root: $9 - x² ≥ 0 ⇒ -3 ≤ x ≤ 3$.\nDenominator: $x - 2 ≠ 0 ⇒ x ≠ 2$.\nDomain: $[-3, 2) ∪ (2, 3]$."
           },
           {
             id: 4, section: "1.2 Composition Domain", points: 2.5,
@@ -179,7 +181,7 @@
               { text: "(-&infin;, 4]", correct: false },
               { text: "[0, 4]", correct: false }
             ],
-            explanation: "(f &#8728; g)(x) = &radic;(4 - x&sup2;). Requires 4 - x&sup2; &ge; 0 &rArr; x&sup2; &le; 4 &rArr; [-2, 2]."
+            explanation: "$(f ∘ g)(x) = f(4 - x²) = √(4 - x²)$.\nNeed $4 - x² ≥ 0 ⇒ x² ≤ 4$.\nDomain: $[-2, 2]$."
           },
           {
             id: 5, section: "1.3 Inverse Functions", points: 2.5,
@@ -190,7 +192,7 @@
               { text: "f&#8315;&sup1;(x) = (5x - 1) / (2x + 3)", correct: false },
               { text: "f&#8315;&sup1;(x) = (3x - 1) / (2x + 5)", correct: false }
             ],
-            explanation: "Set y = (3x+1)/(2x-5), solve for x: x = (5y+1)/(2y-3), swap variables: (5x+1)/(2x-3)."
+            explanation: "Write $y = (3x + 1) / (2x - 5)$: $y(2x - 5) = 3x + 1 ⇒ 2xy - 5y = 3x + 1$.\n$x(2y - 3) = 5y + 1 ⇒ x = (5y + 1) / (2y - 3)$.\nSwap: $f⁻¹(x) = (5x + 1) / (2x - 3)$."
           },
           {
             id: 6, section: "1.4 Inverse Trigonometry", points: 2.5,
@@ -201,7 +203,7 @@
               { text: "3/4", correct: false },
               { text: "-3/5", correct: false }
             ],
-            explanation: "&theta; = arcsin(-3/5) is in Quad IV where cosine is positive! cos(&theta;) = +&radic;(1 - (-3/5)&sup2;) = 4/5."
+            explanation: "$θ = arcsin(-3 / 5)$ is in $[-π / 2, 0]$ (Quadrant IV), where cosine is positive.\n$cos θ = +√(1 - 9 / 25) = √(16 / 25) = 4 / 5$."
           },
           {
             id: 7, section: "2.1 One-Sided Limit", points: 2.5,
@@ -212,7 +214,7 @@
               { text: "1", correct: false },
               { text: "Does not exist (DNE)", correct: false }
             ],
-            explanation: "As x &rarr; 3&#8315;, x < 3 so |x - 3| = -(x - 3). Value = -(x - 3)/[2(x - 3)] = -1/2."
+            explanation: "For $x < 3$: $|x - 3| = -(x - 3)$, and $2x - 6 = 2(x - 3)$.\n$-(x - 3) / (2(x - 3)) = -1 / 2$.\nAnswer: $-1 / 2$."
           },
           {
             id: 8, section: "2.2 Radical Limits (Conjugate)", points: 2.5,
@@ -223,7 +225,7 @@
               { text: "1/4", correct: true },
               { text: "Does not exist (DNE)", correct: false }
             ],
-            explanation: "Multiply numerator and denominator by conjugate (&radic;(x+4) + 2). Limit becomes 1/(&radic;4 + 2) = 1/4."
+            explanation: "Substituting gives $0 / 0$. Multiply by the conjugate $(√(x + 4) + 2)$.\n$(x + 4 - 4) / (x(√(x + 4) + 2)) = 1 / (√(x + 4) + 2)$.\n$→ 1 / (2 + 2) = 1 / 4$."
           },
           {
             id: 9, section: "2.3 Limit at Negative Infinity", points: 2.5,
@@ -234,7 +236,7 @@
               { text: "4/3", correct: false },
               { text: "-4/3", correct: false }
             ],
-            explanation: "As x &rarr; -&infin;, &radic;(x&sup2;) = |x| = -x. Numerator becomes -x&radic;(4 + 1/x&sup2;). Ratio of leading terms: -2/3."
+            explanation: "For $x < 0$: $√(4x² + 1) = |x|√(4 + 1 / x²) = -x√(4 + 1 / x²)$.\nDivide top and bottom by x: $-√(4 + 1 / x²) / (3 - 2 / x)$.\n$→ -2 / 3$."
           },
           {
             id: 10, section: "2.4 Continuity at a Point", points: 2.5,
@@ -245,7 +247,7 @@
               { text: "c = 4/3", correct: false },
               { text: "c = -2", correct: false }
             ],
-            explanation: "Set left limit = right limit: 4c + 2 = 4 + c &rArr; 3c = 2 &rArr; c = 2/3."
+            explanation: "(Continuity is section 2.4, after the midterm.) Continuity at 2 needs left limit = right limit.\nLeft ($x ≤ 2$): $4c + 2$. Right: $4 + c$.\n$4c + 2 = 4 + c ⇒ 3c = 2 ⇒ c = 2 / 3$."
           }
         ]
       },
@@ -266,7 +268,7 @@
               { text: "[-3, -2]", correct: false },
               { text: "(2, 3)", correct: false }
             ],
-            explanation: "(x - 2)(x - 3) &le; 0. Roots are 2 and 3. The parabola opens upward, so it is &le; 0 between the roots: [2, 3]."
+            explanation: "Factor: $(x - 2)(x - 3) ≤ 0$.\nThe parabola opens upward, so it is ≤ 0 between the roots.\nAnswer: $[2, 3]$."
           },
           {
             id: 2, section: "1.1 Absolute Value Inequality", points: 2.5,
@@ -277,7 +279,7 @@
               { text: "(-&infin;, -1] &cup; [6, &infin;)", correct: false },
               { text: "(6, &infin;)", correct: false }
             ],
-            explanation: "2x - 5 > 7 &rArr; 2x > 12 &rArr; x > 6 OR 2x - 5 < -7 &rArr; 2x < -2 &rArr; x < -1. Thus, (-&infin;, -1) &cup; (6, &infin;)."
+            explanation: "$|2x - 5| > 7$ means $2x - 5 > 7$ or $2x - 5 < -7$.\n$2x > 12 ⇒ x > 6$, or $2x < -2 ⇒ x < -1$.\nAnswer: $(-∞, -1) ∪ (6, ∞)$."
           },
           {
             id: 3, section: "1.2 Symmetry (Even/Odd)", points: 2.5,
@@ -288,7 +290,7 @@
               { text: "f(x) = x&#8308; + 3", correct: false },
               { text: "f(x) = |x| + 1", correct: false }
             ],
-            explanation: "f(-x) = (-x)&sup3; + sin(-x) = -x&sup3; - sin(x) = -(x&sup3; + sin x) = -f(x). Hence f(x) is odd."
+            explanation: "Odd means $f(-x) = -f(x)$.\n$(-x)³ + sin(-x) = -x³ - sin x = -(x³ + sin x)$.\nSo $f(x) = x³ + sin x$ is odd."
           },
           {
             id: 4, section: "1.2 Domain with Multiple Roots", points: 2.5,
@@ -299,7 +301,7 @@
               { text: "[1, &infin;)", correct: false },
               { text: "(-&infin;, 5]", correct: false }
             ],
-            explanation: "Need x - 1 &ge; 0 &rArr; x &ge; 1 AND 5 - x &ge; 0 &rArr; x &le; 5. Intersection is [1, 5]."
+            explanation: "First root: $x - 1 ≥ 0 ⇒ x ≥ 1$.\nSecond root: $5 - x ≥ 0 ⇒ x ≤ 5$.\nBoth: $[1, 5]$."
           },
           {
             id: 5, section: "1.3 Range of Inverse", points: 2.5,
@@ -310,7 +312,7 @@
               { text: "[0, &infin;)", correct: false },
               { text: "(-&infin;, &infin;)", correct: false }
             ],
-            explanation: "Domain(f&#8315;&sup1;) = Range(f). Since &radic;(x - 3) &ge; 0, f(x) &ge; 2. Therefore, Range(f) = [2, &infin;) = Domain(f&#8315;&sup1;)."
+            explanation: "The domain of $f⁻¹$ is the range of f.\n$√(x - 3) ≥ 0$, so $f(x) = √(x - 3) + 2 ≥ 2$, and every value ≥ 2 is reached.\nAnswer: $[2, ∞)$."
           },
           {
             id: 6, section: "1.4 Inverse Trig Range Trap", points: 2.5,
@@ -321,7 +323,7 @@
               { text: "7&pi; / 6", correct: false },
               { text: "2&pi; / 3", correct: false }
             ],
-            explanation: "Range of arccos is [0, &pi;]. In Quadrant II, cos(&theta;) = -&radic;3/2 occurs at &theta; = &pi; - &pi;/6 = 5&pi;/6."
+            explanation: "$arccos$ returns an angle in $[0, π]$.\n$cos(π / 6) = √3 / 2$, so cosine $-√3 / 2$ in $[0, π]$ happens at $π - π / 6 = 5π / 6$.\nAnswer: $5π / 6$."
           },
           {
             id: 7, section: "2.1 Limit from Left & Right", points: 2.5,
@@ -332,7 +334,7 @@
               { text: "Does not exist (DNE)", correct: false },
               { text: "4", correct: false }
             ],
-            explanation: "Left limit: 2(1)+1 = 3. Right limit: 4-1 = 3. Since Left = Right = 3, the limit is 3 (independent of f(1) = 5)."
+            explanation: "Left ($x < 1$): $2x + 1 → 3$.\nRight ($x > 1$): $4 - x → 3$.\nEqual, so the limit is 3; the value $f(1) = 5$ does not matter."
           },
           {
             id: 8, section: "2.2 Factorization Limit", points: 2.5,
@@ -343,7 +345,7 @@
               { text: "0", correct: false },
               { text: "6", correct: false }
             ],
-            explanation: "Factor both: [(x - 2)(x&sup2; + 2x + 4)] / [(x - 2)(x + 2)]. Cancel (x - 2): (4 + 4 + 4) / (2 + 2) = 12 / 4 = 3."
+            explanation: "Substituting gives $0 / 0$. Factor: $((x - 2)(x² + 2x + 4)) / ((x - 2)(x + 2))$.\nCancel $(x - 2)$: $(x² + 2x + 4) / (x + 2)$.\n$→ (4 + 4 + 4) / 4 = 3$."
           },
           {
             id: 9, section: "2.3 Horizontal Asymptote", points: 2.5,
@@ -354,7 +356,7 @@
               { text: "x = 0 and x = -3/2", correct: false },
               { text: "No horizontal asymptotes", correct: false }
             ],
-            explanation: "Degrees of numerator and denominator are equal (degree 2). Ratio of leading coefficients: 5/2 &rArr; y = 5/2."
+            explanation: "Same degree (2) on top and bottom.\nRatio of leading coefficients: $5 / 2$.\nAnswer: $y = 5 / 2$."
           },
           {
             id: 10, section: "2.4 Removable Discontinuity", points: 2.5,
@@ -365,7 +367,7 @@
               { text: "x = -4, f(-4) = 0", correct: false },
               { text: "x = 4, f(4) = 16", correct: false }
             ],
-            explanation: "Denominator is 0 at x = 4. lim<sub>x &rarr; 4</sub> (x-4)(x+4)/(x-4) = 4 + 4 = 8. Defining f(4) = 8 removes the discontinuity."
+            explanation: "(Continuity is section 2.4, after the midterm.) The denominator is 0 at $x = 4$.\n$lim<sub>x → 4</sub> ((x - 4)(x + 4)) / (x - 4) = lim<sub>x → 4</sub> (x + 4) = 8$.\nThe limit exists, so it is a removable hole; defining $f(4) = 8$ fixes it."
           }
         ]
       },
@@ -386,7 +388,7 @@
               { text: "(-&infin;, -3) &cup; (1, &infin;)", correct: false },
               { text: "[-3, 1]", correct: false }
             ],
-            explanation: "Critical numbers -3 (numerator) and 1 (denominator). Sign chart is positive on (-&infin;, -3] and (1, &infin;). Denominator x=1 must be open."
+            explanation: "Critical numbers: −3 (top) and 1 (bottom).\nSigns: $+$ on $(-∞, -3)$, $-$ on $(-3, 1)$, $+$ on $(1, ∞)$.\nInclude −3 (gives 0), exclude 1: $(-∞, -3] ∪ (1, ∞)$."
           },
           {
             id: 2, section: "1.1 Always-True Absolute Value", points: 2.5,
@@ -397,7 +399,7 @@
               { text: "[-1, 7/3]", correct: false },
               { text: "[1, &infin;)", correct: false }
             ],
-            explanation: "Absolute value is always &ge; 0, which is always greater than -5 for every real number x. Solution is (-&infin;, &infin;)."
+            explanation: "$|3x - 2| ≥ 0 > -5$ for every x.\nSo the inequality is always true.\nAnswer: $(-∞, ∞)$."
           },
           {
             id: 3, section: "1.2 Domain with Fraction in Root", points: 2.5,
@@ -408,7 +410,7 @@
               { text: "[-4, 2]", correct: false },
               { text: "[2, &infin;)", correct: false }
             ],
-            explanation: "Need (x - 2)/(x + 4) &ge; 0. By sign chart, positive on (-&infin;, -4) &cup; [2, &infin;). Notice x = -4 is excluded."
+            explanation: "Need $(x - 2) / (x + 4) ≥ 0$ with $x ≠ -4$.\nSigns: $+$ on $(-∞, -4)$, $-$ on $(-4, 2)$, $+$ on $(2, ∞)$.\nAnswer: $(-∞, -4) ∪ [2, ∞)$."
           },
           {
             id: 4, section: "1.2 Composition Evaluation", points: 2.5,
@@ -419,7 +421,7 @@
               { text: "4", correct: false },
               { text: "9", correct: false }
             ],
-            explanation: "g(-1) = -1 + 3 = 2. Then f(g(-1)) = f(2) = 2(2)&sup2; - 1 = 8 - 1 = 7."
+            explanation: "Inner first: $g(-1) = -1 + 3 = 2$.\nThen $f(2) = 2(2)² - 1 = 8 - 1 = 7$.\nAnswer: 7."
           },
           {
             id: 5, section: "1.3 Verification of Inverses", points: 2.5,
@@ -430,7 +432,7 @@
               { text: "f(x) = 1/x, g(x) = -1/x", correct: false },
               { text: "f(x) = 3x, g(x) = x - 3", correct: false }
             ],
-            explanation: "f(g(x)) = 2[(x - 6)/2] + 6 = x - 6 + 6 = x. Hence they are inverses."
+            explanation: "Check $f(g(x)) = 2 · (x - 6) / 2 + 6 = x - 6 + 6 = x$.\nCheck $g(f(x)) = ((2x + 6) - 6) / 2 = x$.\nBoth give x, so $f(x) = 2x + 6$ and $g(x) = (x - 6) / 2$ are inverses."
           },
           {
             id: 6, section: "1.4 Algebraic Triangle Simplification", points: 2.5,
@@ -441,7 +443,7 @@
               { text: "x / &radic;(1 - x&sup2;)", correct: false },
               { text: "&radic;(x&sup2; - 1)", correct: false }
             ],
-            explanation: "Let &theta; = arccos(x) &rArr; cos(&theta;) = x/1. By right triangle, Opposite = &radic;(1 - x&sup2;). Thus sin(&theta;) = &radic;(1 - x&sup2;)."
+            explanation: "Let $θ = arccos(x)$: adjacent x, hypotenuse 1, opposite $√(1 - x²)$.\nθ is in $[0, π]$, where sine is ≥ 0.\n$sin θ = √(1 - x²)$."
           },
           {
             id: 7, section: "2.1 Squeeze Theorem", points: 2.5,
@@ -452,7 +454,7 @@
               { text: "Does not exist (oscillates)", correct: false },
               { text: "&infin;", correct: false }
             ],
-            explanation: "Since -1 &le; cos(1/x) &le; 1, multiplying by x&sup2; &ge; 0 gives -x&sup2; &le; x&sup2;cos(1/x) &le; x&sup2;. By Squeeze Theorem as x &rarr; 0, limit is 0."
+            explanation: "$-1 ≤ cos(1 / x) ≤ 1$; multiply by $x² ≥ 0$: $-x² ≤ x²cos(1 / x) ≤ x²$.\nBoth bounds → 0 as $x → 0$.\nBy the Squeeze Theorem the limit is 0."
           },
           {
             id: 8, section: "2.2 Absolute Value Limit Trap", points: 2.5,
@@ -463,7 +465,7 @@
               { text: "0", correct: false },
               { text: "Does not exist (DNE)", correct: false }
             ],
-            explanation: "As x &rarr; 5&plus;, x > 5, so x - 5 > 0, which means |x - 5| = +(x - 5). The ratio is (x-5)/(x-5) = 1."
+            explanation: "For $x > 5$: $x - 5 > 0$, so $|x - 5| = x - 5$.\n$(x - 5) / (x - 5) = 1$.\nAnswer: 1."
           },
           {
             id: 9, section: "2.3 Vertical Asymptote Test", points: 2.5,
@@ -474,7 +476,7 @@
               { text: "x = 2 only", correct: false },
               { text: "No vertical asymptotes", correct: false }
             ],
-            explanation: "(x - 2)/[(x - 2)(x + 2)] = 1/(x + 2) for x &ne; 2. At x = 2 there is a removable hole. Only x = -2 is a vertical asymptote!"
+            explanation: "Factor: $(x - 2) / ((x - 2)(x + 2)) = 1 / (x + 2)$ for $x ≠ 2$.\n$x = 2$ cancels, so it is a hole (the limit there is $1 / 4$), not an asymptote.\nOnly $x = -2$ is a vertical asymptote."
           },
           {
             id: 10, section: "2.4 Intermediate Value Theorem (IVT)", points: 2.5,
@@ -485,7 +487,7 @@
               { text: "[1, 2]", correct: false },
               { text: "[-1, 0]", correct: false }
             ],
-            explanation: "f(2) = 8 - 4 - 5 = -1 < 0. f(3) = 27 - 6 - 5 = +16 > 0. Since signs differ and f is continuous, by IVT a root exists in [2, 3]."
+            explanation: "(The Intermediate Value Theorem is section 2.4, after the midterm.)\n$f(2) = 8 - 4 - 5 = -1 < 0$ and $f(3) = 27 - 6 - 5 = 16 > 0$.\nf is a polynomial and changes sign, so it has a root in $[2, 3]$."
           }
         ]
       },
@@ -506,7 +508,7 @@
               { text: "[-3, 3]", correct: false },
               { text: "[1, 3]", correct: false }
             ],
-            explanation: "|x-1|(|x+1| - 2) &le; 0. Either |x-1|=0 &rArr; x=1, or |x+1| &le; 2 &rArr; -3 &le; x &le; 1. Union is [-3, 1]."
+            explanation: "Factor: $|x² - 1| = |x - 1| · |x + 1|$, so the inequality is $|x - 1|(|x + 1| - 2) ≤ 0$.\nEither $|x - 1| = 0$ (x = 1), or $|x + 1| ≤ 2 ⇒ -3 ≤ x ≤ 1$.\nUnion: $[-3, 1]$."
           },
           {
             id: 2, section: "1.1 Double Inequality", points: 2.5,
@@ -517,7 +519,7 @@
               { text: "[-2, 6)", correct: false },
               { text: "[-1, 3]", correct: false }
             ],
-            explanation: "Add 1 to all parts: -2 &le; 2x < 6. Divide by 2: -1 &le; x < 3 &rArr; [-1, 3)."
+            explanation: "Add 1 to all three parts: $-2 ≤ 2x < 6$.\nDivide by 2: $-1 ≤ x < 3$.\nAnswer: $[-1, 3)$."
           },
           {
             id: 3, section: "1.2 Domain of Rational Function", points: 2.5,
@@ -528,7 +530,7 @@
               { text: "(2, 3)", correct: false },
               { text: "R \\ {-2, -3}", correct: false }
             ],
-            explanation: "Denominator factors into (x - 2)(x - 3) &ne; 0 &rArr; x &ne; 2, 3. The numerator does not restrict domain. Domain = R \\ {2, 3}."
+            explanation: "The denominator must not be 0: $x² - 5x + 6 = (x - 2)(x - 3) ≠ 0$.\nSo $x ≠ 2$ and $x ≠ 3$.\nDomain: $ℝ - {2, 3}$."
           },
           {
             id: 4, section: "1.2 Function Decomposition", points: 2.5,
@@ -539,7 +541,7 @@
               { text: "f(x) = &radic;(x + 4), g(x) = x&sup2;", correct: false },
               { text: "Both A and C are valid", correct: true }
             ],
-            explanation: "Both f(x)=&radic;x with g(x)=x&sup2;+4 AND f(x)=&radic;(x+4) with g(x)=x&sup2; yield &radic;(x&sup2;+4), so the complete answer is D."
+            explanation: "Option A: $f(x) = √x$ and $g(x) = x² + 4$ give $f(g(x)) = √(x² + 4)$.\nOption C: $f(x) = √(x + 4)$ and $g(x) = x²$ give $f(g(x)) = √(x² + 4)$ too.\nBoth work, so the answer is Both A and C are valid."
           },
           {
             id: 5, section: "1.3 Horizontal Line Test", points: 2.5,
@@ -550,7 +552,7 @@
               { text: "f(x) = |x + 2|", correct: false },
               { text: "f(x) = cos(x)", correct: false }
             ],
-            explanation: "f(x) = 2x&sup3; - 5 is strictly increasing on all real numbers and passes the horizontal line test. The others fail."
+            explanation: "$f(x) = 2x³ - 5$ is strictly increasing on ℝ.\nSo every horizontal line meets its graph at most once.\nIt is one-to-one; the other options fail the horizontal line test."
           },
           {
             id: 6, section: "1.4 Inverse Trig Identity", points: 2.5,
@@ -561,7 +563,7 @@
               { text: "&radic;(1 + x&sup2;)", correct: false },
               { text: "Only defined for -1 &le; x &le; 1", correct: false }
             ],
-            explanation: "Domain of arctan(x) is all real numbers (-&infin;, &infin;). Therefore tan(arctan(x)) = x for all real x."
+            explanation: "$arctan x$ is defined for every real x and returns the angle whose tangent is x.\nSo $tan(arctan x) = x$ for all real x."
           },
           {
             id: 7, section: "2.1 Unbounded Limit", points: 2.5,
@@ -572,7 +574,7 @@
               { text: "0", correct: false },
               { text: "1", correct: false }
             ],
-            explanation: "As x &rarr; 2&plus;, x - 2 is a tiny positive number (e.g. 0.0001). 1 / 0.0001 = +10,000 &rArr; +&infin;."
+            explanation: "For x slightly bigger than 2, $x - 2$ is a small positive number.\n1 divided by a small positive number is a large positive number.\nAnswer: $+∞$."
           },
           {
             id: 8, section: "2.2 Rationalization Limit", points: 2.5,
@@ -583,7 +585,7 @@
               { text: "1", correct: false },
               { text: "0", correct: false }
             ],
-            explanation: "Multiply top and bottom by (&radic;x + 1): (x - 1)(&radic;x + 1)/(x - 1) = &radic;x + 1. At x = 1, &radic;1 + 1 = 2."
+            explanation: "Substituting gives $0 / 0$. Multiply by $(√x + 1)$: $((x - 1)(√x + 1)) / (x - 1)$.\nCancel: $√x + 1$.\n$→ √1 + 1 = 2$."
           },
           {
             id: 9, section: "2.3 Limit with Radicals at Infinity", points: 2.5,
@@ -594,7 +596,7 @@
               { text: "0", correct: false },
               { text: "&infin;", correct: false }
             ],
-            explanation: "Multiply and divide by conjugate: (x&sup2; + 3x - x&sup2;) / [&radic;(x&sup2; + 3x) + x] = 3x / [x(&radic;(1+3/x) + 1)] = 3 / 2."
+            explanation: "$∞ - ∞$ form: multiply by the conjugate: $(x² + 3x - x²) / (√(x² + 3x) + x) = 3x / (√(x² + 3x) + x)$.\nDivide by $x > 0$: $3 / (√(1 + 3 / x) + 1)$.\n$→ 3 / 2$."
           },
           {
             id: 10, section: "2.4 Continuity with Absolute Value", points: 2.5,
@@ -605,7 +607,7 @@
               { text: "No, has a vertical asymptote", correct: false },
               { text: "No, f(3) is undefined", correct: false }
             ],
-            explanation: "f(3) = 0. lim<sub>x&rarr;3&minus;</sub> -(x-3) = 0 and lim<sub>x&rarr;3&plus;</sub> (x-3) = 0. The limit equals the function value, so it is continuous."
+            explanation: "(Continuity is section 2.4, after the midterm.) $f(3) = |0| = 0$.\nLeft: $-(x - 3) → 0$. Right: $x - 3 → 0$.\nThe limit equals $f(3) = 0$, so f is continuous at 3."
           }
         ]
       },
@@ -626,7 +628,7 @@
               { text: "[-7, &infin;)", correct: false },
               { text: "(-&infin;, 7]", correct: false }
             ],
-            explanation: "-2x &le; 8. Dividing by -2 flips the inequality sign! x &ge; -4 &rArr; [-4, &infin;)."
+            explanation: "Subtract 3: $-2x ≤ 8$.\nDivide by −2 and flip: $x ≥ -4$.\nAnswer: $[-4, ∞)$."
           },
           {
             id: 2, section: "1.1 Absolute Value Greater-Than", points: 2.5,
@@ -637,7 +639,7 @@
               { text: "(-&infin;, 7]", correct: false },
               { text: "[-1, &infin;)", correct: false }
             ],
-            explanation: "3 - x &ge; 4 &rArr; -x &ge; 1 &rArr; x &le; -1 OR 3 - x &le; -4 &rArr; -x &le; -7 &rArr; x &ge; 7. Union: (-&infin;, -1] &cup; [7, &infin;)."
+            explanation: "$|3 - x| ≥ 4$ means $3 - x ≥ 4$ or $3 - x ≤ -4$.\nSo $x ≤ -1$, or $x ≥ 7$.\nAnswer: $(-∞, -1] ∪ [7, ∞)$."
           },
           {
             id: 3, section: "1.2 Domain of Reciprocal Radical", points: 2.5,
@@ -648,7 +650,7 @@
               { text: "(-&infin;, -4) &cup; (4, &infin;)", correct: false },
               { text: "R \\ {-4, 4}", correct: false }
             ],
-            explanation: "Since the radical is in the denominator, 16 - x&sup2; must be strictly > 0 (strictly positive). Thus x&sup2; < 16 &rArr; (-4, 4)."
+            explanation: "The root is in the denominator, so its inside must be strictly positive: $16 - x² > 0$.\n$x² < 16 ⇒ -4 < x < 4$.\nAnswer: $(-4, 4)$."
           },
           {
             id: 4, section: "1.2 Domain of Combined Operations", points: 2.5,
@@ -659,7 +661,7 @@
               { text: "(0, 4)", correct: false },
               { text: "[0, &infin;)", correct: false }
             ],
-            explanation: "Dom(f) = [0, &infin;). Dom(g) = (-&infin;, 4]. For f/g, g(x) &ne; 0 &rArr; x &ne; 4. Intersection is [0, 4)."
+            explanation: "$D_f = [0, ∞)$ and $D_g = (-∞, 4]$; their intersection is $[0, 4]$.\nFor $f / g$ also need $g(x) ≠ 0 ⇒ x ≠ 4$.\nDomain: $[0, 4)$."
           },
           {
             id: 5, section: "1.3 Inverse of Cubic", points: 2.5,
@@ -670,7 +672,7 @@
               { text: "((x - 1) / 2)&sup3;", correct: false },
               { text: "&sup3;&radic;(x - 1) / 2", correct: false }
             ],
-            explanation: "y = 2x&sup3; + 1 &rArr; y - 1 = 2x&sup3; &rArr; x&sup3; = (y - 1)/2 &rArr; x = &sup3;&radic;((y - 1)/2). Swap: &sup3;&radic;((x - 1)/2)."
+            explanation: "$y = 2x³ + 1 ⇒ x³ = (y - 1) / 2$.\n$x = ∛((y - 1) / 2)$.\nSwap: $f⁻¹(x) = ∛((x - 1) / 2)$."
           },
           {
             id: 6, section: "1.4 Principal Value of ArcTan", points: 2.5,
@@ -681,7 +683,7 @@
               { text: "7&pi; / 4", correct: false },
               { text: "&pi; / 4", correct: false }
             ],
-            explanation: "Range of arctan is (-&pi;/2, &pi;/2). The angle in this range whose tangent is -1 is -&pi;/4."
+            explanation: "$arctan$ returns an angle in $(-π / 2, π / 2)$.\n$tan(π / 4) = 1$, so $tan(-π / 4) = -1$.\nAnswer: $-π / 4$."
           },
           {
             id: 7, section: "2.1 Split Function Limit", points: 2.5,
@@ -692,7 +694,7 @@
               { text: "Does not exist", correct: false },
               { text: "0", correct: false }
             ],
-            explanation: "Left limit: 2&sup2; - 1 = 3. Right limit: 3(2) - 3 = 3. Since both sides agree, limit = 3."
+            explanation: "Left ($x < 2$): $x² - 1 → 3$.\nRight ($x > 2$): $3x - 3 → 3$.\nEqual, so the limit is 3 (the value $f(2) = 4$ does not matter)."
           },
           {
             id: 8, section: "2.2 Trigonometric Limit Law", points: 2.5,
@@ -703,7 +705,7 @@
               { text: "1", correct: false },
               { text: "0", correct: false }
             ],
-            explanation: "Standard limit formula lim<sub>u&rarr;0</sub> sin(au)/(bu) = a/b. Here it is 5/3."
+            explanation: "Write $sin(5x) / (3x) = (5 / 3) · sin(5x) / (5x)$.\n$sin(5x) / (5x) → 1$.\nAnswer: $5 / 3$."
           },
           {
             id: 9, section: "2.3 High Degree Ratio at Infinity", points: 2.5,
@@ -714,7 +716,7 @@
               { text: "&infin;", correct: false },
               { text: "-&infin;", correct: false }
             ],
-            explanation: "Degree of numerator (3) < degree of denominator (4). Whenever bottom degree is higher, limit at infinity is always 0."
+            explanation: "The degree of the top (3) is less than the degree of the bottom (4).\nDivide by $x⁴$: $(3 / x - 2 / x³ + 7 / x⁴) / (5 + 1 / x⁴) → 0 / 5$.\nAnswer: 0."
           },
           {
             id: 10, section: "2.4 Solving for Two Constants", points: 2.5,
@@ -725,7 +727,7 @@
               { text: "a = -1, b = 3", correct: false },
               { text: "a = 1, b = 1", correct: false }
             ],
-            explanation: "At x = 1: a(1) + b = 2 &rArr; a + b = 2. At x = 3: a(3) + b = -2 &rArr; 3a + b = -2. Subtracting equations: 2a = -4 &rArr; a = -2, b = 4."
+            explanation: "(Continuity is section 2.4, after the midterm.) At $x = 1$: left value 2, middle piece $a + b$, so $a + b = 2$.\nAt $x = 3$: middle piece $3a + b$, right value −2, so $3a + b = -2$.\nSubtract: $2a = -4 ⇒ a = -2$, then $b = 4$."
           }
         ]
       },
@@ -746,7 +748,7 @@
               { text: "(-&infin;, -1) &cup; (9, &infin;)", correct: false },
               { text: "(-3, 6)", correct: false }
             ],
-            explanation: "Square both sides: (2x - 3)&sup2; < (x + 6)&sup2; &rArr; 4x&sup2; - 12x + 9 < x&sup2; + 12x + 36 &rArr; 3x&sup2; - 24x - 27 < 0 &rArr; x&sup2; - 8x - 9 < 0 &rArr; (x - 9)(x + 1) < 0 &rArr; (-1, 9)."
+            explanation: "Both sides are ≥ 0, so square: $(2x - 3)² < (x + 6)²$.\n$4x² - 12x + 9 < x² + 12x + 36 ⇒ 3x² - 24x - 27 < 0 ⇒ x² - 8x - 9 < 0$.\n$(x - 9)(x + 1) < 0$, negative between the roots: $(-1, 9)$."
           },
           {
             id: 2, section: "1.1 Quadratic Sign Chart", points: 2.5,
@@ -757,7 +759,7 @@
               { text: "(-5, -1)", correct: false },
               { text: "(-&infin;, -5) &cup; (-1, &infin;)", correct: false }
             ],
-            explanation: "Complete the square: (x + 2)&sup2; + 1. Since (x+2)&sup2; &ge; 0, adding 1 makes it &ge; 1 > 0 for all real numbers! Answer: (-&infin;, &infin;)."
+            explanation: "Complete the square: $x² + 4x + 5 = (x + 2)² + 1$.\n$(x + 2)² ≥ 0$, so the expression is at least 1, always positive.\nAnswer: $(-∞, ∞)$."
           },
           {
             id: 3, section: "1.2 Natural Domain of Composite", points: 2.5,
@@ -768,7 +770,7 @@
               { text: "R \\ {0, 3}", correct: false },
               { text: "(3, &infin;)", correct: false }
             ],
-            explanation: "(f &#8728; g)(x) = 1/(x - 3). Domain of g is R. For f, input cannot be 0, so x - 3 &ne; 0 &rArr; x &ne; 3. Domain: R \\ {3}."
+            explanation: "$(f ∘ g)(x) = f(x - 3) = 1 / (x - 3)$.\nNeed $x - 3 ≠ 0 ⇒ x ≠ 3$.\nDomain: $ℝ - {3}$."
           },
           {
             id: 4, section: "1.2 Piecewise Range Evaluation", points: 2.5,
@@ -779,7 +781,7 @@
               { text: "(0, &infin;)", correct: false },
               { text: "[-1, 1]", correct: false }
             ],
-            explanation: "For x < 0, -x > 0. For x &ge; 0, x&sup2; &ge; 0. All outputs are &ge; 0. Range is [0, &infin;)."
+            explanation: "For $x < 0$: $-x > 0$ takes every positive value.\nFor $x ≥ 0$: $x² ≥ 0$ takes every value ≥ 0, including 0.\nRange: $[0, ∞)$."
           },
           {
             id: 5, section: "1.3 Inverse Function Composition", points: 2.5,
@@ -790,7 +792,7 @@
               { text: "27", correct: false },
               { text: "-1", correct: false }
             ],
-            explanation: "Set f(x) = 22 &rArr; (x + 2)&sup3; - 5 = 22 &rArr; (x + 2)&sup3; = 27 &rArr; x + 2 = 3 &rArr; x = 1. So f&#8315;&sup1;(22) = 1."
+            explanation: "$f⁻¹(22)$ is the x with $f(x) = 22$.\n$(x + 2)³ - 5 = 22 ⇒ (x + 2)³ = 27 ⇒ x + 2 = 3$.\nSo $x = 1$ and $f⁻¹(22) = 1$."
           },
           {
             id: 6, section: "1.4 Tricky Cancellation", points: 2.5,
@@ -801,7 +803,7 @@
               { text: "-&pi; / 6", correct: false },
               { text: "1/2", correct: false }
             ],
-            explanation: "5&pi;/6 is outside [-&pi;/2, &pi;/2]! sin(5&pi;/6) = 1/2. arcsin(1/2) = &pi;/6."
+            explanation: "$5π / 6$ is outside $[-π / 2, π / 2]$, so the answer cannot be $5π / 6$.\n$sin(5π / 6) = 1 / 2$.\n$arcsin(1 / 2) = π / 6$."
           },
           {
             id: 7, section: "2.1 Limit Involving Floor Function", points: 2.5,
@@ -812,7 +814,7 @@
               { text: "0", correct: false },
               { text: "Does not exist", correct: false }
             ],
-            explanation: "As x approaches 2 from the left, x is around 1.9, 1.99. The greatest integer &le; 1.99 is 1. Thus limit is 1."
+            explanation: "For x just below 2 (1.9, 1.99, …) the greatest integer ≤ x is 1.\nSo $⌊x⌋ → 1$ as $x → 2⁻$."
           },
           {
             id: 8, section: "2.2 Conjugate with Linear Term", points: 2.5,
@@ -823,7 +825,7 @@
               { text: "3", correct: false },
               { text: "0", correct: false }
             ],
-            explanation: "Multiply top and bottom by (&radic;(x+5) + 3): (x-4)(&radic;(x+5) + 3) / (x + 5 - 9) = &radic;(x+5) + 3. At x = 4: &radic;9 + 3 = 6."
+            explanation: "Substituting gives $0 / 0$. Multiply by $(√(x + 5) + 3)$: $((x - 4)(√(x + 5) + 3)) / (x + 5 - 9)$.\nThe bottom is $x - 4$; cancel: $√(x + 5) + 3$.\n$→ √9 + 3 = 6$."
           },
           {
             id: 9, section: "2.3 Limit as x Approaches Negative Infinity", points: 2.5,
@@ -834,7 +836,7 @@
               { text: "2/9", correct: false },
               { text: "-2/9", correct: false }
             ],
-            explanation: "For x < 0, &radic;(x&sup2;) = -x. &radic;(9x&sup2;+4) = -x&radic;(9 + 4/x&sup2;). Lim (2x)/(-3x) = -2/3."
+            explanation: "For $x < 0$: $√(9x² + 4) = |x|√(9 + 4 / x²) = -x√(9 + 4 / x²)$.\nDivide top and bottom by x: $(2 - 3 / x) / (-√(9 + 4 / x²))$.\n$→ 2 / (-3) = -2 / 3$."
           },
           {
             id: 10, section: "2.4 Continuity Condition Verification", points: 2.5,
@@ -845,7 +847,7 @@
               { text: "&infin;", correct: false },
               { text: "Cannot be made continuous", correct: false }
             ],
-            explanation: "Since lim<sub>x&rarr;0</sub> (sin x)/x = 1, setting f(0) = 1 satisfies lim<sub>x&rarr;0</sub> f(x) = f(0), making it continuous."
+            explanation: "(Continuity is section 2.4, after the midterm.) $lim<sub>x → 0</sub> sin x / x = 1$.\nContinuity at 0 needs $f(0) = lim<sub>x → 0</sub> f(x)$.\nSo $f(0) = 1$."
           }
         ]
       }
@@ -976,7 +978,7 @@
             ${graded ? `
               <div class="mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm leading-relaxed">
                 <span class="font-bold text-blue-600 dark:text-blue-400 block mb-1">Detailed Explanation & Exam Insight:</span>
-                <span>${q.explanation}</span>
+                <div>${stepsHtml(q.explanation)}</div>
               </div>
             ` : ''}
           </div>

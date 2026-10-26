@@ -14,7 +14,7 @@
     ['²', '^{2}'], ['³', '^{3}'], ['⁴', '^{4}'], ['ⁿ', '^{n}'], ['₁', '_{1}'], ['₂', '_{2}'],
     ['⌊', '\\lfloor '], ['⌋', '\\rfloor '], ['%', '\\%']
   ];
-  const WORDS_OK = ['Domain', 'Range', 'and']; // prose an option may contain and still be typeset
+  const WORDS_OK = ['Domain', 'Range', 'and', 'only']; // prose an option may contain and still be typeset
   const PH = '\u0005'; // wraps a placeholder index for an already-converted {...} group
 
   const decoder = document.createElement('textarea');
@@ -84,6 +84,7 @@
       j = i + 1;
       while (/[A-Za-z]/.test(s[j] || '')) j++;
       const name = s.slice(i + 1, j);
+      if (s[j] === '[') j = matchFwd(s, j, '[', ']') + 1; // \sqrt[3]{...}
       while (s[j] === '{') j = matchFwd(s, j, '{', '}') + 1;
       if (FN.includes(name)) {
         let k = j;
@@ -192,6 +193,14 @@
     if (words.some(w => !FN.includes(w) && !WORDS_OK.includes(w))) return false;
     return words.length > 0 || /<su[bp]>/.test(html) || /[\/√∛^²³⁻∞πθ≤≥∪∅ℝ∘\d]/.test(text);
   }
+
+  // A worked solution is one step per line; $...$ marks the math inside a step.
+  window.stepsHtml = function (text) {
+    const steps = String(text).split('\n').map(s => s.trim()).filter(Boolean)
+      .map(s => s.replace(/\$([^$]+)\$/g, "<span class='math'>$1</span>"));
+    if (steps.length < 2) return steps.join('');
+    return '<ol class="steps">' + steps.map(s => `<li>${s}</li>`).join('') + '</ol>';
+  };
 
   window.mathToTex = toTex;
   window.renderMath = function (root) {

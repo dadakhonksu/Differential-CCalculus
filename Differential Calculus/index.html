@@ -51,6 +51,8 @@
     }
     .math[data-tex], .math-auto[data-tex] { font-family: inherit; font-style: normal; }
     .katex { font-size: 1.12em; }
+    .steps { list-style: decimal; padding-left: 1.4rem; margin-top: .35rem; }
+    .steps li { margin: .35rem 0; padding-left: .15rem; }
     .text-good { color: var(--good); }
     .text-bad { color: var(--bad); }
     button:not(:disabled) { cursor: pointer; }
@@ -65,7 +67,7 @@
       <div class="text-center space-y-1 border-b border-[var(--border)] pb-4">
         <h2 class="text-xs uppercase tracking-widest text-[var(--muted-foreground)] font-semibold">King Saud University &bull; Common First Year Deanship &bull; Basic Sciences</h2>
         <h1 class="text-xl md:text-2xl font-black tracking-tight text-[var(--foreground)]">MATH 101 FULL MOCK EXAMS (1448 H / 2026)</h1>
-        <p class="text-sm font-medium">5 complete practice exams laid out like the real paper: sit one in 90 minutes, then grade it out of 25.</p>
+        <p class="text-sm font-medium">10 complete practice exams laid out like the real paper: sit one in 90 minutes, then grade it out of 25.</p>
         <p class="text-xs text-[var(--muted-foreground)]">Modeled on 1446H &amp; 1447H Real Exam Papers &bull; Questions 1&ndash;4 &bull; 25.0 Marks &bull; Time: 90 Min</p>
         <a href="math101_practice.html" class="inline-block pt-1 text-xs font-semibold text-red-600 dark:text-red-400 hover:underline">Want short practice on one topic? Open Quick Drills &rarr;</a>
       </div>
@@ -158,7 +160,7 @@
                         "(-&infin;, -2)"
                     ],
                     "correct": 0,
-                    "exp": "-2 < -6 + 2x &rArr; 4 < 2x &rArr; 2 < x &rArr; x &in; (2, &infin;)."
+                    "exp": "Add 6 to both sides: $-2 + 6 < 2x$, so $4 < 2x$.\nDivide by 2 (positive, so the sign stays): $x > 2$.\nAnswer: $(2, \u221e)$."
                 },
                 {
                     "id": 2,
@@ -170,7 +172,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Both one-sided values converge to 4 as x approaches 2. Thus limit = 4."
+                    "exp": "From the left the values go 3.99, 3.999, \u2026 and approach 4.\nFrom the right they go 4.01, 4.001, \u2026 and also approach 4.\nBoth one-sided limits are 4, so $lim<sub>x \u2192 2</sub> f(x) = 4$."
                 },
                 {
                     "id": 3,
@@ -182,7 +184,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "The right-hand limit specifically asks for x &rarr; 1&plus;, which approaches 5."
+                    "exp": "$x \u2192 1\u207a$ means approach from the right only.\nFrom the right the graph approaches 5.\nAnswer: $lim<sub>x \u2192 1\u207a</sub> f(x) = 5$ (the left value 2 is not asked)."
                 },
                 {
                     "id": 4,
@@ -194,7 +196,7 @@
                         "tan x"
                     ],
                     "correct": 0,
-                    "exp": "(1 - cos x)/sin x = 1/sin x - cos x/sin x = csc x - cot x."
+                    "exp": "Split the fraction: $(1 - cos x) / sin x = 1 / sin x - cos x / sin x$.\nUse $1 / sin x = csc x$ and $cos x / sin x = cot x$.\nAnswer: $csc x - cot x$."
                 },
                 {
                     "id": 5,
@@ -206,7 +208,7 @@
                         "D.N.E"
                     ],
                     "correct": 0,
-                    "exp": "The denominator is -2 &ne; 0, so direct substitution gives cos(-2)/(-2) = -cos(2)/2."
+                    "exp": "At $x = -2$ the denominator is $-2 \u2260 0$, so substitute directly.\nAnswer: $cos(-2) / (-2)$, which also equals $-cos(2) / 2$ because cosine is even."
                 },
                 {
                     "id": 6,
@@ -218,7 +220,7 @@
                         "(0, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "(f &middot; f)(x) = f(x)f(x). Each requires x in Domain(f) = [0, &infin;). Thus domain is [0, &infin;)."
+                    "exp": "$(f \u00b7 f)(x) = f(x) \u00b7 f(x)$, so x must be in the domain of f.\n$\u221ax$ needs $x \u2265 0$, so $D_f = [0, \u221e)$.\nDomain $= D_f \u2229 D_f = [0, \u221e)$. Simplifying $\u221ax \u00b7 \u221ax = x$ first would wrongly give \u211d."
                 }
             ]
         },
@@ -230,42 +232,42 @@
                     {
                         "text": "1 / &radic;7",
                         "correct": "irrational",
-                        "exp": "1/&radic;7 = &radic;7/7 (Irrational)"
+                        "exp": "Rationalise: $1 / \u221a7 = \u221a7 / 7$.\n7 is not a perfect square, so $\u221a7$ is irrational. Irrational."
                     },
                     {
                         "text": "3 &frac14; (3.25)",
                         "correct": "rational",
-                        "exp": "13/4 (Ratio of integers &rArr; Rational)"
+                        "exp": "$3 \u00bc = 13 / 4$, a ratio of integers.\nRational."
                     },
                     {
                         "text": "2.71828 (terminating)",
                         "correct": "rational",
-                        "exp": "Terminating decimal &rArr; Rational"
+                        "exp": "2.71828 is a terminating decimal: $271828 / 100000$.\nRational. (Do not confuse it with e = 2.71828\u2026, which never ends.)"
                     },
                     {
                         "text": "(&radic;3 + &radic;5)&sup2;",
                         "correct": "irrational",
-                        "exp": "3 + 2&radic;15 + 5 = 8 + 2&radic;15 (Irrational)"
+                        "exp": "Expand: $(\u221a3 + \u221a5)\u00b2 = 3 + 2\u221a15 + 5 = 8 + 2\u221a15$.\n$\u221a15$ is irrational. Irrational."
                     },
                     {
                         "text": "&radic;3 / &radic;12",
                         "correct": "rational",
-                        "exp": "&radic;(3/12) = &radic;(1/4) = 1/2 (Rational)"
+                        "exp": "Combine: $\u221a3 / \u221a12 = \u221a(3 / 12) = \u221a(1 / 4) = 1 / 2$.\nRational."
                     },
                     {
                         "text": "355 / 113",
                         "correct": "rational",
-                        "exp": "Fraction of integers (Rational)"
+                        "exp": "$355 / 113$ is a ratio of integers (it approximates \u03c0 but is not \u03c0).\nRational."
                     },
                     {
                         "text": "2&pi; &middot; cos(&pi;)",
                         "correct": "irrational",
-                        "exp": "2&pi;(-1) = -2&pi; (Irrational)"
+                        "exp": "$cos \u03c0 = -1$, so $2\u03c0 \u00b7 cos \u03c0 = -2\u03c0$.\n\u03c0 is irrational. Irrational."
                     },
                     {
                         "text": "1.7&#773; (repeating)",
                         "correct": "rational",
-                        "exp": "Repeating decimal 16/9 (Rational)"
+                        "exp": "Let $x = 1.777\u2026$. Then $10x - x = 17.777\u2026 - 1.777\u2026 = 16$.\n$x = 16 / 9$. Rational."
                     }
                 ]
             },
@@ -282,7 +284,7 @@
                             "(-&infin;, 4)"
                         ],
                         "correct": 0,
-                        "exp": "x/2 - 1 - 4/x < 0 &rArr; (x&sup2; - 2x - 8)/(2x) < 0 &rArr; (x - 4)(x + 2)/(2x) < 0. Critical numbers: -2, 0, 4. Sign chart gives (-&infin;, -2) &cup; (0, 4)."
+                        "exp": "Move everything to one side: $x / 2 - 1 - 4 / x < 0$.\nCommon denominator $2x$: $(x\u00b2 - 2x - 8) / (2x) < 0$.\nFactor: $((x - 4)(x + 2)) / (2x) < 0$. Critical numbers: $-2, 0, 4$.\nSigns: $-$ on $(-\u221e, -2)$, $+$ on $(-2, 0)$, $-$ on $(0, 4)$, $+$ on $(4, \u221e)$.\nStrict inequality, so no endpoints: $(-\u221e, -2) \u222a (0, 4)$."
                     },
                     {
                         "id": "q2_b2",
@@ -294,7 +296,7 @@
                             "(f &#8728; g)(x) = &radic;(x - 3), Domain = [3, &infin;)"
                         ],
                         "correct": 0,
-                        "exp": "(f &#8728; g)(x) = &radic;(&radic;(3 - x&sup2;)) = &#8308;&radic;(3 - x&sup2;). Requires 3 - x&sup2; &ge; 0 &rArr; x&sup2; &le; 3 &rArr; [-&radic;3, &radic;3]."
+                        "exp": "$(f \u2218 g)(x) = f(g(x)) = \u221a(g(x)) = \u221a(\u221a(3 - x\u00b2))$, the fourth root of $3 - x\u00b2$.\nDomain: need $3 - x\u00b2 \u2265 0$, so $x\u00b2 \u2264 3$.\nAnswer: $[-\u221a3, \u221a3]$."
                     }
                 ]
             }
@@ -312,7 +314,7 @@
                         "Cannot be determined without a graph"
                     ],
                     "correct": 0,
-                    "exp": "For x &in; [-1, 1], the argument &pi;x/2 ranges in [-&pi;/2, &pi;/2]. In this interval, sine is strictly increasing from -1 to 1, hence it passes the horizontal line test and is ONE-TO-ONE."
+                    "exp": "For $x \u2208 [-1, 1]$, the angle $\u03c0x / 2$ runs over $[-\u03c0 / 2, \u03c0 / 2]$.\nOn $[-\u03c0 / 2, \u03c0 / 2]$ sine is strictly increasing, from \u22121 to 1.\nProof form: $f(x\u2081) = f(x\u2082) \u21d2 sin(\u03c0x\u2081 / 2) = sin(\u03c0x\u2082 / 2) \u21d2 \u03c0x\u2081 / 2 = \u03c0x\u2082 / 2 \u21d2 x\u2081 = x\u2082$ (both angles lie in $[-\u03c0 / 2, \u03c0 / 2]$).\nSo f is one-to-one."
                 },
                 {
                     "id": "q3_2",
@@ -324,7 +326,7 @@
                         "-&radic;3 / 2"
                     ],
                     "correct": 0,
-                    "exp": "135&deg; is in Quadrant II where sine is positive. Reference angle: 180&deg; - 135&deg; = 45&deg;. sin(135&deg;) = +sin(45&deg;) = &radic;2/2."
+                    "exp": "135\u00b0 is in Quadrant II, where sine is positive.\nReference angle: $180\u00b0 - 135\u00b0 = 45\u00b0$.\n$sin 135\u00b0 = +sin 45\u00b0 = \u221a2 / 2$."
                 },
                 {
                     "id": "q3_3",
@@ -336,7 +338,7 @@
                         "-&radic;2 / 5"
                     ],
                     "correct": 0,
-                    "exp": "Let &alpha; = tan&#8315;&sup1;(-1) = -&pi;/4 &rArr; cos &alpha; = &radic;2/2, sin &alpha; = -&radic;2/2. Let &beta; = cos&#8315;&sup1;(2/5) &rArr; cos &beta; = 2/5, sin &beta; = &radic;(1 - 4/25) = &radic;21/5. cos(&alpha; - &beta;) = cos &alpha; cos &beta; + sin &alpha; sin &beta; = (&radic;2/2)(2/5) + (-&radic;2/2)(&radic;21/5) = (2&radic;2 - &radic;42)/10."
+                    "exp": "Let $A = tan\u207b\u00b9(-1) = -\u03c0 / 4$ (range of $tan\u207b\u00b9$ is $(-\u03c0 / 2, \u03c0 / 2)$): $cos A = \u221a2 / 2$, $sin A = -\u221a2 / 2$.\nLet $B = cos\u207b\u00b9(2 / 5)$: $cos B = 2 / 5$, and $B \u2208 [0, \u03c0]$ so $sin B = +\u221a(1 - 4 / 25) = \u221a21 / 5$.\nUse $cos(A - B) = cos A cos B + sin A sin B$.\n$= (\u221a2 / 2)(2 / 5) + (-\u221a2 / 2)(\u221a21 / 5) = (2\u221a2 - \u221a42) / 10$."
                 }
             ]
         },
@@ -353,7 +355,7 @@
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "Direct substitution gives (0 + 3)/(0 - 2) = -3/2."
+                    "exp": "At $x = 0$ the denominator is $-2 \u2260 0$, so substitute directly.\n$(0\u00b2 + 3) / (0 - 2) = -3 / 2$."
                 },
                 {
                     "id": "q4_2",
@@ -365,7 +367,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Rearrange numerator: (x&sup2; - x) - (&radic;x - 1) = x(x - 1) - (&radic;x - 1). Divide by (x - 1) = (&radic;x - 1)(&radic;x + 1): gives x - 1/(&radic;x + 1). As x &rarr; 1: 1 - 1/2 = 1/2."
+                    "exp": "Substituting $x = 1$ gives $0 / 0$, so simplify first.\nRegroup the top: $(x\u00b2 - x) - (\u221ax - 1) = x(x - 1) - (\u221ax - 1)$.\nWrite $x - 1 = (\u221ax - 1)(\u221ax + 1)$ and cancel $(\u221ax - 1)$: $(x(\u221ax + 1) - 1) / (\u221ax + 1)$.\nSubstitute $x = 1$: $(1 \u00b7 2 - 1) / 2 = 1 / 2$."
                 },
                 {
                     "id": "q4_3",
@@ -377,7 +379,7 @@
                         "Does not exist"
                     ],
                     "correct": 0,
-                    "exp": "tan x - sin x = sin x(1/cos x - 1) = sin x(1 - cos x)/cos x. Thus: [sin x / x] &middot; [(1 - cos x)/x&sup2;] &middot; [1/cos x]. As x &rarr; 0: 1 &middot; (1/2) &middot; 1 = 1/2."
+                    "exp": "$tan x - sin x = sin x / cos x - sin x = (sin x(1 - cos x)) / cos x$.\nSo the expression is $(sin x / x) \u00b7 ((1 - cos x) / x\u00b2) \u00b7 (1 / cos x)$.\nKnown limits: $sin x / x \u2192 1$, $(1 - cos x) / x\u00b2 \u2192 1 / 2$, $1 / cos x \u2192 1$.\nAnswer: $1 \u00b7 1 / 2 \u00b7 1 = 1 / 2$."
                 },
                 {
                     "id": "q4_4",
@@ -389,7 +391,7 @@
                         "+&infin;"
                     ],
                     "correct": 0,
-                    "exp": "Since 0 &le; cos&sup2; x &le; 1, for x > 0 we have 0 &le; (cos&sup2; x)/x&sup3; &le; 1/x&sup3;. Since lim 1/x&sup3; = 0, by Squeeze Theorem the limit is 0."
+                    "exp": "$0 \u2264 cos\u00b2 x \u2264 1$ for every x.\nDivide by $x\u00b3 > 0$: $0 \u2264 cos\u00b2 x / x\u00b3 \u2264 1 / x\u00b3$.\n$1 / x\u00b3 \u2192 0$, so by the Squeeze Theorem the limit is 0."
                 },
                 {
                     "id": "q4_5",
@@ -401,7 +403,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Left limit (x &rarr; 0&minus;): (0&sup2; - 0) + (1 - 0) = 1. Right limit (x &rarr; 0&plus;): (0 - 1) + (2 - 0) = -1 + 2 = 1. Since Left = Right = 1, the limit exists and equals 1!"
+                    "exp": "$f$ alone: left 0, right \u22121. $g$ alone: left 1, right 2. Neither limit exists, so work with $f + g$.\nLeft ($x \u2192 0\u207b$): $(0 - 0) + (1 - 0) = 1$.\nRight ($x \u2192 0\u207a$): $(0 - 1) + (2 - 0) = 1$.\nLeft = Right = 1, so $lim<sub>x \u2192 0</sub> (f(x) + g(x)) = 1$."
                 }
             ]
         }
@@ -422,7 +424,7 @@
                         "[-92/9, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "Left part: 5 - 3x &le; (10 - 9x)/6 &rArr; 30 - 18x &le; 10 - 9x &rArr; 20 &le; 9x &rArr; x &ge; 20/9. Right part: (10 - 9x)/6 &le; 17 &rArr; 10 - 9x &le; 102 &rArr; x &ge; -92/9. Both must hold, so x &ge; 20/9: [20/9, &infin;)."
+                    "exp": "Split into two inequalities. Left: $5 - 3x \u2264 (10 - 9x) / 6$.\nMultiply by 6: $30 - 18x \u2264 10 - 9x \u21d2 20 \u2264 9x \u21d2 x \u2265 20 / 9$.\nRight: $(10 - 9x) / 6 \u2264 17 \u21d2 10 - 9x \u2264 102 \u21d2 x \u2265 -92 / 9$ (dividing by \u22129 flips the sign).\nBoth must hold: $x \u2265 20 / 9$. Answer: $[20 / 9, \u221e)$."
                 },
                 {
                     "id": 2,
@@ -434,7 +436,7 @@
                         "Undefined"
                     ],
                     "correct": 0,
-                    "exp": "Both sides converge to 3."
+                    "exp": "From the left the values approach 3 (3.001 \u2192 3).\nFrom the right they also approach 3 (2.999 \u2192 3).\nEqual one-sided limits, so the limit is 3."
                 },
                 {
                     "id": 3,
@@ -446,7 +448,7 @@
                         "3"
                     ],
                     "correct": 0,
-                    "exp": "From the left the graph heads to the open circle at height 2; from the right it starts at the filled dot at height 4. Left limit 2 &ne; right limit 4, so the limit does not exist. (f(1) = 4 is only the value.)"
+                    "exp": "Left of $x = 1$: the graph heads to the open circle at height 2, so the left-hand limit is 2.\nRight of $x = 1$: the graph starts at the filled dot at height 4, so the right-hand limit is 4.\n$2 \u2260 4$, so the limit does not exist."
                 },
                 {
                     "id": 4,
@@ -458,7 +460,7 @@
                         "cot x"
                     ],
                     "correct": 0,
-                    "exp": "Multiply numerator and denominator by (1 - sin x) &rArr; cos x(1 - sin x)/cos&sup2; x = (1 - sin x)/cos x = sec x - tan x."
+                    "exp": "Multiply top and bottom by $(1 - sin x)$: $(cos x(1 - sin x)) / (1 - sin\u00b2 x)$.\n$1 - sin\u00b2 x = cos\u00b2 x$, so this is $(1 - sin x) / cos x$.\nSplit: $1 / cos x - sin x / cos x = sec x - tan x$."
                 },
                 {
                     "id": 5,
@@ -470,7 +472,7 @@
                         "&pi;"
                     ],
                     "correct": 0,
-                    "exp": "Direct substitution: sin(&pi;)/&pi; = 0/&pi; = 0."
+                    "exp": "The denominator is $\u03c0 \u2260 0$ at $x = \u03c0$, so substitute directly.\n$sin \u03c0 / \u03c0 = 0 / \u03c0 = 0$."
                 },
                 {
                     "id": 6,
@@ -482,7 +484,7 @@
                         "[0, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "Requires x - 2 &ge; 0 and f(x) &ne; 0 &rArr; x - 2 > 0 &rArr; (2, &infin;)."
+                    "exp": "$f / f$ needs x in $D_f$: $x - 2 \u2265 0 \u21d2 x \u2265 2$.\nIt also needs $f(x) \u2260 0$: $\u221a(x - 2) \u2260 0 \u21d2 x \u2260 2$.\nDomain: $(2, \u221e)$. Simplifying $f / f = 1$ first would wrongly suggest \u211d."
                 }
             ]
         },
@@ -494,42 +496,42 @@
                     {
                         "text": "&radic;18 / &radic;2",
                         "correct": "rational",
-                        "exp": "&radic;9 = 3 (Rational)"
+                        "exp": "$\u221a18 / \u221a2 = \u221a(18 / 2) = \u221a9 = 3$.\nRational."
                     },
                     {
                         "text": "(&radic;2 + &radic;8)&sup2;",
                         "correct": "rational",
-                        "exp": "(&radic;2 + 2&radic;2)&sup2; = (3&radic;2)&sup2; = 18 (Rational)"
+                        "exp": "$\u221a8 = 2\u221a2$, so $(\u221a2 + 2\u221a2)\u00b2 = (3\u221a2)\u00b2 = 9 \u00b7 2 = 18$.\nRational."
                     },
                     {
                         "text": "&pi; / 4",
                         "correct": "irrational",
-                        "exp": "Irrational"
+                        "exp": "\u03c0 is irrational, and dividing by 4 keeps it irrational.\nIrrational."
                     },
                     {
                         "text": "0.363636&hellip;",
                         "correct": "rational",
-                        "exp": "Repeating fraction 36/99 = 4/11 (Rational)"
+                        "exp": "Let $x = 0.3636\u2026$: $100x - x = 36$, so $x = 36 / 99 = 4 / 11$.\nRational."
                     },
                     {
                         "text": "&#8731;(-8) / &radic;2",
                         "correct": "irrational",
-                        "exp": "&#8731;(-8) = -2, and -2/&radic;2 = -&radic;2 (Irrational)."
+                        "exp": "$\u221b(-8) = -2$, so the number is $-2 / \u221a2 = -\u221a2$.\nIrrational."
                     },
                     {
                         "text": "(&radic;3)<sup>6</sup>",
                         "correct": "rational",
-                        "exp": "((&radic;3)&sup2;)&sup3; = 3&sup3; = 27 (Rational)."
+                        "exp": "$(\u221a3)<sup>6</sup> = ((\u221a3)\u00b2)\u00b3 = 3\u00b3 = 27$.\nRational."
                     },
                     {
                         "text": "22 / 7",
                         "correct": "rational",
-                        "exp": "Ratio of integers (Rational)"
+                        "exp": "$22 / 7$ is a ratio of integers (an approximation of \u03c0, not \u03c0 itself).\nRational."
                     },
                     {
                         "text": "(&radic;3 + 1)&sup2;",
                         "correct": "irrational",
-                        "exp": "3 + 2&radic;3 + 1 = 4 + 2&radic;3 (Irrational)"
+                        "exp": "$(\u221a3 + 1)\u00b2 = 3 + 2\u221a3 + 1 = 4 + 2\u221a3$.\n$2\u221a3$ is irrational. Irrational."
                     }
                 ]
             },
@@ -546,7 +548,7 @@
                             "(-&infin;, 0) &cup; [3, &infin;)"
                         ],
                         "correct": 0,
-                        "exp": "(3 - x&sup2; + 2x)/x &ge; 0 &rArr; -(x&sup2; - 2x - 3)/x &ge; 0 &rArr; (x - 3)(x + 1)/x &le; 0. Sign chart yields (-&infin;, -1] &cup; (0, 3]."
+                        "exp": "Move everything to one side: $3 / x - (x - 2) \u2265 0 \u21d2 (3 - x\u00b2 + 2x) / x \u2265 0$.\nMultiply by \u22121 and flip: $((x - 3)(x + 1)) / x \u2264 0$.\nCritical numbers $-1, 0, 3$. Signs: $-$ on $(-\u221e, -1)$, $+$ on $(-1, 0)$, $-$ on $(0, 3)$, $+$ on $(3, \u221e)$.\nInclude \u22121 and 3 (they give 0), exclude 0: $(-\u221e, -1] \u222a (0, 3]$."
                     },
                     {
                         "id": "q2_b2",
@@ -558,7 +560,7 @@
                             "R"
                         ],
                         "correct": 0,
-                        "exp": "g(f(x)) = &radic;(x&sup2; + 1 - 3) = &radic;(x&sup2; - 2). Need x&sup2; - 2 &ge; 0 &rArr; (-&infin;, -&radic;2] &cup; [&radic;2, &infin;)."
+                        "exp": "$(g \u2218 f)(x) = g(x\u00b2 + 1) = \u221a(x\u00b2 + 1 - 3) = \u221a(x\u00b2 - 2)$.\nNeed $x\u00b2 - 2 \u2265 0 \u21d2 x\u00b2 \u2265 2$.\nDomain: $(-\u221e, -\u221a2] \u222a [\u221a2, \u221e)$."
                     }
                 ]
             }
@@ -576,7 +578,7 @@
                         "Only for x &ge; 0"
                     ],
                     "correct": 0,
-                    "exp": "Odd powers preserve uniqueness: x\u2081\u00b3 = x\u2082\u00b3 strictly implies x\u2081 = x\u2082. Thus one-to-one."
+                    "exp": "Suppose $f(x\u2081) = f(x\u2082)$: $2x\u2081\u00b3 - 1 = 2x\u2082\u00b3 - 1$.\nThen $x\u2081\u00b3 = x\u2082\u00b3$, and taking cube roots gives $x\u2081 = x\u2082$.\nSo f is one-to-one on \u211d."
                 },
                 {
                     "id": "q3_2",
@@ -588,7 +590,7 @@
                         "&radic;3 / 2"
                     ],
                     "correct": 0,
-                    "exp": "Quad III: -cos(45&deg;) = -&radic;2/2."
+                    "exp": "225\u00b0 is in Quadrant III, where cosine is negative.\nReference angle: $225\u00b0 - 180\u00b0 = 45\u00b0$.\n$cos 225\u00b0 = -cos 45\u00b0 = -\u221a2 / 2$."
                 },
                 {
                     "id": "q3_3",
@@ -600,7 +602,7 @@
                         "56/65"
                     ],
                     "correct": 0,
-                    "exp": "sin(&alpha; + &beta;) = sin &alpha; cos &beta; + cos &alpha; sin &beta; = (4/5)(12/13) + (3/5)(5/13) = 48/65 + 15/65 = 63/65."
+                    "exp": "Let $A = cos\u207b\u00b9(3 / 5)$: $cos A = 3 / 5$, $sin A = 4 / 5$ (A is in $[0, \u03c0]$, so its sine is positive).\nLet $B = sin\u207b\u00b9(5 / 13)$: $sin B = 5 / 13$, $cos B = 12 / 13$ (B is in $[-\u03c0 / 2, \u03c0 / 2]$, so its cosine is positive).\n$sin(A + B) = sin A cos B + cos A sin B = (4 / 5)(12 / 13) + (3 / 5)(5 / 13)$.\n$= 48 / 65 + 15 / 65 = 63 / 65$."
                 }
             ]
         },
@@ -617,7 +619,7 @@
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "(x - 2)(x&sup2; + 2x + 4)/[(x - 2)(x + 2)] = (4 + 4 + 4)/(2 + 2) = 12/4 = 3."
+                    "exp": "Substituting gives $0 / 0$. Factor: $x\u00b3 - 8 = (x - 2)(x\u00b2 + 2x + 4)$ and $x\u00b2 - 4 = (x - 2)(x + 2)$.\nCancel $(x - 2)$: $(x\u00b2 + 2x + 4) / (x + 2)$.\nSubstitute $x = 2$: $(4 + 4 + 4) / 4 = 3$."
                 },
                 {
                     "id": "q4_2",
@@ -629,7 +631,7 @@
                         "D.N.E"
                     ],
                     "correct": 0,
-                    "exp": "Standard limit: multiply by (1 + cos x) gives sin&sup2; x / [x&sup2;(1 + cos x)] = 1 / 2."
+                    "exp": "Multiply top and bottom by $(1 + cos x)$: $(1 - cos\u00b2 x) / (x\u00b2(1 + cos x)) = sin\u00b2 x / (x\u00b2(1 + cos x))$.\n$= (sin x / x)\u00b2 \u00b7 1 / (1 + cos x)$.\n$\u2192 1\u00b2 \u00b7 1 / 2 = 1 / 2$."
                 },
                 {
                     "id": "q4_3",
@@ -641,7 +643,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Leading term dominates: 2(-&infin;)&sup3; = -&infin;."
+                    "exp": "For large $|x|$ the leading term $2x\u00b3$ dominates.\nAs $x \u2192 -\u221e$, $x\u00b3 \u2192 -\u221e$, so $2x\u00b3 \u2192 -\u221e$.\nAnswer: $-\u221e$."
                 },
                 {
                     "id": "q4_4",
@@ -653,7 +655,7 @@
                         "&infin;"
                     ],
                     "correct": 0,
-                    "exp": "0 &le; sin&sup2; x &le; 1 &rArr; 0 &le; sin&sup2; x / &radic;x &le; 1/&radic;x &rArr; limit is 0 by Squeeze Theorem."
+                    "exp": "$0 \u2264 sin\u00b2 x \u2264 1$, so for $x > 0$: $0 \u2264 sin\u00b2 x / \u221ax \u2264 1 / \u221ax$.\n$1 / \u221ax \u2192 0$ as $x \u2192 \u221e$.\nBy the Squeeze Theorem the limit is 0."
                 },
                 {
                     "id": "q4_5",
@@ -665,7 +667,7 @@
                         "0"
                     ],
                     "correct": 2,
-                    "exp": "Left limit: (2(1) + 3) - (4 - 1) = 5 - 3 = 2. Right limit: 5 - 2 = 3. Left &ne; Right &rArr; the limit Does Not Exist."
+                    "exp": "Left of 1 ($x < 1$): $f \u2192 2(1) + 3 = 5$ and $g \u2192 4 - 1 = 3$, so $f - g \u2192 2$.\nRight of 1 ($x \u2265 1$): $f = 5$ and $g = 2$, so $f - g \u2192 3$.\n$2 \u2260 3$, so the limit does not exist."
                 }
             ]
         }
@@ -686,7 +688,7 @@
                         "[-4, 11]"
                     ],
                     "correct": 0,
-                    "exp": "-6 < 3x &le; 9 &rArr; -2 < x &le; 3 &rArr; (-2, 3]."
+                    "exp": "Subtract 2 from all three parts: $-6 < 3x \u2264 9$.\nDivide by 3: $-2 < x \u2264 3$.\nAnswer: $(-2, 3]$."
                 },
                 {
                     "id": 2,
@@ -698,7 +700,7 @@
                         "Undefined"
                     ],
                     "correct": 0,
-                    "exp": "&radic;(7 + 2) = &radic;9 = 3."
+                    "exp": "Limit law for roots: $lim \u221a(f(x) + 2) = \u221a(lim f(x) + 2)$ (the inside limit is positive).\n$= \u221a(7 + 2) = \u221a9 = 3$."
                 },
                 {
                     "id": 3,
@@ -710,7 +712,7 @@
                         "f(x) = 2/x"
                     ],
                     "correct": 0,
-                    "exp": "1/(x - 2) blows up to &plusmn;&infin; at x = 2."
+                    "exp": "A vertical asymptote at $x = 2$ needs the function to blow up to \u00b1\u221e as $x \u2192 2$.\nIn $1 / (x - 2)$ the denominator \u2192 0 while the numerator stays 1, so it blows up.\nAnswer: $f(x) = 1 / (x - 2)$."
                 },
                 {
                     "id": 4,
@@ -722,7 +724,7 @@
                         "1"
                     ],
                     "correct": 0,
-                    "exp": "sin x &middot; (cos x / sin x) = cos x."
+                    "exp": "$cot x = cos x / sin x$.\n$sin x \u00b7 cos x / sin x = cos x$."
                 },
                 {
                     "id": 5,
@@ -734,7 +736,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Ratio of coefficients: 4/7."
+                    "exp": "Write $sin 4x / (7x) = (4 / 7) \u00b7 sin 4x / (4x)$.\n$sin 4x / (4x) \u2192 1$ as $x \u2192 0$.\nAnswer: $4 / 7$."
                 },
                 {
                     "id": 6,
@@ -746,7 +748,7 @@
                         "[0, &infin;)"
                     ],
                     "correct": 0,
-                    "exp": "Two conditions. The inner root needs x &ge; 0. The outer root needs 3 - &radic;x &ge; 0 &rArr; &radic;x &le; 3 &rArr; x &le; 9. Together: [0, 9]."
+                    "exp": "Inner root: $\u221ax$ needs $x \u2265 0$.\nOuter root: $3 - \u221ax \u2265 0 \u21d2 \u221ax \u2264 3 \u21d2 x \u2264 9$.\nBoth: $[0, 9]$."
                 }
             ]
         },
@@ -758,42 +760,42 @@
                     {
                         "text": "&radic;49",
                         "correct": "rational",
-                        "exp": "7 (Rational)"
+                        "exp": "$\u221a49 = 7$.\nRational."
                     },
                     {
                         "text": "&radic;20",
                         "correct": "irrational",
-                        "exp": "2&radic;5 (Irrational)"
+                        "exp": "$\u221a20 = 2\u221a5$, and 5 is not a perfect square.\nIrrational."
                     },
                     {
                         "text": "0.123123&hellip;",
                         "correct": "rational",
-                        "exp": "123/999 (Rational)"
+                        "exp": "Let $x = 0.123123\u2026$: $1000x - x = 123$, so $x = 123 / 999$.\nRational."
                     },
                     {
                         "text": "&pi; &middot; sin(&pi;/2)",
                         "correct": "irrational",
-                        "exp": "&pi;(1) = &pi; (Irrational)"
+                        "exp": "$sin(\u03c0 / 2) = 1$, so the number is \u03c0.\nIrrational."
                     },
                     {
                         "text": "22 / 7",
                         "correct": "rational",
-                        "exp": "Rational"
+                        "exp": "$22 / 7$ is a ratio of integers.\nRational."
                     },
                     {
                         "text": "(&radic;2 + 3)&sup2;",
                         "correct": "irrational",
-                        "exp": "2 + 6&radic;2 + 9 = 11 + 6&radic;2 (Irrational)"
+                        "exp": "$(\u221a2 + 3)\u00b2 = 2 + 6\u221a2 + 9 = 11 + 6\u221a2$.\nIrrational."
                     },
                     {
                         "text": "3.1415",
                         "correct": "rational",
-                        "exp": "Terminating decimal (Rational)"
+                        "exp": "3.1415 terminates: $31415 / 10000$.\nRational (it is not \u03c0, which never ends)."
                     },
                     {
                         "text": "1 / &radic;2",
                         "correct": "irrational",
-                        "exp": "Irrational"
+                        "exp": "$1 / \u221a2 = \u221a2 / 2$.\nIrrational."
                     }
                 ]
             },
@@ -810,7 +812,7 @@
                             "[5, &infin;)"
                         ],
                         "correct": 0,
-                        "exp": "2/(x+1) - 1/(x-2) &ge; 0 &rArr; (2x - 4 - x - 1)/[(x+1)(x-2)] &ge; 0 &rArr; (x - 5)/[(x+1)(x-2)] &ge; 0. Signs: (-1, 2) &cup; [5, &infin;)."
+                        "exp": "Move to one side: $2 / (x + 1) - 1 / (x - 2) \u2265 0$.\nCommon denominator: $(2(x - 2) - (x + 1)) / ((x + 1)(x - 2)) = (x - 5) / ((x + 1)(x - 2)) \u2265 0$.\nCritical numbers $-1, 2, 5$. Signs: $-$ on $(-\u221e, -1)$, $+$ on $(-1, 2)$, $-$ on $(2, 5)$, $+$ on $(5, \u221e)$.\nInclude 5, exclude \u22121 and 2: $(-1, 2) \u222a [5, \u221e)$."
                     },
                     {
                         "id": "q2_b2",
@@ -822,7 +824,7 @@
                             "[-4, 4]"
                         ],
                         "correct": 0,
-                        "exp": "x &ge; 1 and x &ne; &plusmn;4. Since -4 < 1, only 4 is excluded &rArr; [1, 4) &cup; (4, &infin;)."
+                        "exp": "Root: $x - 1 \u2265 0 \u21d2 x \u2265 1$.\nDenominator: $x\u00b2 - 16 \u2260 0 \u21d2 x \u2260 \u00b14$; only $x = 4$ lies in $[1, \u221e)$.\nDomain: $[1, 4) \u222a (4, \u221e)$."
                     }
                 ]
             }
@@ -840,7 +842,7 @@
                         "(2x + 1)/(x - 3)"
                     ],
                     "correct": 0,
-                    "exp": "y(x - 1) = 3x + 2 &rArr; xy - 3x = y + 2 &rArr; x = (y + 2)/(y - 3). Swap: (x + 2)/(x - 3)."
+                    "exp": "Write $y = (3x + 2) / (x - 1)$ and solve for x: $y(x - 1) = 3x + 2$.\n$xy - y = 3x + 2 \u21d2 xy - 3x = y + 2 \u21d2 x(y - 3) = y + 2$.\n$x = (y + 2) / (y - 3)$. Swap x and y: $f\u207b\u00b9(x) = (x + 2) / (x - 3)$."
                 },
                 {
                     "id": "q3_2",
@@ -852,7 +854,7 @@
                         "-1/2"
                     ],
                     "correct": 0,
-                    "exp": "Quad IV: +cos(45&deg;) = &radic;2/2."
+                    "exp": "315\u00b0 is in Quadrant IV, where cosine is positive.\nReference angle: $360\u00b0 - 315\u00b0 = 45\u00b0$.\n$cos 315\u00b0 = cos 45\u00b0 = \u221a2 / 2$."
                 },
                 {
                     "id": "q3_3",
@@ -864,7 +866,7 @@
                         "12/13"
                     ],
                     "correct": 0,
-                    "exp": "Opp = 5, Hyp = 13 &rArr; Adj = 12. tan = Opp/Adj = 5/12."
+                    "exp": "Let $\u03b8 = sin\u207b\u00b9(5 / 13)$: opposite 5, hypotenuse 13.\nAdjacent $= \u221a(169 - 25) = 12$ (positive, since \u03b8 is in $[-\u03c0 / 2, \u03c0 / 2]$).\n$tan \u03b8 = 5 / 12$."
                 }
             ]
         },
@@ -881,7 +883,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Multiply by (&radic;x + 2): &radic;4 + 2 = 4."
+                    "exp": "Substituting gives $0 / 0$. Multiply top and bottom by the conjugate $(\u221ax + 2)$.\n$((x - 4)(\u221ax + 2)) / (x - 4) = \u221ax + 2$.\n$\u2192 \u221a4 + 2 = 4$."
                 },
                 {
                     "id": "q4_2",
@@ -893,7 +895,7 @@
                         "4"
                     ],
                     "correct": 0,
-                    "exp": "lim 2 sin&sup2;(x)/x&sup2; = 2(1)&sup2; = 2."
+                    "exp": "Use $1 - cos 2x = 2sin\u00b2 x$.\n$2sin\u00b2 x / x\u00b2 = 2(sin x / x)\u00b2$.\n$\u2192 2 \u00b7 1\u00b2 = 2$."
                 },
                 {
                     "id": "q4_3",
@@ -905,7 +907,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Even power: 3(-&infin;)&#8308; = +&infin;."
+                    "exp": "The leading term $3x\u2074$ dominates.\n$x\u2074 \u2192 +\u221e$ as $x \u2192 -\u221e$ (even power), so $3x\u2074 \u2192 +\u221e$.\nAnswer: $+\u221e$."
                 },
                 {
                     "id": "q4_4",
@@ -917,11 +919,11 @@
                         "D.N.E"
                     ],
                     "correct": 0,
-                    "exp": "1/x &le; (2 + sin x)/x &le; 3/x. By Squeeze Theorem, limit is 0."
+                    "exp": "$-1 \u2264 sin x \u2264 1 \u21d2 1 \u2264 2 + sin x \u2264 3$.\nDivide by $x > 0$: $1 / x \u2264 (2 + sin x) / x \u2264 3 / x$.\nBoth bounds \u2192 0, so by the Squeeze Theorem the limit is 0."
                 },
                 {
                     "id": "q4_5",
-                    "prompt": "Find <span class='math'>k</span> such that <span class='math'>f(x) = { kx + 1 (x &le; 3), x&sup2; - k (x > 3) }</span> is continuous at 3:",
+                    "prompt": "Find <span class='math'>k</span> such that <span class='math'>f(x) = { kx + 1 (x &le; 3), x&sup2; - k (x > 3) }</span> has a limit as <span class='math'>x &rarr; 3</span>:",
                     "options": [
                         "k = 2",
                         "k = 1",
@@ -929,7 +931,7 @@
                         "k = 0"
                     ],
                     "correct": 0,
-                    "exp": "3k + 1 = 9 - k &rArr; 4k = 8 &rArr; k = 2."
+                    "exp": "Left limit ($x \u2264 3$ piece): $3k + 1$. Right limit: $9 - k$.\nThe limit exists when they are equal: $3k + 1 = 9 - k \u21d2 4k = 8 \u21d2 k = 2$.\nCheck: both sides equal 7."
                 }
             ]
         }
@@ -950,7 +952,7 @@
                         "R"
                     ],
                     "correct": 0,
-                    "exp": "Absolute value is &ge; 0, so &le; 0 only when x - 4 = 0 &rArr; x = 4."
+                    "exp": "$|x - 4| \u2265 0$ for every x, so $|x - 4| \u2264 0$ only when $|x - 4| = 0$.\n$x - 4 = 0 \u21d2 x = 4$.\nAnswer: ${4}$."
                 },
                 {
                     "id": 2,
@@ -962,7 +964,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Limit depends only on left and right approaches, not the single isolated point f(3)."
+                    "exp": "A limit depends only on values near 3, not at 3.\nBoth one-sided limits equal 2, so $lim<sub>x \u2192 3</sub> f(x) = 2$.\n$f(3) = 5$ does not affect the limit."
                 },
                 {
                     "id": 3,
@@ -974,7 +976,7 @@
                         "None"
                     ],
                     "correct": 0,
-                    "exp": "Ratio of leading coefficients: 7/2."
+                    "exp": "Same degree (2) on top and bottom.\nHorizontal asymptote = ratio of leading coefficients: $y = 7 / 2$."
                 },
                 {
                     "id": 4,
@@ -986,7 +988,7 @@
                         "cos x"
                     ],
                     "correct": 0,
-                    "exp": "Fundamental identity: 1 + tan&sup2; x = sec&sup2; x &rArr; sec&sup2; x - tan&sup2; x = 1."
+                    "exp": "Pythagorean identity: $1 + tan\u00b2 x = sec\u00b2 x$.\nSo $sec\u00b2 x - tan\u00b2 x = 1$."
                 },
                 {
                     "id": 5,
@@ -998,7 +1000,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Ratio of coefficients: 5/3."
+                    "exp": "Write $sin 5x / sin 3x = (sin 5x / (5x)) \u00b7 ((3x) / sin 3x) \u00b7 5 / 3$.\nThe first two factors \u2192 1.\nAnswer: $5 / 3$."
                 },
                 {
                     "id": 6,
@@ -1010,7 +1012,7 @@
                         "R"
                     ],
                     "correct": 0,
-                    "exp": "Max value is 3 &rArr; (-&infin;, 3]."
+                    "exp": "$x\u00b2 \u2265 0$, so $3 - x\u00b2 \u2264 3$, with equality at $x = 0$.\nAs $|x|$ grows, $3 - x\u00b2$ takes every value below 3.\nRange: $(-\u221e, 3]$."
                 }
             ]
         },
@@ -1022,42 +1024,42 @@
                     {
                         "text": "&radic;0.09",
                         "correct": "rational",
-                        "exp": "0.3 = 3/10 (Rational)"
+                        "exp": "$\u221a0.09 = 0.3 = 3 / 10$.\nRational."
                     },
                     {
                         "text": "&radic;15",
                         "correct": "irrational",
-                        "exp": "Irrational"
+                        "exp": "15 is not a perfect square.\nIrrational."
                     },
                     {
                         "text": "0.777&hellip;",
                         "correct": "rational",
-                        "exp": "7/9 (Rational)"
+                        "exp": "Let $x = 0.777\u2026$: $10x - x = 7$, so $x = 7 / 9$.\nRational."
                     },
                     {
                         "text": "(&radic;5 - &radic;2)&sup2;",
                         "correct": "irrational",
-                        "exp": "5 - 2&radic;10 + 2 = 7 - 2&radic;10 (Irrational)"
+                        "exp": "$(\u221a5 - \u221a2)\u00b2 = 5 - 2\u221a10 + 2 = 7 - 2\u221a10$.\nIrrational."
                     },
                     {
                         "text": "tan(&pi;/3)",
                         "correct": "irrational",
-                        "exp": "&radic;3 (Irrational)"
+                        "exp": "$tan(\u03c0 / 3) = \u221a3$.\nIrrational."
                     },
                     {
                         "text": "3.14",
                         "correct": "rational",
-                        "exp": "Terminating decimal (Rational)"
+                        "exp": "3.14 terminates: $314 / 100$.\nRational (it is not \u03c0)."
                     },
                     {
                         "text": "22 / 7",
                         "correct": "rational",
-                        "exp": "Rational"
+                        "exp": "$22 / 7$ is a ratio of integers.\nRational."
                     },
                     {
                         "text": "&pi; &middot; cos(2&pi;)",
                         "correct": "irrational",
-                        "exp": "&pi;(1) = &pi; (Irrational)"
+                        "exp": "$cos 2\u03c0 = 1$, so the number is \u03c0.\nIrrational."
                     }
                 ]
             },
@@ -1074,7 +1076,7 @@
                             "(-&infin;, 3]"
                         ],
                         "correct": 0,
-                        "exp": "(x - 3)(x + 3)/(x + 2) &le; 0. Roots: -3, -2, 3. Sign chart is &le; 0 on (-&infin;, -3] &cup; (-2, 3]."
+                        "exp": "Factor: $((x - 3)(x + 3)) / (x + 2) \u2264 0$. Critical numbers $-3, -2, 3$.\nSigns: $-$ on $(-\u221e, -3)$, $+$ on $(-3, -2)$, $-$ on $(-2, 3)$, $+$ on $(3, \u221e)$.\nInclude \u22123 and 3, exclude \u22122: $(-\u221e, -3] \u222a (-2, 3]$."
                     },
                     {
                         "id": "q2_b2",
@@ -1086,7 +1088,7 @@
                             "R"
                         ],
                         "correct": 0,
-                        "exp": "f(g(x)) = &radic;(2x - 3 + 1) = &radic;(2x - 2). Need 2x - 2 &ge; 0 &rArr; x &ge; 1."
+                        "exp": "$(f \u2218 g)(x) = f(2x - 3) = \u221a(2x - 3 + 1) = \u221a(2x - 2)$.\nNeed $2x - 2 \u2265 0 \u21d2 x \u2265 1$.\nDomain: $[1, \u221e)$."
                     }
                 ]
             }
@@ -1104,7 +1106,7 @@
                         "Cannot be determined"
                     ],
                     "correct": 0,
-                    "exp": "On [0, &pi;], cosine strictly decreases and passes the horizontal line test &rArr; One-to-one."
+                    "exp": "On $[0, \u03c0]$ cosine decreases strictly from 1 to \u22121.\nStrictly decreasing means every horizontal line meets the graph at most once.\nSo $cos x$ is one-to-one on $[0, \u03c0]$; this is why $cos\u207b\u00b9$ uses this interval."
                 },
                 {
                     "id": "q3_2",
@@ -1116,7 +1118,7 @@
                         "&pi; / 4"
                     ],
                     "correct": 0,
-                    "exp": "cos(5&pi;/4) = -&radic;2/2. cos&#8315;&sup1; returns an angle in [0, &pi;], and the one with cosine -&radic;2/2 is 3&pi;/4. 5&pi;/4 is outside [0, &pi;], so it cannot be the answer."
+                    "exp": "$cos(5\u03c0 / 4) = -\u221a2 / 2$ (Quadrant III, reference angle $\u03c0 / 4$).\n$cos\u207b\u00b9$ returns an angle in $[0, \u03c0]$; the one with cosine $-\u221a2 / 2$ is $\u03c0 - \u03c0 / 4 = 3\u03c0 / 4$.\nAnswer: $3\u03c0 / 4$ ($5\u03c0 / 4$ is outside $[0, \u03c0]$)."
                 },
                 {
                     "id": "q3_3",
@@ -1128,7 +1130,7 @@
                         "1/5"
                     ],
                     "correct": 0,
-                    "exp": "cos(2&theta;) = 1 - 2 sin&sup2;&theta; = 1 - 2(16/25) = 1 - 32/25 = -7/25."
+                    "exp": "Let $\u03b8 = sin\u207b\u00b9(4 / 5)$, so $sin \u03b8 = 4 / 5$.\n$cos 2\u03b8 = 1 - 2sin\u00b2 \u03b8 = 1 - 2(16 / 25)$.\n$= 1 - 32 / 25 = -7 / 25$."
                 }
             ]
         },
@@ -1145,7 +1147,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "(x - 3)(x + 3)/[(x - 3)(x + 1)] = (3 + 3)/(3 + 1) = 6/4 = 3/2."
+                    "exp": "Substituting gives $0 / 0$. Factor: $((x - 3)(x + 3)) / ((x - 3)(x + 1))$.\nCancel $(x - 3)$: $(x + 3) / (x + 1)$.\n$\u2192 6 / 4 = 3 / 2$."
                 },
                 {
                     "id": "q4_2",
@@ -1157,7 +1159,7 @@
                         "8"
                     ],
                     "correct": 0,
-                    "exp": "Conjugate: 1/(&radic;16 + 4) = 1/8."
+                    "exp": "Multiply by the conjugate $(\u221a(x + 16) + 4)$: $(x + 16 - 16) / (x(\u221a(x + 16) + 4))$.\nCancel x: $1 / (\u221a(x + 16) + 4)$.\n$\u2192 1 / (4 + 4) = 1 / 8$."
                 },
                 {
                     "id": "q4_3",
@@ -1169,7 +1171,7 @@
                         "5"
                     ],
                     "correct": 0,
-                    "exp": "Equal degrees: 5/2."
+                    "exp": "Same degree (3): divide top and bottom by $x\u00b3$.\n$(5 + 2 / x\u00b3) / (2 - 1 / x) \u2192 5 / 2$."
                 },
                 {
                     "id": "q4_4",
@@ -1181,7 +1183,7 @@
                         "&infin;"
                     ],
                     "correct": 0,
-                    "exp": "-x&#8308; &le; x&#8308; cos(1/x&sup2;) &le; x&#8308; &rArr; Limit is 0 by Squeeze Theorem."
+                    "exp": "$-1 \u2264 cos(1 / x\u00b2) \u2264 1$, so $-x\u2074 \u2264 x\u2074cos(1 / x\u00b2) \u2264 x\u2074$.\nBoth bounds \u2192 0 as $x \u2192 0$.\nBy the Squeeze Theorem the limit is 0."
                 },
                 {
                     "id": "q4_5",
@@ -1193,7 +1195,7 @@
                         "0"
                     ],
                     "correct": 0,
-                    "exp": "Left limit = 2&sup2; = 4. Right limit = 2(2) = 4. Limit exists and equals 4."
+                    "exp": "Left ($x \u2264 2$): $x\u00b2 \u2192 4$.\nRight ($x > 2$): $2x \u2192 4$.\nEqual, so $lim<sub>x \u2192 2</sub> f(x) = 4$."
                 }
             ]
         }
@@ -1214,7 +1216,7 @@
                         "-5 - &radic;7"
                     ],
                     "correct": 0,
-                    "exp": "&radic;7 &asymp; 2.65 is less than 5, so 5 - &radic;7 is positive and the absolute value leaves it unchanged: |5 - &radic;7| = 5 - &radic;7."
+                    "exp": "$\u221a7 \u2248 2.65 < 5$, so $5 - \u221a7 > 0$.\nThe absolute value of a positive number is the number itself.\n$|5 - \u221a7| = 5 - \u221a7$."
                 },
                 {
                     "id": 2,
@@ -1226,7 +1228,7 @@
                         "{0}"
                     ],
                     "correct": 0,
-                    "exp": "x&sup2; is never negative, and it equals 0 only at x = 0. So x&sup2; &gt; 0 for every real x except 0: &#8477; - {0}."
+                    "exp": "$x\u00b2 \u2265 0$ for every real x, and $x\u00b2 = 0$ only at $x = 0$.\nSo $x\u00b2 > 0$ for every $x \u2260 0$.\nAnswer: $\u211d - {0}$."
                 },
                 {
                     "id": 3,
@@ -1238,7 +1240,7 @@
                         "2"
                     ],
                     "correct": 0,
-                    "exp": "From both sides the graph heads to the open circle at height 3, so the limit is 3. The filled dot only shows the value f(2) = 1; a limit ignores the value at the point itself."
+                    "exp": "From the left and from the right the graph approaches the open circle at height 3.\nSo $lim<sub>x \u2192 2</sub> f(x) = 3$.\nThe filled dot gives $f(2) = 1$, but a limit ignores the value at the point."
                 },
                 {
                     "id": 4,
@@ -1250,7 +1252,7 @@
                         "csc x - cot x"
                     ],
                     "correct": 0,
-                    "exp": "Multiply top and bottom by (1 + sin x): cos x(1 + sin x)/(1 - sin&sup2; x) = cos x(1 + sin x)/cos&sup2; x = (1 + sin x)/cos x = sec x + tan x. Check with x = 0: 1/1 = 1 and sec 0 + tan 0 = 1."
+                    "exp": "Multiply top and bottom by $(1 + sin x)$: $(cos x(1 + sin x)) / (1 - sin\u00b2 x)$.\n$1 - sin\u00b2 x = cos\u00b2 x$, so this is $(1 + sin x) / cos x$.\nSplit: $1 / cos x + sin x / cos x = sec x + tan x$."
                 },
                 {
                     "id": 5,
@@ -1262,7 +1264,7 @@
                         "&theta;' = -&pi; / 3"
                     ],
                     "correct": 0,
-                    "exp": "10&pi;/3 - 2&pi; = 4&pi;/3, which lies in Quadrant III. Reference angle = 4&pi;/3 - &pi; = &pi;/3. A reference angle is always positive."
+                    "exp": "Subtract $2\u03c0$ (same terminal side): $10\u03c0 / 3 - 2\u03c0 = 4\u03c0 / 3$.\n$4\u03c0 / 3$ is in Quadrant III, so the reference angle is $4\u03c0 / 3 - \u03c0 = \u03c0 / 3$."
                 },
                 {
                     "id": 6,
@@ -1274,7 +1276,7 @@
                         "&#8477;"
                     ],
                     "correct": 0,
-                    "exp": "f&#8315;&sup1; swaps inputs and outputs: Range of f = Domain of f&#8315;&sup1;, and Domain of f = Range of f&#8315;&sup1;."
+                    "exp": "$f\u207b\u00b9$ swaps the inputs and outputs of f.\nSo the range of f is the domain of $f\u207b\u00b9$: $D<sub>f\u207b\u00b9</sub>$."
                 }
             ]
         },
@@ -1286,42 +1288,42 @@
                     {
                         "text": "&#8731;(-125) / &radic;5",
                         "correct": "irrational",
-                        "exp": "&#8731;(-125) = -5, and -5/&radic;5 = -&radic;5 (Irrational)."
+                        "exp": "$\u221b(-125) = -5$, so the number is $-5 / \u221a5 = -\u221a5$.\nIrrational."
                     },
                     {
                         "text": "(&radic;2 + &radic;18)&sup2;",
                         "correct": "rational",
-                        "exp": "&radic;18 = 3&radic;2, so (&radic;2 + 3&radic;2)&sup2; = (4&radic;2)&sup2; = 32 (Rational)."
+                        "exp": "$\u221a18 = 3\u221a2$, so $(\u221a2 + 3\u221a2)\u00b2 = (4\u221a2)\u00b2 = 16 \u00b7 2 = 32$.\nRational."
                     },
                     {
                         "text": "2.476476&hellip;",
                         "correct": "rational",
-                        "exp": "Repeating decimal: 1000x - x = 2474, so x = 2474/999 (Rational)."
+                        "exp": "Let $x = 2.476476\u2026$: $1000x - x = 2474$, so $x = 2474 / 999$.\nRational."
                     },
                     {
                         "text": "(&radic;3 + &radic;12)&sup3;",
                         "correct": "irrational",
-                        "exp": "&radic;12 = 2&radic;3, so (3&radic;3)&sup3; = 27 &middot; 3&radic;3 = 81&radic;3 (Irrational)."
+                        "exp": "$\u221a12 = 2\u221a3$, so $(\u221a3 + 2\u221a3)\u00b3 = (3\u221a3)\u00b3 = 27 \u00b7 3\u221a3 = 81\u221a3$.\nIrrational."
                     },
                     {
                         "text": "&radic;(9 / 16)",
                         "correct": "rational",
-                        "exp": "&radic;9 / &radic;16 = 3/4 (Rational)."
+                        "exp": "$\u221a(9 / 16) = \u221a9 / \u221a16 = 3 / 4$.\nRational."
                     },
                     {
                         "text": "(&radic;2)<sup>7</sup>",
                         "correct": "irrational",
-                        "exp": "(&radic;2)<sup>6</sup> &middot; &radic;2 = 8&radic;2 (Irrational). Even powers of &radic;2 are rational, odd powers are not."
+                        "exp": "$(\u221a2)<sup>7</sup> = (\u221a2)<sup>6</sup> \u00b7 \u221a2 = 8\u221a2$.\nIrrational (odd powers of \u221a2 keep a \u221a2)."
                     },
                     {
                         "text": "(&radic;5)<sup>4</sup>",
                         "correct": "rational",
-                        "exp": "(&radic;5)&sup2; &middot; (&radic;5)&sup2; = 5 &middot; 5 = 25 (Rational)."
+                        "exp": "$(\u221a5)<sup>4</sup> = ((\u221a5)\u00b2)\u00b2 = 5\u00b2 = 25$.\nRational."
                     },
                     {
                         "text": "&radic;2 / &radic;3 + &radic;3 / &radic;2",
                         "correct": "irrational",
-                        "exp": "Common denominator &radic;6: (2 + 3)/&radic;6 = 5/&radic;6 = 5&radic;6/6 (Irrational)."
+                        "exp": "Common denominator $\u221a6$: $\u221a2 / \u221a3 + \u221a3 / \u221a2 = (2 + 3) / \u221a6 = 5 / \u221a6$.\nIrrational."
                     }
                 ]
             },
@@ -1338,7 +1340,7 @@
                             "(-2, 3]"
                         ],
                         "correct": 0,
-                        "exp": "5/(x + 2) - x/3 &le; 0 &rArr; (15 - x&sup2; - 2x) / (3(x + 2)) &le; 0. Multiply by -1 and flip the sign: (x + 5)(x - 3) / (x + 2) &ge; 0. Critical numbers -5, -2, 3. Signs: - on (-&infin;, -5), + on (-5, -2), - on (-2, 3), + on (3, &infin;). Include -5 and 3 (they give 0) but never -2 (division by zero): [-5, -2) &cup; [3, &infin;)."
+                        "exp": "Move to one side: $5 / (x + 2) - x / 3 \u2264 0 \u21d2 (15 - x\u00b2 - 2x) / (3(x + 2)) \u2264 0$.\nMultiply by \u22121 and flip: $((x + 5)(x - 3)) / (x + 2) \u2265 0$.\nCritical numbers $-5, -2, 3$. Signs: $-$, $+$, $-$, $+$ on the four intervals.\nInclude \u22125 and 3, exclude \u22122: $[-5, -2) \u222a [3, \u221e)$."
                     },
                     {
                         "id": "q2_b2",
@@ -1350,7 +1352,7 @@
                             "(g &#8728; f)(x) = &radic;(x&sup2; + 3) + 7, Domain = &#8477;"
                         ],
                         "correct": 0,
-                        "exp": "g(f(x)) = &radic;(f(x) + 7) = &radic;(x&sup2; + 3 + 7) = &radic;(x&sup2; + 10). Domain: x must be in D<sub>f</sub> = &#8477;, and x&sup2; + 10 &ge; 0 is always true, so the domain is &#8477;. (x + 10 is (f &#8728; g)(x), the other order.)"
+                        "exp": "$(g \u2218 f)(x) = g(x\u00b2 + 3) = \u221a(x\u00b2 + 3 + 7) = \u221a(x\u00b2 + 10)$.\n$x\u00b2 + 10 \u2265 10 > 0$ for every x, and $D_f = \u211d$.\nDomain: \u211d. Note that $x + 10$ is $(f \u2218 g)(x)$, the other order."
                     }
                 ]
             }
@@ -1368,7 +1370,7 @@
                         "f&#8315;&sup1;(x) = (1 + x) / (2x - 1), Range = &#8477; - {1/2}"
                     ],
                     "correct": 0,
-                    "exp": "y = (x + 1)/(2x + 1) &rArr; 2xy + y = x + 1 &rArr; x(2y - 1) = 1 - y &rArr; x = (1 - y)/(2y - 1). Swap x and y: f&#8315;&sup1;(x) = (1 - x)/(2x - 1). Range of f = Domain of f&#8315;&sup1;: 2x - 1 &ne; 0, so Range = &#8477; - {1/2}. (-1/2 is the gap in the domain of f, not in its range.)"
+                    "exp": "Write $y = (x + 1) / (2x + 1)$ and solve for x: $2xy + y = x + 1$.\n$x(2y - 1) = 1 - y \u21d2 x = (1 - y) / (2y - 1)$.\nSwap: $f\u207b\u00b9(x) = (1 - x) / (2x - 1)$.\nRange of f = domain of $f\u207b\u00b9$: $2x - 1 \u2260 0$, so the range is $\u211d - {1 / 2}$."
                 },
                 {
                     "id": "q3_2",
@@ -1380,7 +1382,7 @@
                         "&pi; / 6"
                     ],
                     "correct": 0,
-                    "exp": "cos(7&pi;/6) = -&radic;3/2 (Quadrant III, reference angle &pi;/6). cos&#8315;&sup1; only returns angles in [0, &pi;], and the angle there with cosine -&radic;3/2 is &pi; - &pi;/6 = 5&pi;/6. 7&pi;/6 is outside [0, &pi;], so it cannot be the answer."
+                    "exp": "$cos(7\u03c0 / 6) = -\u221a3 / 2$ (Quadrant III, reference angle $\u03c0 / 6$).\n$cos\u207b\u00b9$ returns an angle in $[0, \u03c0]$; the one with cosine $-\u221a3 / 2$ is $\u03c0 - \u03c0 / 6 = 5\u03c0 / 6$.\nAnswer: $5\u03c0 / 6$ ($7\u03c0 / 6$ is outside $[0, \u03c0]$)."
                 },
                 {
                     "id": "q3_3",
@@ -1392,7 +1394,7 @@
                         "-7&radic;2 / 10"
                     ],
                     "correct": 0,
-                    "exp": "Let A = tan&#8315;&sup1;(-1) = -&pi;/4 (range (-&pi;/2, &pi;/2)), so sin A = -&radic;2/2 and cos A = &radic;2/2. Let B = cos&#8315;&sup1;(3/5): cos B = 3/5, and B is in [0, &pi;] so sin B = +4/5. sin(A + B) = sin A cos B + cos A sin B = (-&radic;2/2)(3/5) + (&radic;2/2)(4/5) = (-3&radic;2 + 4&radic;2)/10 = &radic;2/10."
+                    "exp": "$A = tan\u207b\u00b9(-1) = -\u03c0 / 4$: $sin A = -\u221a2 / 2$, $cos A = \u221a2 / 2$.\n$B = cos\u207b\u00b9(3 / 5)$: $cos B = 3 / 5$, $sin B = +4 / 5$ (B is in $[0, \u03c0]$).\n$sin(A + B) = sin A cos B + cos A sin B = (-\u221a2 / 2)(3 / 5) + (\u221a2 / 2)(4 / 5)$.\n$= (-3\u221a2 + 4\u221a2) / 10 = \u221a2 / 10$."
                 }
             ]
         },
@@ -1409,7 +1411,7 @@
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "Direct substitution gives 0/0. Factor: x&sup2; - 3x + 2 = (x - 1)(x - 2). Cancel (x - 1): lim 1/(x - 2) = 1/(1 - 2) = -1."
+                    "exp": "Substituting gives $0 / 0$. Factor: $x\u00b2 - 3x + 2 = (x - 1)(x - 2)$.\nCancel $(x - 1)$: $1 / (x - 2)$.\n$\u2192 1 / (1 - 2) = -1$."
                 },
                 {
                     "id": "q4_2",
@@ -1421,7 +1423,7 @@
                         "Does Not Exist"
                     ],
                     "correct": 0,
-                    "exp": "0/0. Multiply top and bottom by the conjugate (&radic;(x + 4) + 2): (x + 4 - 4) / (x(&radic;(x + 4) + 2)) = 1/(&radic;(x + 4) + 2) &rarr; 1/(2 + 2) = 1/4."
+                    "exp": "Substituting gives $0 / 0$. Multiply by the conjugate $(\u221a(x + 4) + 2)$.\n$(x + 4 - 4) / (x(\u221a(x + 4) + 2)) = 1 / (\u221a(x + 4) + 2)$.\n$\u2192 1 / (2 + 2) = 1 / 4$."
                 },
                 {
                     "id": "q4_3",
@@ -1433,7 +1435,7 @@
                         "2"
                     ],
                     "correct": 0,
-                    "exp": "Split it: [(1 - cos x)/x&sup2;] &middot; [x/sin x] &rarr; (1/2) &middot; 1 = 1/2."
+                    "exp": "Split: $(1 - cos x) / (x sin x) = ((1 - cos x) / x\u00b2) \u00b7 (x / sin x)$.\n$(1 - cos x) / x\u00b2 \u2192 1 / 2$ and $x / sin x \u2192 1$.\nAnswer: $1 / 2$."
                 },
                 {
                     "id": "q4_4",
@@ -1445,7 +1447,7 @@
                         "Does Not Exist (Oscillates)"
                     ],
                     "correct": 0,
-                    "exp": "-1 &le; cos(3x) &le; 1, so for x &gt; 0: -1/x &le; cos(3x)/x &le; 1/x. Both bounds go to 0, so by the Squeeze Theorem the limit is 0. cos(3x) keeps oscillating, but dividing by x crushes it."
+                    "exp": "$-1 \u2264 cos(3x) \u2264 1$, so for $x > 0$: $-1 / x \u2264 cos(3x) / x \u2264 1 / x$.\nBoth bounds \u2192 0 as $x \u2192 +\u221e$.\nBy the Squeeze Theorem the limit is 0."
                 },
                 {
                     "id": "q4_5",
@@ -1457,7 +1459,1327 @@
                         "9"
                     ],
                     "correct": 0,
-                    "exp": "f alone: left 2, right 4, so lim f does not exist. g alone: left 5, right 3, so lim g does not exist. But f + g: left 2 + 5 = 7, right 4 + 3 = 7. Both sides equal 7, so lim (f + g) = 7. Never split into lim f + lim g when those limits do not exist."
+                    "exp": "$f$ alone: left 2, right 4 (no limit). $g$ alone: left 5, right 3 (no limit).\nSo work with $f + g$. Left: $2 + 5 = 7$. Right: $4 + 3 = 7$.\nLeft = Right, so $lim<sub>x \u2192 1</sub> (f(x) + g(x)) = 7$."
+                }
+            ]
+        }
+    },
+    {
+        "version": 6,
+        "title": "Prediction Exam Sigma: Sets, Inverses & Infinity",
+        "q1": {
+            "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
+            "mcqs": [
+                {
+                    "id": 1,
+                    "prompt": "The solution set of <span class='math'>|2x - 3| &lt; 5</span> is &hellip;",
+                    "options": [
+                        "(-1, 4)",
+                        "(-\u221e, -1) \u222a (4, \u221e)",
+                        "(-4, 1)",
+                        "[-1, 4]"
+                    ],
+                    "correct": 0,
+                    "exp": "$|2x - 3| < 5 \u21d4 -5 < 2x - 3 < 5$.\nAdd 3: $-2 < 2x < 8$. Divide by 2: $-1 < x < 4$.\nAnswer: $(-1, 4)$."
+                },
+                {
+                    "id": 2,
+                    "prompt": "Use the table to estimate <span class='math'>lim<sub>x \u2192 2</sub> (x\u00b2 - 4) / (x - 2)</span>.<div style='overflow-x:auto;margin:.6rem 0'><table style='border-collapse:collapse;font-size:12px'><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>x</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>1.9</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>1.99</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>1.999</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>2</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>2.001</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>2.01</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>2.1</td></tr><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>f(x)</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>3.9</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>3.99</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>3.999</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'></td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>4.001</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>4.01</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>4.1</td></tr></table></div>",
+                    "options": [
+                        "4",
+                        "2",
+                        "0",
+                        "Undefined"
+                    ],
+                    "correct": 0,
+                    "exp": "Left: 3.9, 3.99, 3.999 approach 4. Right: 4.1, 4.01, 4.001 approach 4.\nBoth sides approach 4, so the limit is 4.\nCheck: $(x\u00b2 - 4) / (x - 2) = x + 2 \u2192 4$."
+                },
+                {
+                    "id": 3,
+                    "prompt": "Use the graph of <span class='math'>y = f(x)</span> below to find <span class='math'>lim<sub>x \u2192 3\u207b</sub> f(x)</span>.<svg viewBox='0 -14 225 174' style='display:block;width:15rem;max-width:100%;height:auto;margin:.6rem 0' role='img' aria-label='Graph of y = f(x)'><line x1='65' y1='140' x2='65' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='65' y='153' font-size='10' text-anchor='middle' fill='currentColor'>1</text><line x1='100' y1='140' x2='100' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='100' y='153' font-size='10' text-anchor='middle' fill='currentColor'>2</text><line x1='135' y1='140' x2='135' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='135' y='153' font-size='10' text-anchor='middle' fill='currentColor'>3</text><line x1='170' y1='140' x2='170' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='170' y='153' font-size='10' text-anchor='middle' fill='currentColor'>4</text><line x1='205' y1='140' x2='205' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='205' y='153' font-size='10' text-anchor='middle' fill='currentColor'>5</text><line x1='30' y1='110' x2='215.5' y2='110' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='113.5' font-size='10' text-anchor='end' fill='currentColor'>1</text><line x1='30' y1='80' x2='215.5' y2='80' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='83.5' font-size='10' text-anchor='end' fill='currentColor'>2</text><line x1='30' y1='50' x2='215.5' y2='50' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='53.5' font-size='10' text-anchor='end' fill='currentColor'>3</text><line x1='30' y1='20' x2='215.5' y2='20' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='23.5' font-size='10' text-anchor='end' fill='currentColor'>4</text><line x1='30' y1='140' x2='222.5' y2='140' stroke='currentColor'/><line x1='30' y1='140' x2='30' y2='5.0' stroke='currentColor'/><text x='226.5' y='144' font-size='11' font-style='italic' fill='currentColor'>x</text><text x='26' y='2.0' font-size='11' font-style='italic' fill='currentColor'>y</text><polyline points='30,80 65,110 100,122.0 135,110' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><polyline points='135,50 170,35.0 205,26.0' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><circle cx='135' cy='110' r='3.6' stroke='currentColor' stroke-width='1.6' style='fill:var(--card)'/><circle cx='135' cy='50' r='3.6' stroke='currentColor' stroke-width='1.6' fill='currentColor'/></svg>",
+                    "options": [
+                        "1",
+                        "3",
+                        "Does Not Exist (D.N.E)",
+                        "2"
+                    ],
+                    "correct": 0,
+                    "exp": "$x \u2192 3\u207b$ means approach from the left only.\nThe left branch ends at the open circle at height 1.\nAnswer: 1 (the right side, height 3, is not asked)."
+                },
+                {
+                    "id": 4,
+                    "prompt": "Simplify: <span class='math'>(sec x - cos x) / tan x</span> =",
+                    "options": [
+                        "sin x",
+                        "cos x",
+                        "tan x",
+                        "csc x"
+                    ],
+                    "correct": 0,
+                    "exp": "$sec x - cos x = 1 / cos x - cos x = (1 - cos\u00b2 x) / cos x = sin\u00b2 x / cos x$.\nDivide by $tan x = sin x / cos x$: $(sin\u00b2 x / cos x) \u00b7 (cos x / sin x)$.\n$= sin x$."
+                },
+                {
+                    "id": 5,
+                    "prompt": "Evaluate <span class='math'>lim<sub>x \u2192 0</sub> sin(3x) / tan(5x)</span> =",
+                    "options": [
+                        "3/5",
+                        "5/3",
+                        "1",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$sin(3x) / tan(5x) = (sin(3x) / (3x)) \u00b7 ((5x) / tan(5x)) \u00b7 3 / 5$.\n$sin(3x) / (3x) \u2192 1$ and $(5x) / tan(5x) \u2192 1$.\nAnswer: $3 / 5$."
+                },
+                {
+                    "id": 6,
+                    "prompt": "If <span class='math'>f(x) = 1 / (x - 1)</span>, then the domain of <span class='math'>f \u2218 f</span> is &hellip;",
+                    "options": [
+                        "\u211d - {1, 2}",
+                        "\u211d - {2}",
+                        "\u211d - {1}",
+                        "\u211d"
+                    ],
+                    "correct": 0,
+                    "exp": "x must be in $D_f$: $x \u2260 1$.\n$f(x)$ must be in $D_f$: $1 / (x - 1) \u2260 1 \u21d2 x - 1 \u2260 1 \u21d2 x \u2260 2$.\nDomain: $\u211d - {1, 2}$. Simplifying to $(x - 1) / (2 - x)$ first would lose $x \u2260 1$."
+                }
+            ]
+        },
+        "q2": {
+            "title": "Question 2: Numbers, Inequalities & Functions (8 Marks)",
+            "partA": {
+                "title": "Part A (4 Marks): Classify into Rational or Irrational",
+                "items": [
+                    {
+                        "text": "\u221a0.36",
+                        "correct": "rational",
+                        "exp": "$\u221a0.36 = 0.6 = 3 / 5$.\nRational."
+                    },
+                    {
+                        "text": "\u221a8 + \u221a18",
+                        "correct": "irrational",
+                        "exp": "$\u221a8 + \u221a18 = 2\u221a2 + 3\u221a2 = 5\u221a2$.\nIrrational."
+                    },
+                    {
+                        "text": "(1 + \u221a3)(1 - \u221a3)",
+                        "correct": "rational",
+                        "exp": "Difference of squares: $(1 + \u221a3)(1 - \u221a3) = 1 - 3 = -2$.\nRational."
+                    },
+                    {
+                        "text": "0.101001000100001&hellip;",
+                        "correct": "irrational",
+                        "exp": "The run of zeros between the 1s keeps growing, so no block repeats.\nA non-repeating, non-terminating decimal is irrational."
+                    },
+                    {
+                        "text": "\u221b54 / \u221b2",
+                        "correct": "rational",
+                        "exp": "$\u221b54 / \u221b2 = \u221b(54 / 2) = \u221b27 = 3$.\nRational."
+                    },
+                    {
+                        "text": "\u221a0.9",
+                        "correct": "irrational",
+                        "exp": "$\u221a0.9 = \u221a(9 / 10) = 3 / \u221a10$.\nIrrational (careful: $\u221a0.09 = 0.3$ would be rational)."
+                    },
+                    {
+                        "text": "4.121212&hellip;",
+                        "correct": "rational",
+                        "exp": "Let $x = 4.1212\u2026$: $100x - x = 408$, so $x = 408 / 99$.\nRational."
+                    },
+                    {
+                        "text": "sin(\u03c0/3)",
+                        "correct": "irrational",
+                        "exp": "$sin(\u03c0 / 3) = \u221a3 / 2$.\nIrrational."
+                    }
+                ]
+            },
+            "partB": {
+                "title": "Part B (4 Marks): Inequality & Functions",
+                "problems": [
+                    {
+                        "id": "q2_b1",
+                        "prompt": "Solve and write in interval notation: <span class='math'>(x - 1) / (x + 3) \u2265 2</span>",
+                        "options": [
+                            "[-7, -3)",
+                            "[-7, -3]",
+                            "(-\u221e, -7] \u222a (-3, \u221e)",
+                            "(-3, \u221e)"
+                        ],
+                        "correct": 0,
+                        "exp": "Move to one side: $(x - 1) / (x + 3) - 2 \u2265 0 \u21d2 (x - 1 - 2x - 6) / (x + 3) \u2265 0$.\nSo $(-x - 7) / (x + 3) \u2265 0$; multiply by \u22121 and flip: $(x + 7) / (x + 3) \u2264 0$.\nCritical numbers \u22127 and \u22123: the quotient is \u2264 0 on $[-7, -3)$.\nAnswer: $[-7, -3)$. Do not cross-multiply: the sign of $x + 3$ is unknown."
+                    },
+                    {
+                        "id": "q2_b2",
+                        "prompt": "Let <span class='math'>f(x) = \u221a(x - 1)</span> and <span class='math'>g(x) = 1 / (x - 3)</span>. Find <span class='math'>(f \u2218 g)(x)</span> and its domain:",
+                        "options": [
+                            "(f \u2218 g)(x) = \u221a((4 - x) / (x - 3)), Domain = (3, 4]",
+                            "(f \u2218 g)(x) = \u221a((4 - x) / (x - 3)), Domain = [3, 4]",
+                            "(f \u2218 g)(x) = 1 / (\u221a(x - 1) - 3), Domain = [1, 10) \u222a (10, \u221e)",
+                            "(f \u2218 g)(x) = \u221a((x - 4) / (x - 3)), Domain = (-\u221e, 3) \u222a [4, \u221e)"
+                        ],
+                        "correct": 0,
+                        "exp": "$(f \u2218 g)(x) = \u221a(1 / (x - 3) - 1) = \u221a((4 - x) / (x - 3))$.\nNeed $x \u2260 3$ and $(4 - x) / (x - 3) \u2265 0$.\nSign chart with 3 and 4: the quotient is \u2265 0 on $(3, 4]$.\nDomain: $(3, 4]$."
+                    }
+                ]
+            }
+        },
+        "q3": {
+            "title": "Question 3: Inverse Functions & Trigonometry (6 Marks)",
+            "problems": [
+                {
+                    "id": "q3_1",
+                    "prompt": "Let <span class='math'>f(x) = x\u00b2 - 4x</span> with domain <span class='math'>x \u2265 2</span>. Which statement is true?",
+                    "options": [
+                        "f is one-to-one and f\u207b\u00b9(x) = 2 + \u221a(x + 4)",
+                        "f is one-to-one and f\u207b\u00b9(x) = 2 - \u221a(x + 4)",
+                        "f is not one-to-one because f(0) = f(4) = 0",
+                        "f is one-to-one and f\u207b\u00b9(x) = \u221a(x + 4) - 2"
+                    ],
+                    "correct": 0,
+                    "exp": "Complete the square: $f(x) = (x - 2)\u00b2 - 4$, which increases for $x \u2265 2$, so f is one-to-one.\nSolve $y = (x - 2)\u00b2 - 4$: $x - 2 = +\u221a(y + 4)$ (positive root, since $x \u2265 2$).\nSwap: $f\u207b\u00b9(x) = 2 + \u221a(x + 4)$.\n$f(0) = f(4)$ proves nothing: 0 is not in the domain."
+                },
+                {
+                    "id": "q3_2",
+                    "prompt": "Find the exact value: <span class='math'>tan(-210\u00b0)</span>",
+                    "options": [
+                        "-\u221a3 / 3",
+                        "\u221a3 / 3",
+                        "-\u221a3",
+                        "\u221a3"
+                    ],
+                    "correct": 0,
+                    "exp": "$tan(-210\u00b0) = -tan 210\u00b0$ (tangent is odd).\n210\u00b0 is in Quadrant III (tangent positive), reference angle 30\u00b0: $tan 210\u00b0 = \u221a3 / 3$.\nAnswer: $-\u221a3 / 3$."
+                },
+                {
+                    "id": "q3_3",
+                    "prompt": "Find the exact value: <span class='math'>tan(sin\u207b\u00b9(-3/5) + cos\u207b\u00b9(5/13))</span>",
+                    "options": [
+                        "33/56",
+                        "-63/16",
+                        "56/33",
+                        "-33/56"
+                    ],
+                    "correct": 0,
+                    "exp": "$A = sin\u207b\u00b9(-3 / 5)$: $sin A = -3 / 5$, $cos A = +4 / 5$ (A is in $[-\u03c0 / 2, \u03c0 / 2]$).\n$B = cos\u207b\u00b9(5 / 13)$: $cos B = 5 / 13$, $sin B = +12 / 13$.\n$sin(A + B) = (-3 / 5)(5 / 13) + (4 / 5)(12 / 13) = 33 / 65$.\n$cos(A + B) = (4 / 5)(5 / 13) - (-3 / 5)(12 / 13) = 56 / 65$.\n$tan(A + B) = (33 / 65) / (56 / 65) = 33 / 56$."
+                }
+            ]
+        },
+        "q4": {
+            "title": "Question 4: Limits (8 Marks)",
+            "problems": [
+                {
+                    "id": "q4_1",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 -2</sub> (x\u00b3 + 8) / (x\u00b2 + x - 2)</span>",
+                    "options": [
+                        "-4",
+                        "4",
+                        "0",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "$0 / 0$. Factor: $x\u00b3 + 8 = (x + 2)(x\u00b2 - 2x + 4)$ and $x\u00b2 + x - 2 = (x + 2)(x - 1)$.\nCancel $(x + 2)$: $(x\u00b2 - 2x + 4) / (x - 1)$.\n$\u2192 (4 + 4 + 4) / (-3) = -4$."
+                },
+                {
+                    "id": "q4_2",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 9</sub> (x - 9) / (3 - \u221ax)</span>",
+                    "options": [
+                        "-6",
+                        "6",
+                        "-1/6",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$x - 9 = (\u221ax - 3)(\u221ax + 3) = -(3 - \u221ax)(\u221ax + 3)$.\nCancel $(3 - \u221ax)$: $-(\u221ax + 3)$.\n$\u2192 -(3 + 3) = -6$."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> (1 - cos 2x) / (x sin x)</span>",
+                    "options": [
+                        "2",
+                        "1",
+                        "1/2",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$1 - cos 2x = 2sin\u00b2 x$.\n$2sin\u00b2 x / (x sin x) = 2 \u00b7 sin x / x$.\n$\u2192 2 \u00b7 1 = 2$."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 -\u221e</sub> \u221a(4x\u00b2 + x) / (3x - 1)</span>",
+                    "options": [
+                        "-2/3",
+                        "2/3",
+                        "4/3",
+                        "-\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "For $x < 0$: $\u221a(4x\u00b2 + x) = |x|\u221a(4 + 1 / x) = -x\u221a(4 + 1 / x)$.\nDivide top and bottom by x: $-\u221a(4 + 1 / x) / (3 - 1 / x)$.\n$\u2192 -\u221a4 / 3 = -2 / 3$."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 3\u207b</sub> (x\u00b2 - 9) / |x - 3|</span>",
+                    "options": [
+                        "-6",
+                        "6",
+                        "0",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "For $x < 3$: $|x - 3| = -(x - 3)$.\n$((x - 3)(x + 3)) / (-(x - 3)) = -(x + 3)$.\n$\u2192 -(3 + 3) = -6$."
+                }
+            ]
+        }
+    },
+    {
+        "version": 7,
+        "title": "Prediction Exam Theta: Domains, Ranges & Asymptotes",
+        "q1": {
+            "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
+            "mcqs": [
+                {
+                    "id": 1,
+                    "prompt": "The solution set of <span class='math'>1 / x &gt; 1 / 3</span> is &hellip;",
+                    "options": [
+                        "(0, 3)",
+                        "(-\u221e, 3)",
+                        "(3, \u221e)",
+                        "(-\u221e, 0) \u222a (3, \u221e)"
+                    ],
+                    "correct": 0,
+                    "exp": "$1 / x - 1 / 3 > 0 \u21d2 (3 - x) / (3x) > 0$.\nCritical numbers 0 and 3: the quotient is positive only on $(0, 3)$.\nAnswer: $(0, 3)$. Cross-multiplying is wrong because x could be negative."
+                },
+                {
+                    "id": 2,
+                    "prompt": "Which of the following functions is even?",
+                    "options": [
+                        "f(x) = x\u00b2 + |x|",
+                        "f(x) = x\u00b3 + x",
+                        "f(x) = x\u00b2 + x",
+                        "f(x) = \u221ax"
+                    ],
+                    "correct": 0,
+                    "exp": "Even means $f(-x) = f(x)$.\n$(-x)\u00b2 + |-x| = x\u00b2 + |x|$: even.\n$x\u00b3 + x$ is odd, $x\u00b2 + x$ is neither, and $\u221ax$ is not defined for $x < 0$."
+                },
+                {
+                    "id": 3,
+                    "prompt": "The range of <span class='math'>y = cos\u207b\u00b9(x)</span> is &hellip;",
+                    "options": [
+                        "[0, \u03c0]",
+                        "[-\u03c0/2, \u03c0/2]",
+                        "(-\u03c0/2, \u03c0/2)",
+                        "[-1, 1]"
+                    ],
+                    "correct": 0,
+                    "exp": "$cos\u207b\u00b9$ returns angles in $[0, \u03c0]$.\nCompare: $sin\u207b\u00b9$ gives $[-\u03c0 / 2, \u03c0 / 2]$ and $tan\u207b\u00b9$ gives $(-\u03c0 / 2, \u03c0 / 2)$.\nAnswer: $[0, \u03c0]$."
+                },
+                {
+                    "id": 4,
+                    "prompt": "Find the exact value: <span class='math'>sin(5\u03c0 / 3)</span>",
+                    "options": [
+                        "-\u221a3 / 2",
+                        "\u221a3 / 2",
+                        "-1/2",
+                        "1/2"
+                    ],
+                    "correct": 0,
+                    "exp": "$5\u03c0 / 3$ is in Quadrant IV (sine negative), reference angle $\u03c0 / 3$.\n$sin(5\u03c0 / 3) = -sin(\u03c0 / 3) = -\u221a3 / 2$."
+                },
+                {
+                    "id": 5,
+                    "prompt": "The vertical asymptote(s) of <span class='math'>f(x) = (x\u00b2 - 1) / (x\u00b2 + x - 2)</span> is/are &hellip;",
+                    "options": [
+                        "x = -2 only",
+                        "x = 1 and x = -2",
+                        "x = 1 only",
+                        "There is no vertical asymptote"
+                    ],
+                    "correct": 0,
+                    "exp": "Factor: $((x - 1)(x + 1)) / ((x - 1)(x + 2))$.\n$x - 1$ cancels, so $x = 1$ is a hole (the limit there is $2 / 3$), not an asymptote.\n$x = -2$ still makes the denominator 0 with a non-zero numerator: vertical asymptote $x = -2$ only."
+                },
+                {
+                    "id": 6,
+                    "prompt": "Use the graph of <span class='math'>y = f(x)</span> below (dashed line <span class='math'>x = 4</span>) to find <span class='math'>lim<sub>x \u2192 4</sub> f(x)</span>.<svg viewBox='0 -14 225 174' style='display:block;width:15rem;max-width:100%;height:auto;margin:.6rem 0' role='img' aria-label='Graph of y = f(x)'><line x1='65' y1='140' x2='65' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='65' y='153' font-size='10' text-anchor='middle' fill='currentColor'>1</text><line x1='100' y1='140' x2='100' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='100' y='153' font-size='10' text-anchor='middle' fill='currentColor'>2</text><line x1='135' y1='140' x2='135' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='135' y='153' font-size='10' text-anchor='middle' fill='currentColor'>3</text><line x1='170' y1='140' x2='170' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='170' y='153' font-size='10' text-anchor='middle' fill='currentColor'>4</text><line x1='205' y1='140' x2='205' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='205' y='153' font-size='10' text-anchor='middle' fill='currentColor'>5</text><line x1='30' y1='110' x2='215.5' y2='110' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='113.5' font-size='10' text-anchor='end' fill='currentColor'>1</text><line x1='30' y1='80' x2='215.5' y2='80' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='83.5' font-size='10' text-anchor='end' fill='currentColor'>2</text><line x1='30' y1='50' x2='215.5' y2='50' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='53.5' font-size='10' text-anchor='end' fill='currentColor'>3</text><line x1='30' y1='20' x2='215.5' y2='20' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='23.5' font-size='10' text-anchor='end' fill='currentColor'>4</text><line x1='30' y1='140' x2='222.5' y2='140' stroke='currentColor'/><line x1='30' y1='140' x2='30' y2='5.0' stroke='currentColor'/><text x='226.5' y='144' font-size='11' font-style='italic' fill='currentColor'>x</text><text x='26' y='2.0' font-size='11' font-style='italic' fill='currentColor'>y</text><line x1='170' y1='140' x2='170' y2='5.0' stroke='currentColor' stroke-dasharray='4 3' stroke-opacity='.7'/><polyline points='82.5,122.0 117.5,110.0 142.0,92.0 156.0,68.0 163.0,41.0 166.5,8.0' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><polyline points='173.5,8.0 177.0,38.0 187.5,74.0 205,95.0' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/></svg>",
+                    "options": [
+                        "+\u221e",
+                        "-\u221e",
+                        "4",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "Near $x = 4$ both branches shoot upward along the dashed line.\nSo $f(x) \u2192 +\u221e$ from both sides.\nAnswer: $+\u221e$ (x = 4 is a vertical asymptote)."
+                }
+            ]
+        },
+        "q2": {
+            "title": "Question 2: Numbers, Inequalities & Functions (8 Marks)",
+            "partA": {
+                "title": "Part A (4 Marks): Classify into Rational or Irrational",
+                "items": [
+                    {
+                        "text": "\u221a(25 / 49)",
+                        "correct": "rational",
+                        "exp": "$\u221a(25 / 49) = 5 / 7$.\nRational."
+                    },
+                    {
+                        "text": "(2 - \u221a5)\u00b2 + 4\u221a5",
+                        "correct": "rational",
+                        "exp": "$(2 - \u221a5)\u00b2 = 4 - 4\u221a5 + 5 = 9 - 4\u221a5$.\nAdding $4\u221a5$ gives 9. Rational."
+                    },
+                    {
+                        "text": "\u03c0\u00b2",
+                        "correct": "irrational",
+                        "exp": "\u03c0 is irrational, and so is \u03c0\u00b2.\nIrrational."
+                    },
+                    {
+                        "text": "\u221a12 \u00b7 \u221a3",
+                        "correct": "rational",
+                        "exp": "$\u221a12 \u00b7 \u221a3 = \u221a36 = 6$.\nRational."
+                    },
+                    {
+                        "text": "7 / \u221a7",
+                        "correct": "irrational",
+                        "exp": "$7 / \u221a7 = 7\u221a7 / 7 = \u221a7$.\nIrrational."
+                    },
+                    {
+                        "text": "cos(\u03c0/4) \u00b7 \u221a2",
+                        "correct": "rational",
+                        "exp": "$cos(\u03c0 / 4) \u00b7 \u221a2 = (\u221a2 / 2) \u00b7 \u221a2 = 2 / 2 = 1$.\nRational."
+                    },
+                    {
+                        "text": "\u221a2 + 1 / \u221a2",
+                        "correct": "irrational",
+                        "exp": "$\u221a2 + 1 / \u221a2 = (2 + 1) / \u221a2 = 3 / \u221a2$.\nIrrational."
+                    },
+                    {
+                        "text": "\u221a1.6",
+                        "correct": "irrational",
+                        "exp": "$\u221a1.6 = \u221a(16 / 10) = 4 / \u221a10$.\nIrrational."
+                    }
+                ]
+            },
+            "partB": {
+                "title": "Part B (4 Marks): Inequality & Functions",
+                "problems": [
+                    {
+                        "id": "q2_b1",
+                        "prompt": "Solve and write in interval notation: <span class='math'>|x - 1| \u2265 |x + 3|</span>",
+                        "options": [
+                            "(-\u221e, -1]",
+                            "[-1, \u221e)",
+                            "(-\u221e, -1)",
+                            "[-3, 1]"
+                        ],
+                        "correct": 0,
+                        "exp": "Both sides are \u2265 0, so squaring keeps the inequality: $(x - 1)\u00b2 \u2265 (x + 3)\u00b2$.\n$x\u00b2 - 2x + 1 \u2265 x\u00b2 + 6x + 9 \u21d2 -8x \u2265 8$.\nDivide by \u22128 and flip: $x \u2264 -1$.\nAnswer: $(-\u221e, -1]$."
+                    },
+                    {
+                        "id": "q2_b2",
+                        "prompt": "Find the domain of <span class='math'>f(x) = \u221a(x\u00b2 - 4) / (x - 3)</span>",
+                        "options": [
+                            "(-\u221e, -2] \u222a [2, 3) \u222a (3, \u221e)",
+                            "(-\u221e, -2] \u222a [2, \u221e)",
+                            "[-2, 2]",
+                            "(-\u221e, -2) \u222a (2, 3) \u222a (3, \u221e)"
+                        ],
+                        "correct": 0,
+                        "exp": "Root: $x\u00b2 - 4 \u2265 0 \u21d2 x \u2264 -2$ or $x \u2265 2$.\nDenominator: $x \u2260 3$.\nDomain: $(-\u221e, -2] \u222a [2, 3) \u222a (3, \u221e)$."
+                    }
+                ]
+            }
+        },
+        "q3": {
+            "title": "Question 3: Inverse Functions & Trigonometry (6 Marks)",
+            "problems": [
+                {
+                    "id": "q3_1",
+                    "prompt": "Let <span class='math'>f(x) = 3 + \u221a(x - 2)</span>. Find <span class='math'>f\u207b\u00b9(x)</span> with its domain:",
+                    "options": [
+                        "f\u207b\u00b9(x) = (x - 3)\u00b2 + 2, x \u2265 3",
+                        "f\u207b\u00b9(x) = (x - 3)\u00b2 + 2, x \u2208 \u211d",
+                        "f\u207b\u00b9(x) = (x + 3)\u00b2 - 2, x \u2265 -3",
+                        "f\u207b\u00b9(x) = \u221a(x - 3) + 2, x \u2265 3"
+                    ],
+                    "correct": 0,
+                    "exp": "$y = 3 + \u221a(x - 2) \u21d2 \u221a(x - 2) = y - 3 \u21d2 x = (y - 3)\u00b2 + 2$.\nSwap: $f\u207b\u00b9(x) = (x - 3)\u00b2 + 2$.\nDomain of $f\u207b\u00b9$ = range of f: $\u221a(x - 2) \u2265 0$, so $f(x) \u2265 3$.\nAnswer: $f\u207b\u00b9(x) = (x - 3)\u00b2 + 2$ with $x \u2265 3$."
+                },
+                {
+                    "id": "q3_2",
+                    "prompt": "Find the exact value: <span class='math'>sin\u207b\u00b9(sin(4\u03c0 / 3))</span>",
+                    "options": [
+                        "-\u03c0/3",
+                        "4\u03c0/3",
+                        "\u03c0/3",
+                        "-2\u03c0/3"
+                    ],
+                    "correct": 0,
+                    "exp": "$sin(4\u03c0 / 3) = -\u221a3 / 2$ (Quadrant III).\n$sin\u207b\u00b9$ returns an angle in $[-\u03c0 / 2, \u03c0 / 2]$; the one with sine $-\u221a3 / 2$ is $-\u03c0 / 3$.\nAnswer: $-\u03c0 / 3$."
+                },
+                {
+                    "id": "q3_3",
+                    "prompt": "Simplify: <span class='math'>cos(tan\u207b\u00b9 x)</span>",
+                    "options": [
+                        "1 / \u221a(1 + x\u00b2)",
+                        "x / \u221a(1 + x\u00b2)",
+                        "\u221a(1 + x\u00b2)",
+                        "1 / (1 + x\u00b2)"
+                    ],
+                    "correct": 0,
+                    "exp": "Let $\u03b8 = tan\u207b\u00b9 x$: opposite x, adjacent 1, hypotenuse $\u221a(1 + x\u00b2)$.\n\u03b8 is in $(-\u03c0 / 2, \u03c0 / 2)$, where cosine is positive.\n$cos \u03b8 = 1 / \u221a(1 + x\u00b2)$."
+                }
+            ]
+        },
+        "q4": {
+            "title": "Question 4: Limits (8 Marks)",
+            "problems": [
+                {
+                    "id": "q4_1",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 4</sub> (1/x - 1/4) / (x - 4)</span>",
+                    "options": [
+                        "-1/16",
+                        "1/16",
+                        "0",
+                        "-1/4"
+                    ],
+                    "correct": 0,
+                    "exp": "Combine the top: $1 / x - 1 / 4 = (4 - x) / (4x) = -(x - 4) / (4x)$.\nDivide by $(x - 4)$: $-1 / (4x)$.\n$\u2192 -1 / 16$."
+                },
+                {
+                    "id": "q4_2",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 1</sub> (\u221a(x + 3) - 2) / (x\u00b2 - 1)</span>",
+                    "options": [
+                        "1/8",
+                        "1/4",
+                        "1/2",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "Multiply by the conjugate: $(x + 3 - 4) / ((x\u00b2 - 1)(\u221a(x + 3) + 2))$.\n$= (x - 1) / ((x - 1)(x + 1)(\u221a(x + 3) + 2)) = 1 / ((x + 1)(\u221a(x + 3) + 2))$.\n$\u2192 1 / (2 \u00b7 4) = 1 / 8$."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> sin\u00b2(3x) / x\u00b2</span>",
+                    "options": [
+                        "9",
+                        "3",
+                        "1",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$sin\u00b2(3x) / x\u00b2 = (sin(3x) / x)\u00b2 = (3 \u00b7 sin(3x) / (3x))\u00b2$.\n$\u2192 (3 \u00b7 1)\u00b2 = 9$."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 2\u207a</sub> (x + 1) / (x\u00b2 - 4)</span>",
+                    "options": [
+                        "+\u221e",
+                        "-\u221e",
+                        "3/4",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "The numerator \u2192 3 > 0.\nFor x slightly bigger than 2, $x\u00b2 - 4$ is a small positive number.\nPositive / small positive \u2192 $+\u221e$."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Let <span class='math'>f(x) = { x\u00b2 + a (x &lt; 2), ax - 1 (x \u2265 2) }</span>. Find <span class='math'>a</span> so that <span class='math'>lim<sub>x \u2192 2</sub> f(x)</span> exists:",
+                    "options": [
+                        "5",
+                        "3",
+                        "-5",
+                        "1"
+                    ],
+                    "correct": 0,
+                    "exp": "Left limit ($x < 2$): $4 + a$. Right limit: $2a - 1$.\nSet them equal: $4 + a = 2a - 1 \u21d2 a = 5$.\nCheck: both sides equal 9."
+                }
+            ]
+        }
+    },
+    {
+        "version": 8,
+        "title": "Prediction Exam Kappa: Identities & Squeeze",
+        "q1": {
+            "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
+            "mcqs": [
+                {
+                    "id": 1,
+                    "prompt": "If <span class='math'>-2 &lt; x &lt; 3</span>, then <span class='math'>x\u00b2</span> lies in &hellip;",
+                    "options": [
+                        "[0, 9)",
+                        "(4, 9)",
+                        "(0, 9)",
+                        "[4, 9)"
+                    ],
+                    "correct": 0,
+                    "exp": "Do not just square the endpoints: x can be 0, so $x\u00b2$ can be 0.\nNear $x = 3$, $x\u00b2$ gets close to 9 without reaching it; near $x = -2$ it only gets close to 4.\nAnswer: $[0, 9)$."
+                },
+                {
+                    "id": 2,
+                    "prompt": "Simplify: <span class='math'>tan x + cot x</span> =",
+                    "options": [
+                        "sec x csc x",
+                        "1",
+                        "sin x cos x",
+                        "sec x + csc x"
+                    ],
+                    "correct": 0,
+                    "exp": "$tan x + cot x = sin x / cos x + cos x / sin x$.\n$= (sin\u00b2 x + cos\u00b2 x) / (sin x cos x) = 1 / (sin x cos x)$.\n$= sec x csc x$."
+                },
+                {
+                    "id": 3,
+                    "prompt": "If <span class='math'>f(x) = x\u00b2</span> and <span class='math'>g(x) = \u221a(x - 1)</span>, then the domain of <span class='math'>f / g</span> is &hellip;",
+                    "options": [
+                        "(1, \u221e)",
+                        "[1, \u221e)",
+                        "\u211d - {1}",
+                        "\u211d"
+                    ],
+                    "correct": 0,
+                    "exp": "$D_f \u2229 D_g = \u211d \u2229 [1, \u221e) = [1, \u221e)$.\nAlso $g(x) \u2260 0$: $\u221a(x - 1) \u2260 0 \u21d2 x \u2260 1$.\nDomain: $(1, \u221e)$."
+                },
+                {
+                    "id": 4,
+                    "prompt": "Use the table to decide <span class='math'>lim<sub>x \u2192 0</sub> f(x)</span>.<div style='overflow-x:auto;margin:.6rem 0'><table style='border-collapse:collapse;font-size:12px'><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>x</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.1</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.01</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.001</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.001</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.01</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.1</td></tr><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>f(x)</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.9</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.99</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.999</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'></td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.999</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.99</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.9</td></tr></table></div>",
+                    "options": [
+                        "Does Not Exist",
+                        "0",
+                        "1",
+                        "-1"
+                    ],
+                    "correct": 0,
+                    "exp": "Left: \u22120.9, \u22120.99, \u22120.999 approach \u22121.\nRight: 0.9, 0.99, 0.999 approach 1.\n$-1 \u2260 1$, so the limit does not exist."
+                },
+                {
+                    "id": 5,
+                    "prompt": "The horizontal asymptote of <span class='math'>f(x) = (2x - 3x\u00b2) / (x\u00b2 + 1)</span> is &hellip;",
+                    "options": [
+                        "y = -3",
+                        "y = 2",
+                        "y = 0",
+                        "y = 3"
+                    ],
+                    "correct": 0,
+                    "exp": "Same degree (2) on top and bottom.\nRatio of leading coefficients: $-3 / 1$.\nAnswer: $y = -3$."
+                },
+                {
+                    "id": 6,
+                    "prompt": "Find the exact value: <span class='math'>cos\u207b\u00b9(-1/2)</span>",
+                    "options": [
+                        "2\u03c0/3",
+                        "-\u03c0/3",
+                        "4\u03c0/3",
+                        "\u03c0/3"
+                    ],
+                    "correct": 0,
+                    "exp": "$cos(\u03c0 / 3) = 1 / 2$.\n$cos\u207b\u00b9$ returns an angle in $[0, \u03c0]$; cosine $-1 / 2$ gives $\u03c0 - \u03c0 / 3 = 2\u03c0 / 3$."
+                }
+            ]
+        },
+        "q2": {
+            "title": "Question 2: Numbers, Inequalities & Functions (8 Marks)",
+            "partA": {
+                "title": "Part A (4 Marks): Classify into Rational or Irrational",
+                "items": [
+                    {
+                        "text": "(\u221a7 - \u221a2)(\u221a7 + \u221a2)",
+                        "correct": "rational",
+                        "exp": "$(\u221a7 - \u221a2)(\u221a7 + \u221a2) = 7 - 2 = 5$.\nRational."
+                    },
+                    {
+                        "text": "1 / (\u221a3 - \u221a2)",
+                        "correct": "irrational",
+                        "exp": "Rationalise: $1 / (\u221a3 - \u221a2) = (\u221a3 + \u221a2) / (3 - 2) = \u221a3 + \u221a2$.\nIrrational."
+                    },
+                    {
+                        "text": "\u221a45 / \u221a5",
+                        "correct": "rational",
+                        "exp": "$\u221a45 / \u221a5 = \u221a9 = 3$.\nRational."
+                    },
+                    {
+                        "text": "-\u221a(9 / 2)",
+                        "correct": "irrational",
+                        "exp": "$-\u221a(9 / 2) = -3 / \u221a2$.\nIrrational."
+                    },
+                    {
+                        "text": "tan(\u03c0/4)",
+                        "correct": "rational",
+                        "exp": "$tan(\u03c0 / 4) = 1$.\nRational."
+                    },
+                    {
+                        "text": "1.020020002&hellip;",
+                        "correct": "irrational",
+                        "exp": "The block of zeros grows each time, so the decimal never repeats.\nIrrational."
+                    },
+                    {
+                        "text": "\u221a5 \u00b7 (\u221a5)\u00b3",
+                        "correct": "rational",
+                        "exp": "$\u221a5 \u00b7 (\u221a5)\u00b3 = (\u221a5)\u2074 = 25$.\nRational."
+                    },
+                    {
+                        "text": "\u221a2 \u00b7 \u221a3",
+                        "correct": "irrational",
+                        "exp": "$\u221a2 \u00b7 \u221a3 = \u221a6$.\nIrrational."
+                    }
+                ]
+            },
+            "partB": {
+                "title": "Part B (4 Marks): Inequality & Functions",
+                "problems": [
+                    {
+                        "id": "q2_b1",
+                        "prompt": "Solve and write in interval notation: <span class='math'>x\u00b3 \u2265 4x</span>",
+                        "options": [
+                            "[-2, 0] \u222a [2, \u221e)",
+                            "[2, \u221e)",
+                            "(-\u221e, -2] \u222a [0, 2]",
+                            "[-2, 2]"
+                        ],
+                        "correct": 0,
+                        "exp": "$x\u00b3 - 4x \u2265 0 \u21d2 x(x - 2)(x + 2) \u2265 0$.\nCritical numbers $-2, 0, 2$. Signs: $-$, $+$, $-$, $+$ on the four intervals.\nAnswer: $[-2, 0] \u222a [2, \u221e)$. Dividing by x would lose the part where x is negative."
+                    },
+                    {
+                        "id": "q2_b2",
+                        "prompt": "Let <span class='math'>f(x) = x\u00b2 - 2x</span> and <span class='math'>g(x) = x + 1</span>. Find <span class='math'>(f \u2218 g)(x)</span>:",
+                        "options": [
+                            "x\u00b2 - 1",
+                            "x\u00b2 - 2x + 1",
+                            "x\u00b2 + 1",
+                            "x\u00b2 - 2x - 1"
+                        ],
+                        "correct": 0,
+                        "exp": "$(f \u2218 g)(x) = f(x + 1) = (x + 1)\u00b2 - 2(x + 1)$.\n$= x\u00b2 + 2x + 1 - 2x - 2 = x\u00b2 - 1$.\nNote: $x\u00b2 - 2x + 1$ is $(g \u2218 f)(x)$, the other order."
+                    }
+                ]
+            }
+        },
+        "q3": {
+            "title": "Question 3: Inverse Functions & Trigonometry (6 Marks)",
+            "problems": [
+                {
+                    "id": "q3_1",
+                    "prompt": "Is <span class='math'>f(x) = x\u00b3 + x</span> one-to-one on <span class='math'>\u211d</span>?",
+                    "options": [
+                        "Yes: f(x\u2081) = f(x\u2082) gives (x\u2081 - x\u2082)(x\u2081\u00b2 + x\u2081x\u2082 + x\u2082\u00b2 + 1) = 0, and the second factor is always positive",
+                        "No: f(-1) = -f(1)",
+                        "No: a cubic polynomial is never one-to-one",
+                        "Only for x \u2265 0"
+                    ],
+                    "correct": 0,
+                    "exp": "Suppose $f(x\u2081) = f(x\u2082)$: $x\u2081\u00b3 + x\u2081 = x\u2082\u00b3 + x\u2082$.\nFactor: $(x\u2081 - x\u2082)(x\u2081\u00b2 + x\u2081x\u2082 + x\u2082\u00b2 + 1) = 0$.\n$x\u2081\u00b2 + x\u2081x\u2082 + x\u2082\u00b2 \u2265 0$, so the second factor is at least 1 and never 0.\nSo $x\u2081 = x\u2082$: f is one-to-one."
+                },
+                {
+                    "id": "q3_2",
+                    "prompt": "Find the exact value: <span class='math'>sec(-120\u00b0)</span>",
+                    "options": [
+                        "-2",
+                        "2",
+                        "-2/\u221a3",
+                        "2/\u221a3"
+                    ],
+                    "correct": 0,
+                    "exp": "$cos(-120\u00b0) = cos 120\u00b0 = -1 / 2$ (Quadrant II).\n$sec(-120\u00b0) = 1 / (-1 / 2) = -2$."
+                },
+                {
+                    "id": "q3_3",
+                    "prompt": "Find the exact value: <span class='math'>sin(2 cos\u207b\u00b9(-3/5))</span>",
+                    "options": [
+                        "-24/25",
+                        "24/25",
+                        "-7/25",
+                        "7/25"
+                    ],
+                    "correct": 0,
+                    "exp": "$\u03b8 = cos\u207b\u00b9(-3 / 5)$ is in Quadrant II: $cos \u03b8 = -3 / 5$, $sin \u03b8 = +4 / 5$.\n$sin 2\u03b8 = 2sin \u03b8 cos \u03b8 = 2(4 / 5)(-3 / 5)$.\n$= -24 / 25$."
+                }
+            ]
+        },
+        "q4": {
+            "title": "Question 4: Limits (8 Marks)",
+            "problems": [
+                {
+                    "id": "q4_1",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 3</sub> (x\u00b2 - 2x - 3) / (x\u00b2 - 9)</span>",
+                    "options": [
+                        "2/3",
+                        "0",
+                        "1",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "$0 / 0$. Factor: $((x - 3)(x + 1)) / ((x - 3)(x + 3))$.\nCancel: $(x + 1) / (x + 3)$.\n$\u2192 4 / 6 = 2 / 3$."
+                },
+                {
+                    "id": "q4_2",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>h \u2192 0</sub> ((2 + h)\u00b2 - 4) / h</span>",
+                    "options": [
+                        "4",
+                        "2",
+                        "0",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "Expand: $((2 + h)\u00b2 - 4) / h = (4h + h\u00b2) / h$.\n$= 4 + h$.\n$\u2192 4$."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> x\u00b2 sin(1 / x)</span>",
+                    "options": [
+                        "0",
+                        "1",
+                        "Does Not Exist (Oscillates)",
+                        "+\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "$-1 \u2264 sin(1 / x) \u2264 1$, so $-x\u00b2 \u2264 x\u00b2sin(1 / x) \u2264 x\u00b2$.\nBoth bounds \u2192 0.\nBy the Squeeze Theorem the limit is 0."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 \u221e</sub> (\u221a(x\u00b2 + 4x) - x)</span>",
+                    "options": [
+                        "2",
+                        "0",
+                        "4",
+                        "+\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "$\u221e - \u221e$ form: multiply by the conjugate: $(x\u00b2 + 4x - x\u00b2) / (\u221a(x\u00b2 + 4x) + x) = 4x / (\u221a(x\u00b2 + 4x) + x)$.\nDivide by $x > 0$: $4 / (\u221a(1 + 4 / x) + 1)$.\n$\u2192 4 / 2 = 2$."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Let <span class='math'>f(x) = { x + 1 (x &lt; 0), x\u00b2 - 1 (x \u2265 0) }</span> and <span class='math'>g(x) = { x\u00b2 (x &lt; 0), x + 2 (x \u2265 0) }</span>. Find <span class='math'>lim<sub>x \u2192 0</sub> f(x) \u00b7 g(x)</span>:",
+                    "options": [
+                        "Does Not Exist",
+                        "0",
+                        "-2",
+                        "1"
+                    ],
+                    "correct": 0,
+                    "exp": "Left: $f \u2192 1$ and $g \u2192 0$, so $f \u00b7 g \u2192 0$.\nRight: $f \u2192 -1$ and $g \u2192 2$, so $f \u00b7 g \u2192 -2$.\n$0 \u2260 -2$, so the limit does not exist."
+                }
+            ]
+        }
+    },
+    {
+        "version": 9,
+        "title": "Prediction Exam Lambda: Graphs & Inverse Trig",
+        "q1": {
+            "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
+            "mcqs": [
+                {
+                    "id": 1,
+                    "prompt": "The solution set of <span class='math'>-3 \u2264 1 - 2x &lt; 5</span> is &hellip;",
+                    "options": [
+                        "(-2, 2]",
+                        "[-2, 2)",
+                        "(-\u221e, 2]",
+                        "[-2, \u221e)"
+                    ],
+                    "correct": 0,
+                    "exp": "Subtract 1: $-4 \u2264 -2x < 4$.\nDivide by \u22122 and flip both signs: $2 \u2265 x > -2$.\nAnswer: $(-2, 2]$."
+                },
+                {
+                    "id": 2,
+                    "prompt": "Use the graph of <span class='math'>y = f(x)</span> below to find <span class='math'>lim<sub>x \u2192 1\u207b</sub> f(x) + lim<sub>x \u2192 1\u207a</sub> f(x)</span>.<svg viewBox='0 -14 225 174' style='display:block;width:15rem;max-width:100%;height:auto;margin:.6rem 0' role='img' aria-label='Graph of y = f(x)'><line x1='65' y1='140' x2='65' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='65' y='153' font-size='10' text-anchor='middle' fill='currentColor'>1</text><line x1='100' y1='140' x2='100' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='100' y='153' font-size='10' text-anchor='middle' fill='currentColor'>2</text><line x1='135' y1='140' x2='135' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='135' y='153' font-size='10' text-anchor='middle' fill='currentColor'>3</text><line x1='170' y1='140' x2='170' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='170' y='153' font-size='10' text-anchor='middle' fill='currentColor'>4</text><line x1='205' y1='140' x2='205' y2='11.0' stroke='currentColor' stroke-opacity='.13'/><text x='205' y='153' font-size='10' text-anchor='middle' fill='currentColor'>5</text><line x1='30' y1='110' x2='215.5' y2='110' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='113.5' font-size='10' text-anchor='end' fill='currentColor'>1</text><line x1='30' y1='80' x2='215.5' y2='80' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='83.5' font-size='10' text-anchor='end' fill='currentColor'>2</text><line x1='30' y1='50' x2='215.5' y2='50' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='53.5' font-size='10' text-anchor='end' fill='currentColor'>3</text><line x1='30' y1='20' x2='215.5' y2='20' stroke='currentColor' stroke-opacity='.13'/><text x='23' y='23.5' font-size='10' text-anchor='end' fill='currentColor'>4</text><line x1='30' y1='140' x2='222.5' y2='140' stroke='currentColor'/><line x1='30' y1='140' x2='30' y2='5.0' stroke='currentColor'/><text x='226.5' y='144' font-size='11' font-style='italic' fill='currentColor'>x</text><text x='26' y='2.0' font-size='11' font-style='italic' fill='currentColor'>y</text><polyline points='30,50 47.5,83.0 65,110' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><polyline points='65,50 100,32.0 135,44.0 170,68.0 205,80' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/><circle cx='65' cy='110' r='3.6' stroke='currentColor' stroke-width='1.6' style='fill:var(--card)'/><circle cx='65' cy='50' r='3.6' stroke='currentColor' stroke-width='1.6' fill='currentColor'/></svg>",
+                    "options": [
+                        "4",
+                        "2",
+                        "6",
+                        "Does Not Exist (D.N.E)"
+                    ],
+                    "correct": 0,
+                    "exp": "Left-hand limit: the left branch reaches the open circle at height 1.\nRight-hand limit: the right branch starts at the filled dot at height 3.\nSum: $1 + 3 = 4$."
+                },
+                {
+                    "id": 3,
+                    "prompt": "If <span class='math'>sin \u03b8 = -4/5</span> and <span class='math'>\u03b8</span> is in Quadrant IV, then <span class='math'>tan \u03b8</span> =",
+                    "options": [
+                        "-4/3",
+                        "4/3",
+                        "-3/4",
+                        "3/4"
+                    ],
+                    "correct": 0,
+                    "exp": "$cos \u03b8 = +\u221a(1 - 16 / 25) = 3 / 5$ (cosine is positive in Quadrant IV).\n$tan \u03b8 = (-4 / 5) / (3 / 5) = -4 / 3$."
+                },
+                {
+                    "id": 4,
+                    "prompt": "Evaluate <span class='math'>lim<sub>x \u2192 -\u221e</sub> (5 - 2x\u00b3) / (x\u00b3 + x)</span> =",
+                    "options": [
+                        "-2",
+                        "5",
+                        "2",
+                        "-\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "Same degree (3) on top and bottom.\nRatio of leading coefficients: $-2 / 1 = -2$."
+                },
+                {
+                    "id": 5,
+                    "prompt": "Let <span class='math'>f(x) = { x\u00b2 + 1 (x \u2264 1), 3 - x (x &gt; 1) }</span>. Then <span class='math'>f(f(1))</span> =",
+                    "options": [
+                        "1",
+                        "2",
+                        "5",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$f(1)$: $1 \u2264 1$, so $f(1) = 1\u00b2 + 1 = 2$.\n$f(2)$: $2 > 1$, so $f(2) = 3 - 2 = 1$.\n$f(f(1)) = 1$."
+                },
+                {
+                    "id": 6,
+                    "prompt": "Evaluate <span class='math'>lim<sub>x \u2192 0</sub> sin x / (x + tan x)</span> =",
+                    "options": [
+                        "1/2",
+                        "1",
+                        "0",
+                        "2"
+                    ],
+                    "correct": 0,
+                    "exp": "Divide top and bottom by x: $(sin x / x) / (1 + tan x / x)$.\n$sin x / x \u2192 1$ and $tan x / x \u2192 1$.\n$\u2192 1 / (1 + 1) = 1 / 2$."
+                }
+            ]
+        },
+        "q2": {
+            "title": "Question 2: Numbers, Inequalities & Functions (8 Marks)",
+            "partA": {
+                "title": "Part A (4 Marks): Classify into Rational or Irrational",
+                "items": [
+                    {
+                        "text": "\u221a0.04",
+                        "correct": "rational",
+                        "exp": "$\u221a0.04 = 0.2 = 1 / 5$.\nRational."
+                    },
+                    {
+                        "text": "\u221a2 + \u221a3",
+                        "correct": "irrational",
+                        "exp": "$\u221a2$ and $\u221a3$ are unlike roots; their sum cannot be simplified to a fraction.\nIrrational."
+                    },
+                    {
+                        "text": "(\u221a6 \u00b7 \u221a2) / \u221a3",
+                        "correct": "rational",
+                        "exp": "$(\u221a6 \u00b7 \u221a2) / \u221a3 = \u221a12 / \u221a3 = \u221a4 = 2$.\nRational."
+                    },
+                    {
+                        "text": "\u221a(5 + 2\u221a6)",
+                        "correct": "irrational",
+                        "exp": "$5 + 2\u221a6 = (\u221a2 + \u221a3)\u00b2$, so $\u221a(5 + 2\u221a6) = \u221a2 + \u221a3$.\nIrrational."
+                    },
+                    {
+                        "text": "\u03c0 - (\u03c0 - 1)",
+                        "correct": "rational",
+                        "exp": "$\u03c0 - (\u03c0 - 1) = \u03c0 - \u03c0 + 1 = 1$.\nRational."
+                    },
+                    {
+                        "text": "cos(\u03c0/6)",
+                        "correct": "irrational",
+                        "exp": "$cos(\u03c0 / 6) = \u221a3 / 2$.\nIrrational."
+                    },
+                    {
+                        "text": "0.454545&hellip;",
+                        "correct": "rational",
+                        "exp": "Let $x = 0.4545\u2026$: $100x - x = 45$, so $x = 45 / 99 = 5 / 11$.\nRational."
+                    },
+                    {
+                        "text": "\u221b(-8) \u00b7 \u221a2",
+                        "correct": "irrational",
+                        "exp": "$\u221b(-8) = -2$, so the number is $-2\u221a2$.\nIrrational."
+                    }
+                ]
+            },
+            "partB": {
+                "title": "Part B (4 Marks): Inequality & Functions",
+                "problems": [
+                    {
+                        "id": "q2_b1",
+                        "prompt": "Solve and write in interval notation: <span class='math'>(x + 2)\u00b2 / (x - 1) \u2264 0</span>",
+                        "options": [
+                            "(-\u221e, 1)",
+                            "(-\u221e, 1]",
+                            "(-\u221e, -2] \u222a (1, \u221e)",
+                            "{-2} \u222a (1, \u221e)"
+                        ],
+                        "correct": 0,
+                        "exp": "$(x + 2)\u00b2 \u2265 0$ always, so the sign of the quotient is the sign of $x - 1$ wherever the top is not 0.\nQuotient \u2264 0 when $x - 1 < 0$, or when the top is 0 ($x = -2$, already inside $x < 1$).\n$x = 1$ is excluded (division by zero).\nAnswer: $(-\u221e, 1)$."
+                    },
+                    {
+                        "id": "q2_b2",
+                        "prompt": "Let <span class='math'>f(x) = 1 / x</span> and <span class='math'>g(x) = \u221a(4 - x\u00b2)</span>. Find <span class='math'>(f \u2218 g)(x)</span> and its domain:",
+                        "options": [
+                            "(f \u2218 g)(x) = 1 / \u221a(4 - x\u00b2), Domain = (-2, 2)",
+                            "(f \u2218 g)(x) = 1 / \u221a(4 - x\u00b2), Domain = [-2, 2]",
+                            "(f \u2218 g)(x) = \u221a(4 - 1/x\u00b2), Domain = (-\u221e, -1/2] \u222a [1/2, \u221e)",
+                            "(f \u2218 g)(x) = 1 / \u221a(4 - x\u00b2), Domain = \u211d - {-2, 2}"
+                        ],
+                        "correct": 0,
+                        "exp": "$(f \u2218 g)(x) = 1 / g(x) = 1 / \u221a(4 - x\u00b2)$.\nNeed $4 - x\u00b2 \u2265 0$ (root) and $\u221a(4 - x\u00b2) \u2260 0$ (denominator), so $4 - x\u00b2 > 0$.\nDomain: $(-2, 2)$."
+                    }
+                ]
+            }
+        },
+        "q3": {
+            "title": "Question 3: Inverse Functions & Trigonometry (6 Marks)",
+            "problems": [
+                {
+                    "id": "q3_1",
+                    "prompt": "If <span class='math'>f</span> is one-to-one with <span class='math'>f(2) = 7</span> and <span class='math'>f(5) = -1</span>, then <span class='math'>f\u207b\u00b9(7) + f(f\u207b\u00b9(-1))</span> =",
+                    "options": [
+                        "1",
+                        "7",
+                        "6",
+                        "5"
+                    ],
+                    "correct": 0,
+                    "exp": "$f(2) = 7$ means $f\u207b\u00b9(7) = 2$.\n$f(f\u207b\u00b9(y)) = y$, so $f(f\u207b\u00b9(-1)) = -1$.\nTotal: $2 + (-1) = 1$."
+                },
+                {
+                    "id": "q3_2",
+                    "prompt": "Simplify: <span class='math'>cos(sin\u207b\u00b9(x / 3))</span>, for <span class='math'>-3 \u2264 x \u2264 3</span>",
+                    "options": [
+                        "\u221a(9 - x\u00b2) / 3",
+                        "x / \u221a(9 - x\u00b2)",
+                        "3 / \u221a(9 - x\u00b2)",
+                        "\u221a(9 - x\u00b2)"
+                    ],
+                    "correct": 0,
+                    "exp": "Let $\u03b8 = sin\u207b\u00b9(x / 3)$: opposite x, hypotenuse 3, adjacent $\u221a(9 - x\u00b2)$.\n\u03b8 is in $[-\u03c0 / 2, \u03c0 / 2]$, where cosine is \u2265 0.\n$cos \u03b8 = \u221a(9 - x\u00b2) / 3$."
+                },
+                {
+                    "id": "q3_3",
+                    "prompt": "Find the exact value: <span class='math'>tan\u207b\u00b9(tan(3\u03c0 / 4))</span>",
+                    "options": [
+                        "-\u03c0/4",
+                        "3\u03c0/4",
+                        "\u03c0/4",
+                        "-3\u03c0/4"
+                    ],
+                    "correct": 0,
+                    "exp": "$tan(3\u03c0 / 4) = -1$.\n$tan\u207b\u00b9$ returns an angle in $(-\u03c0 / 2, \u03c0 / 2)$; the one with tangent \u22121 is $-\u03c0 / 4$.\nAnswer: $-\u03c0 / 4$."
+                }
+            ]
+        },
+        "q4": {
+            "title": "Question 4: Limits (8 Marks)",
+            "problems": [
+                {
+                    "id": "q4_1",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 -1</sub> (x\u00b2 + 3x + 2) / (x\u00b2 - 1)</span>",
+                    "options": [
+                        "-1/2",
+                        "1/2",
+                        "0",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "$0 / 0$. Factor: $((x + 1)(x + 2)) / ((x + 1)(x - 1))$.\nCancel: $(x + 2) / (x - 1)$.\n$\u2192 1 / (-2) = -1 / 2$."
+                },
+                {
+                    "id": "q4_2",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> (\u221a(1 + x) - \u221a(1 - x)) / x</span>",
+                    "options": [
+                        "1",
+                        "1/2",
+                        "0",
+                        "2"
+                    ],
+                    "correct": 0,
+                    "exp": "Multiply by the conjugate: $((1 + x) - (1 - x)) / (x(\u221a(1 + x) + \u221a(1 - x)))$.\n$= 2x / (x(\u221a(1 + x) + \u221a(1 - x))) = 2 / (\u221a(1 + x) + \u221a(1 - x))$.\n$\u2192 2 / (1 + 1) = 1$."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> x cot(3x)</span>",
+                    "options": [
+                        "1/3",
+                        "3",
+                        "1",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$x cot 3x = x cos 3x / sin 3x = (1 / 3) \u00b7 (3x / sin 3x) \u00b7 cos 3x$.\n$3x / sin 3x \u2192 1$ and $cos 3x \u2192 1$.\n$\u2192 1 / 3$."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 3\u207b</sub> x / (x - 3)</span>",
+                    "options": [
+                        "-\u221e",
+                        "+\u221e",
+                        "1",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "The numerator \u2192 3 > 0.\nFor x slightly less than 3, $x - 3$ is a small negative number.\nPositive / small negative \u2192 $-\u221e$."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 -\u221e</sub> (x + \u221a(x\u00b2 + 2x))</span>",
+                    "options": [
+                        "-1",
+                        "1",
+                        "0",
+                        "-\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "Multiply by the conjugate: $(x\u00b2 - (x\u00b2 + 2x)) / (x - \u221a(x\u00b2 + 2x)) = -2x / (x - \u221a(x\u00b2 + 2x))$.\nFor $x < 0$: $\u221a(x\u00b2 + 2x) = -x\u221a(1 + 2 / x)$, so the bottom is $x(1 + \u221a(1 + 2 / x))$.\nCancel x: $-2 / (1 + \u221a(1 + 2 / x)) \u2192 -2 / 2 = -1$."
+                }
+            ]
+        }
+    },
+    {
+        "version": 10,
+        "title": "Prediction Exam Zeta: Final Mixed Challenge",
+        "q1": {
+            "title": "Question 1: Choose the correct answer (3 Marks \u2014 0.5 each)",
+            "mcqs": [
+                {
+                    "id": 1,
+                    "prompt": "The solution set of <span class='math'>x\u00b2 &lt; 2x</span> is &hellip;",
+                    "options": [
+                        "(0, 2)",
+                        "(-\u221e, 2)",
+                        "(2, \u221e)",
+                        "(-\u221e, 0) \u222a (2, \u221e)"
+                    ],
+                    "correct": 0,
+                    "exp": "$x\u00b2 - 2x < 0 \u21d2 x(x - 2) < 0$.\nA product is negative between its roots: $(0, 2)$.\nDividing by x is wrong: x might be negative."
+                },
+                {
+                    "id": 2,
+                    "prompt": "Which of the following functions is odd?",
+                    "options": [
+                        "f(x) = x\u00b3 - sin x",
+                        "f(x) = x\u00b2 + cos x",
+                        "f(x) = x\u00b3 + 1",
+                        "f(x) = |x|"
+                    ],
+                    "correct": 0,
+                    "exp": "Odd means $f(-x) = -f(x)$.\n$(-x)\u00b3 - sin(-x) = -x\u00b3 + sin x = -(x\u00b3 - sin x)$: odd.\n$x\u00b2 + cos x$ and $|x|$ are even; $x\u00b3 + 1$ is neither."
+                },
+                {
+                    "id": 3,
+                    "prompt": "Find the exact value: <span class='math'>sin(\u03c0 / 12)</span>",
+                    "options": [
+                        "(\u221a6 - \u221a2) / 4",
+                        "(\u221a6 + \u221a2) / 4",
+                        "(\u221a3 - 1) / 2",
+                        "1/4"
+                    ],
+                    "correct": 0,
+                    "exp": "$\u03c0 / 12 = \u03c0 / 4 - \u03c0 / 6$.\n$sin(A - B) = sin A cos B - cos A sin B = (\u221a2 / 2)(\u221a3 / 2) - (\u221a2 / 2)(1 / 2)$.\n$= (\u221a6 - \u221a2) / 4$."
+                },
+                {
+                    "id": 4,
+                    "prompt": "Use the table to estimate <span class='math'>lim<sub>x \u2192 -1</sub> f(x)</span>.<div style='overflow-x:auto;margin:.6rem 0'><table style='border-collapse:collapse;font-size:12px'><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>x</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-1.1</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-1.01</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-1.001</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-1</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.999</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.99</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>-0.9</td></tr><tr><th style='border:1px solid var(--border);padding:3px 7px;text-align:center'><span class='math'>f(x)</span></th><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.48</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.498</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.4998</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'></td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.5002</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.502</td><td style='border:1px solid var(--border);padding:3px 7px;text-align:center'>0.52</td></tr></table></div>",
+                    "options": [
+                        "1/2",
+                        "0",
+                        "-1",
+                        "Does Not Exist"
+                    ],
+                    "correct": 0,
+                    "exp": "Left: 0.48, 0.498, 0.4998 approach 0.5.\nRight: 0.52, 0.502, 0.5002 approach 0.5.\nThe limit is $1 / 2$."
+                },
+                {
+                    "id": 5,
+                    "prompt": "The vertical and horizontal asymptotes of <span class='math'>f(x) = 3x / (x - 2)</span> are &hellip;",
+                    "options": [
+                        "x = 2 and y = 3",
+                        "x = 3 and y = 2",
+                        "x = -2 and y = 3",
+                        "x = 2 and y = 0"
+                    ],
+                    "correct": 0,
+                    "exp": "Vertical: the denominator is 0 at $x = 2$ while the top is $6 \u2260 0$, so $x = 2$.\nHorizontal: equal degrees, ratio $3 / 1$, so $y = 3$."
+                },
+                {
+                    "id": 6,
+                    "prompt": "The inverse of <span class='math'>f(x) = x\u00b3 - 2</span> is &hellip;",
+                    "options": [
+                        "f\u207b\u00b9(x) = \u221b(x + 2)",
+                        "f\u207b\u00b9(x) = \u221bx + 2",
+                        "f\u207b\u00b9(x) = 1 / (x\u00b3 - 2)",
+                        "f\u207b\u00b9(x) = (x + 2)\u00b3"
+                    ],
+                    "correct": 0,
+                    "exp": "$y = x\u00b3 - 2 \u21d2 x\u00b3 = y + 2 \u21d2 x = \u221b(y + 2)$.\nSwap: $f\u207b\u00b9(x) = \u221b(x + 2)$.\n$1 / f(x)$ is the reciprocal, not the inverse."
+                }
+            ]
+        },
+        "q2": {
+            "title": "Question 2: Numbers, Inequalities & Functions (8 Marks)",
+            "partA": {
+                "title": "Part A (4 Marks): Classify into Rational or Irrational",
+                "items": [
+                    {
+                        "text": "\u221a(3 / 12)",
+                        "correct": "rational",
+                        "exp": "$\u221a(3 / 12) = \u221a(1 / 4) = 1 / 2$.\nRational."
+                    },
+                    {
+                        "text": "22/7 - \u03c0",
+                        "correct": "irrational",
+                        "exp": "$22 / 7$ is rational and \u03c0 is irrational.\nRational minus irrational is irrational."
+                    },
+                    {
+                        "text": "(\u221a3)<sup>-2</sup>",
+                        "correct": "rational",
+                        "exp": "$(\u221a3)<sup>-2</sup> = 1 / (\u221a3)\u00b2 = 1 / 3$.\nRational."
+                    },
+                    {
+                        "text": "\u221a3 / 3",
+                        "correct": "irrational",
+                        "exp": "$\u221a3 / 3 = 1 / \u221a3$.\nIrrational."
+                    },
+                    {
+                        "text": "\u221a8 \u00b7 \u221a2 - \u221a9",
+                        "correct": "rational",
+                        "exp": "$\u221a8 \u00b7 \u221a2 - \u221a9 = \u221a16 - 3 = 4 - 3 = 1$.\nRational."
+                    },
+                    {
+                        "text": "7.010010001&hellip;",
+                        "correct": "irrational",
+                        "exp": "The runs of zeros keep growing, so the decimal never repeats.\nIrrational."
+                    },
+                    {
+                        "text": "(1 + \u221a2)\u00b2 - 2\u221a2",
+                        "correct": "rational",
+                        "exp": "$(1 + \u221a2)\u00b2 = 1 + 2\u221a2 + 2 = 3 + 2\u221a2$; subtracting $2\u221a2$ leaves 3.\nRational."
+                    },
+                    {
+                        "text": "\u221b4",
+                        "correct": "irrational",
+                        "exp": "4 is not a perfect cube.\nIrrational."
+                    }
+                ]
+            },
+            "partB": {
+                "title": "Part B (4 Marks): Inequality & Functions",
+                "problems": [
+                    {
+                        "id": "q2_b1",
+                        "prompt": "Solve and write in interval notation: <span class='math'>(2x + 1) / (x - 3) \u2264 (x + 1) / (x - 3)</span>",
+                        "options": [
+                            "[0, 3)",
+                            "[0, 3]",
+                            "(-\u221e, 0] \u222a (3, \u221e)",
+                            "(0, 3)"
+                        ],
+                        "correct": 0,
+                        "exp": "Move to one side: $((2x + 1) - (x + 1)) / (x - 3) \u2264 0 \u21d2 x / (x - 3) \u2264 0$.\nCritical numbers 0 and 3: the quotient is \u2264 0 on $[0, 3)$.\nInclude 0, exclude 3: $[0, 3)$. Cancelling the denominators would wrongly give $x \u2264 0$."
+                    },
+                    {
+                        "id": "q2_b2",
+                        "prompt": "Let <span class='math'>f(x) = x - 4</span> and <span class='math'>g(x) = \u221ax / (x - 1)</span>. Find the domain of <span class='math'>g \u2218 f</span>:",
+                        "options": [
+                            "[4, 5) \u222a (5, \u221e)",
+                            "[4, \u221e)",
+                            "(4, 5) \u222a (5, \u221e)",
+                            "(-\u221e, 5) \u222a (5, \u221e)"
+                        ],
+                        "correct": 0,
+                        "exp": "$(g \u2218 f)(x) = g(x - 4) = \u221a(x - 4) / (x - 5)$.\nNeed $x - 4 \u2265 0 \u21d2 x \u2265 4$, and $x - 5 \u2260 0 \u21d2 x \u2260 5$.\nDomain: $[4, 5) \u222a (5, \u221e)$."
+                    }
+                ]
+            }
+        },
+        "q3": {
+            "title": "Question 3: Inverse Functions & Trigonometry (6 Marks)",
+            "problems": [
+                {
+                    "id": "q3_1",
+                    "prompt": "The function <span class='math'>f(x) = (x - 1) / (x + 2)</span> is one-to-one. Its inverse is &hellip;",
+                    "options": [
+                        "f\u207b\u00b9(x) = (2x + 1) / (1 - x)",
+                        "f\u207b\u00b9(x) = (x + 2) / (x - 1)",
+                        "f\u207b\u00b9(x) = (1 - 2x) / (x - 1)",
+                        "f\u207b\u00b9(x) = (2x - 1) / (1 + x)"
+                    ],
+                    "correct": 0,
+                    "exp": "Write $y = (x - 1) / (x + 2)$: $y(x + 2) = x - 1 \u21d2 xy + 2y = x - 1$.\n$x(y - 1) = -1 - 2y \u21d2 x = (2y + 1) / (1 - y)$.\nSwap: $f\u207b\u00b9(x) = (2x + 1) / (1 - x)$."
+                },
+                {
+                    "id": "q3_2",
+                    "prompt": "Find the exact value: <span class='math'>cos(-7\u03c0 / 4)</span>",
+                    "options": [
+                        "\u221a2 / 2",
+                        "-\u221a2 / 2",
+                        "1/2",
+                        "-1/2"
+                    ],
+                    "correct": 0,
+                    "exp": "Cosine is even: $cos(-7\u03c0 / 4) = cos(7\u03c0 / 4)$.\n$7\u03c0 / 4$ is in Quadrant IV (cosine positive), reference angle $\u03c0 / 4$.\nAnswer: $\u221a2 / 2$."
+                },
+                {
+                    "id": "q3_3",
+                    "prompt": "Find the exact value: <span class='math'>cos(sin\u207b\u00b9(4/5) - tan\u207b\u00b9(3/4))</span>",
+                    "options": [
+                        "24/25",
+                        "0",
+                        "7/25",
+                        "-24/25"
+                    ],
+                    "correct": 0,
+                    "exp": "$A = sin\u207b\u00b9(4 / 5)$: $sin A = 4 / 5$, $cos A = 3 / 5$.\n$B = tan\u207b\u00b9(3 / 4)$: $sin B = 3 / 5$, $cos B = 4 / 5$.\n$cos(A - B) = cos A cos B + sin A sin B = (3 / 5)(4 / 5) + (4 / 5)(3 / 5) = 24 / 25$."
+                }
+            ]
+        },
+        "q4": {
+            "title": "Question 4: Limits (8 Marks)",
+            "problems": [
+                {
+                    "id": "q4_1",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 2</sub> (x\u2074 - 16) / (x - 2)</span>",
+                    "options": [
+                        "32",
+                        "16",
+                        "8",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "$x\u2074 - 16 = (x\u00b2 - 4)(x\u00b2 + 4) = (x - 2)(x + 2)(x\u00b2 + 4)$.\nCancel $(x - 2)$: $(x + 2)(x\u00b2 + 4)$.\n$\u2192 4 \u00b7 8 = 32$."
+                },
+                {
+                    "id": "q4_2",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 0</sub> (\u221a(x\u00b2 + 9) - 3) / x\u00b2</span>",
+                    "options": [
+                        "1/6",
+                        "1/3",
+                        "0",
+                        "3"
+                    ],
+                    "correct": 0,
+                    "exp": "Multiply by the conjugate: $(x\u00b2 + 9 - 9) / (x\u00b2(\u221a(x\u00b2 + 9) + 3))$.\nCancel $x\u00b2$: $1 / (\u221a(x\u00b2 + 9) + 3)$.\n$\u2192 1 / (3 + 3) = 1 / 6$."
+                },
+                {
+                    "id": "q4_3",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 \u03c0</sub> sin x / (x - \u03c0)</span>",
+                    "options": [
+                        "-1",
+                        "1",
+                        "0",
+                        "\u03c0"
+                    ],
+                    "correct": 0,
+                    "exp": "Let $t = x - \u03c0 \u2192 0$. Then $sin x = sin(t + \u03c0) = -sin t$.\nThe limit becomes $lim<sub>t \u2192 0</sub> -sin t / t = -1$."
+                },
+                {
+                    "id": "q4_4",
+                    "prompt": "Evaluate: <span class='math'>lim<sub>x \u2192 \u221e</sub> \u221a(9x\u00b2 + 1) / (2x - 1)</span>",
+                    "options": [
+                        "3/2",
+                        "-3/2",
+                        "9/2",
+                        "+\u221e"
+                    ],
+                    "correct": 0,
+                    "exp": "For $x > 0$: $\u221a(9x\u00b2 + 1) = x\u221a(9 + 1 / x\u00b2)$.\nDivide top and bottom by x: $\u221a(9 + 1 / x\u00b2) / (2 - 1 / x)$.\n$\u2192 3 / 2$."
+                },
+                {
+                    "id": "q4_5",
+                    "prompt": "Let <span class='math'>f(x) = |x| / x</span> and <span class='math'>g(x) = { 2 (x &lt; 0), x\u00b2 (x \u2265 0) }</span>. Find <span class='math'>lim<sub>x \u2192 0</sub> (f(x) + g(x))</span>:",
+                    "options": [
+                        "1",
+                        "Does Not Exist",
+                        "2",
+                        "0"
+                    ],
+                    "correct": 0,
+                    "exp": "f alone: \u22121 from the left, 1 from the right. g alone: 2 from the left, 0 from the right.\nSum from the left: $-1 + 2 = 1$. From the right: $1 + 0 = 1$.\nEqual, so the limit is 1."
                 }
             ]
         }
@@ -1563,7 +2885,7 @@
 
     function solutionBlock(graded, label, exp) {
       if (!graded) return '';
-      return `<div class="text-xs p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-good font-medium"><b>${label}:</b> ${exp}</div>`;
+      return `<div class="text-sm p-3.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 leading-relaxed"><b class="text-good">${label}:</b> ${stepsHtml(exp)}</div>`;
     }
 
     function renderChoice(sec, item, label, cols, solLabel) {

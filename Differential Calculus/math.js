@@ -11,7 +11,7 @@
     ['∅', '\\varnothing '], ['ℝ', '\\mathbb{R} '], ['ℤ', '\\mathbb{Z} '], ['±', '\\pm '], ['°', '^{\\circ}'], ['≈', '\\approx '],
     ['½', '\\tfrac{1}{2}'], ['¼', '\\tfrac{1}{4}'], ['¾', '\\tfrac{3}{4}'], ['α', '\\alpha '], ['β', '\\beta '],
     ['δ', '\\delta '], ['ε', '\\varepsilon '], ['⁻¹', '^{-1}'], ['⁻', '^{-}'], ['⁺', '^{+}'], ['¹', '^{1}'],
-    ['²', '^{2}'], ['³', '^{3}'], ['⁴', '^{4}'], ['ⁿ', '^{n}'], ['₁', '_{1}'], ['₂', '_{2}'],
+    ['²', '^{2}'], ['³', '^{3}'], ['⁴', '^{4}'], ['⁵', '^{5}'], ['⁶', '^{6}'], ['⁷', '^{7}'], ['⁸', '^{8}'], ['⁹', '^{9}'], ['ⁿ', '^{n}'], ['₁', '_{1}'], ['₂', '_{2}'],
     ['⌊', '\\lfloor '], ['⌋', '\\rfloor '], ['%', '\\%']
   ];
   const WORDS_OK = ['Domain', 'Range', 'and', 'only']; // prose an option may contain and still be typeset
@@ -63,7 +63,11 @@
       if (p === '}') j = matchBack(s, j - 1, '{', '}');
       else if (/[0-9.]/.test(p) && s[j] === '\\') { while (j > 0 && /[0-9.]/.test(s[j - 1])) j--; } // 7\sqrt{2}
       else if (p === ']' && /\\sqrt$/.test(s.slice(0, s.lastIndexOf('[', j - 1)))) j = s.lastIndexOf('[', j - 1);
-      else if (p === '^' || p === '_') j = scanBack(s, j - 1);
+      else if (p === '^' || p === '_') {
+        let k = j - 1;
+        while (k > 0 && s[k - 1] === ' ') k--; // "\pi ^{2}": the base sits before a space
+        j = scanBack(s, k);
+      }
       else if (/[A-Za-z]/.test(p)) {
         while (j > 0 && /[A-Za-z]/.test(s[j - 1])) j--;
         if (s[j - 1] === '\\') j--;
@@ -97,6 +101,9 @@
       if (j === i) return i;
       if (s[j] === '(' && /[A-Za-z]$/.test(s.slice(i, j))) j = matchFwd(s, j, '(', ')') + 1;
     }
+    let k = j;
+    while (s[k] === ' ') k++; // "\pi ^{2}": the power sits after a space
+    if (s[k] === '^' || s[k] === '_') j = k;
     while (s[j] === '^' || s[j] === '_') j = scanFwd(s, j + 1);
     return j;
   }

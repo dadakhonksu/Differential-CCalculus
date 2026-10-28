@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derivatives Visual Guide</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script>
+    // Theme: saved choice wins, otherwise follow the system setting. Runs before paint to avoid a flash.
+    (function () {
+      let t = null;
+      try { t = localStorage.getItem('math101-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #f5f5f6;
+      --fg: #18181b;
+      --card: #ffffff;
+      --border: #e2e2e6;
+      --muted: #6b6b75;
+      --accent: #dc2626;
+      --accent-soft: #fef2f2;
+      --plot-bg: #fcfcfd;
+      --grid: #ececf0;
+      --axis: #9a9aa5;
+      --c-f: #2563eb;
+      --c-f-soft: rgba(37, 99, 235, .14);
+      --c-tan: #dc2626;
+      --c-tan-soft: rgba(220, 38, 38, .14);
+      --c-sec: #d97706;
+      --c-sec-soft: rgba(217, 119, 6, .16);
+      --c-d: #059669;
+      --c-d-soft: rgba(5, 150, 105, .14);
+      --good: #047857;
+      --bad: #b91c1c;
+    }
+    :root[data-theme="dark"] {
+      --bg: #0c0c0e;
+      --fg: #f4f4f5;
+      --card: #17171a;
+      --border: #2c2c31;
+      --muted: #a1a1aa;
+      --accent: #f87171;
+      --accent-soft: rgba(248, 113, 113, .1);
+      --plot-bg: #121215;
+      --grid: #222227;
+      --axis: #5f5f69;
+      --c-f: #60a5fa;
+      --c-f-soft: rgba(96, 165, 250, .16);
+      --c-tan: #f87171;
+      --c-tan-soft: rgba(248, 113, 113, .16);
+      --c-sec: #fbbf24;
+      --c-sec-soft: rgba(251, 191, 36, .16);
+      --c-d: #34d399;
+      --c-d-soft: rgba(52, 211, 153, .15);
+      --good: #34d399;
+      --bad: #f87171;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 16px; }
+    a { color: var(--accent); }
+    h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
+    h2 { font-size: 1.55rem; letter-spacing: -.01em; }
+    h3 { font-size: 1.15rem; margin-top: .2em; }
+    h4 { font-size: 1rem; }
+    p { margin: .55em 0; }
+    .muted { color: var(--muted); }
+    .small { font-size: .875rem; }
+
+    header.top { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; text-align: center; }
+    header.top .kicker { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    header.top h1 { font-size: clamp(1.4rem, 4vw, 2.1rem); font-weight: 900; letter-spacing: -.02em; margin: .25em 0 .3em; }
+    header.top .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin-top: 10px; font-size: .85rem; font-weight: 600; }
+    header.top .links a { text-decoration: none; }
+    header.top .links a:hover { text-decoration: underline; }
+
+    nav.toc { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    nav.toc .inner { display: flex; gap: 6px; align-items: center; overflow-x: auto; max-width: 980px; margin: 0 auto; padding: 8px 16px; }
+    nav.toc a { white-space: nowrap; text-decoration: none; color: var(--fg); font-size: .85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); }
+    nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+    nav.toc a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    :root[data-theme="dark"] nav.toc a[aria-current="page"] { color: #18181b; }
+    nav.toc .spacer { flex: 1; }
+
+    .picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 16px; text-align: left; }
+    .picker a { display: flex; flex-direction: column; gap: 2px; text-decoration: none; color: var(--fg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--bg); }
+    .picker a:hover { border-color: var(--accent); }
+    .picker a span:last-child { font-size: .82rem; color: var(--muted); }
+    .picker .pnum { font-weight: 900; color: var(--accent); font-size: .85rem; }
+    .picker a[aria-current="page"] { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+    .page { display: none; }
+    .page.active { display: block; }
+    .outline { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+    .outline ol { margin: 6px 0 0; padding-left: 1.4em; columns: 2 240px; column-gap: 28px; }
+    .outline li { margin: 3px 0; break-inside: avoid; }
+    .outline button { font: inherit; background: none; border: 0; padding: 0; color: var(--fg); text-align: left; cursor: pointer; }
+    .outline button:hover { color: var(--accent); text-decoration: underline; }
+    .pager { display: flex; gap: 12px; margin: 26px 0 8px; }
+    .pager a { flex: 1; text-decoration: none; color: var(--fg); border: 1px solid var(--border); background: var(--card); border-radius: 12px; padding: 12px 16px; }
+    .pager a:hover { border-color: var(--accent); }
+    .pager a small { display: block; color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .pager a b { color: var(--accent); }
+    .pager a.next { text-align: right; }
+    .pager .gap { flex: 1; }
+    .btn { font: inherit; font-size: .85rem; font-weight: 600; padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; white-space: nowrap; }
+    .btn:hover { border-color: var(--accent); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    :root[data-theme="dark"] .btn.primary { color: #18181b; }
+
+    .sec-head { margin: 40px 0 8px; display: flex; gap: 14px; align-items: flex-start; }
+    .badge { flex: none; font-weight: 900; font-size: 1.1rem; color: #fff; background: var(--accent); border-radius: 12px; padding: 6px 11px; line-height: 1.2; }
+    :root[data-theme="dark"] .badge { color: #18181b; }
+    .sec-head p { margin: .1em 0 0; color: var(--muted); }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin: 16px 0; }
+    .card > h3:first-child { margin-top: 0; }
+    .step-tag { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+
+    .formula { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 10px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; }
+    .formula .name { font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .formula .katex-display { margin: .4em 0; }
+    .tip, .warn, .note { border-radius: 10px; padding: 10px 14px; margin: 12px 0; font-size: .95rem; }
+    .tip { background: var(--c-d-soft); border: 1px solid color-mix(in srgb, var(--c-d) 40%, transparent); }
+    .warn { background: var(--c-sec-soft); border: 1px solid color-mix(in srgb, var(--c-sec) 45%, transparent); }
+    .note { background: var(--c-f-soft); border: 1px solid color-mix(in srgb, var(--c-f) 40%, transparent); }
+    .tip b:first-child, .warn b:first-child, .note b:first-child { margin-right: 4px; }
+
+    .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+    .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+    .box { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--card); min-width: 0; }
+    .box h4 { margin-bottom: .2em; }
+    .box .katex-display { margin: .5em 0; overflow-x: auto; overflow-y: hidden; }
+
+    .rule .num { font-size: .7rem; font-weight: 800; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .rule .say { font-size: .9rem; color: var(--muted); font-style: italic; }
+    .rule .eg { font-size: .9rem; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 6px; }
+
+    .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 12px 0 8px; }
+    .controls label { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; max-width: 100%; min-width: 0; }
+    .controls input[type=range] { width: 240px; flex: 1 1 120px; min-width: 0; accent-color: var(--accent); }
+    .controls input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { font: inherit; font-size: .9rem; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
+    .chip:hover { border-color: var(--accent); }
+    .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+    .val { font-variant-numeric: tabular-nums; min-width: 4.2em; display: inline-block; color: var(--muted); font-weight: 600; }
+
+    canvas.plot { width: 100%; display: block; border-radius: 10px; background: var(--plot-bg); border: 1px solid var(--border); touch-action: pan-y; }
+    .plot-caption { font-size: .85rem; color: var(--muted); margin: 6px 2px 0; }
+    .readout { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-variant-numeric: tabular-nums; overflow-x: auto; }
+    .readout .row { margin: 2px 0; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .85rem; margin: 8px 2px; }
+    .legend > span { display: inline-flex; align-items: center; gap: 6px; }
+    .sw { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
+    .sw.f { background: var(--c-f); } .sw.tan { background: var(--c-tan); } .sw.sec { background: var(--c-sec); } .sw.d { background: var(--c-d); }
+    .sw.dash { background: repeating-linear-gradient(90deg, var(--c-sec) 0 5px, transparent 5px 8px); }
+    .c-f { color: var(--c-f); } .c-tan { color: var(--c-tan); } .c-sec { color: var(--c-sec); } .c-d { color: var(--c-d); }
+    .c-good { color: var(--good); } .c-bad { color: var(--bad); }
+
+    .two-col { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; align-items: start; }
+    @media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+    .two-col > *, .grid2 > *, .grid3 > *, .grid4 > * { min-width: 0; }
+
+    table.t { border-collapse: collapse; width: 100%; font-size: .92rem; font-variant-numeric: tabular-nums; }
+    table.t th, table.t td { border-bottom: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+    table.t th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    table.t tr.hl td { color: var(--c-tan); font-weight: 700; }
+    .table-scroll { overflow-x: auto; }
+
+    .example { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 12px 0; }
+    .example > .ex-title { font-weight: 800; margin-bottom: 4px; }
+    .example > .ex-title .tag { font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-right: 8px; }
+    .example .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+    .answer { display: inline-block; border: 2px solid var(--c-d); border-radius: 8px; padding: 2px 10px; margin-top: 4px; }
+
+    details.more { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin: 12px 0; }
+    details.more summary { cursor: pointer; font-weight: 700; }
+    details.more[open] summary { margin-bottom: 6px; }
+
+    .quiz .q { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+    .quiz .qtext { font-weight: 600; margin: 0 0 8px; }
+    .quiz .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px; }
+    .quiz .opt { font: inherit; text-align: left; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); cursor: pointer; min-height: 44px; }
+    .quiz .opt:hover { border-color: var(--accent); }
+    .quiz .opt .katex { font-size: 1.25em; }
+    .quiz .opt.right { border-color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+    .quiz .opt.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+    .quiz .why { display: none; margin-top: 10px; font-size: .93rem; border-top: 1px dashed var(--border); padding-top: 8px; }
+    .quiz .q.done .why { display: block; }
+    .quiz .score { font-weight: 700; font-size: .9rem; color: var(--muted); }
+
+    svg.diagram { width: 100%; height: auto; display: block; }
+    svg.diagram text { fill: var(--fg); font: 600 13px system-ui, sans-serif; }
+    svg.diagram .muted-t { fill: var(--muted); font-weight: 500; }
+
+    .cheat { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .cheat > div { padding: 10px 14px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); min-width: 0; overflow-x: auto; }
+    .cheat .lbl { font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .katex { font-size: 1.08em; }
+    .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+    footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 30px 0 50px; }
+    @media (max-width: 600px) { .card { padding: 16px; } .sec-head { margin-top: 30px; } h2 { font-size: 1.3rem; } }
+    @media print { nav.toc, .controls, .btn { display: none !important; } .card { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <nav class="toc" aria-label="Sections">
+    <div class="inner">
+      <a href="#s31" data-tab="s31">3.1 Tangent line</a>
+      <a href="#s32" data-tab="s32">3.2 Rules</a>
+      <a href="#s33" data-tab="s33">3.3 Trig</a>
+      <a href="#cheat" data-tab="cheat">★ Cheat sheet</a>
+      <span class="spacer"></span>
+      <button class="btn" onclick="toggleTheme()" aria-label="Switch between light and dark mode">◐ Theme</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <header class="top">
+      <div class="kicker">Math 101 &bull; Chapter Three: Differentiation &bull; Weeks 9&ndash;12</div>
+      <h1>The Derivative, Seen</h1>
+      <p class="muted">Pick one section and finish it before moving on. Each one has graphs you can drag, worked examples and a quick quiz.</p>
+      <div class="picker">
+        <a href="#s31" data-tab="s31"><span class="pnum">3.1</span><b>The Derivative &amp; Tangent Line</b><span>What a derivative is, and how to find it with a limit</span></a>
+        <a href="#s32" data-tab="s32"><span class="pnum">3.2</span><b>Differentiation Rules</b><span>Power, product and quotient rules: the shortcuts</span></a>
+        <a href="#s33" data-tab="s33"><span class="pnum">3.3</span><b>Trig Derivatives</b><span>sin, cos, tan, cot, sec, csc</span></a>
+      </div>
+      <div class="links">
+        <a href="index.html">&larr; Full Mock Exams</a>
+        <a href="math101_practice.html">Quick Drills</a>
+      </div>
+    </header>
+
+    <!-- ===================================================== 3.1 ===================================================== -->
+    <div class="page" id="s31" data-title="3.1 The Derivative &amp; Tangent Line">
+    <div class="sec-head">
+      <span class="badge">3.1</span>
+      <div>
+        <h2>The Derivative and the Tangent Line Problem</h2>
+        <p>One question drives all of calculus: <b>how steep is a curve at a single point?</b></p>
+      </div>
+    </div>
+
+    <section class="card">
+      <span class="step-tag">The big idea</span>
+      <h3>Zoom in until the curve looks straight</h3>
+      <p>A straight line has one slope everywhere. A curve doesn't, so we ask for its slope <i>at one point</i>. Zoom in on a smooth curve and it starts to look like a straight line. <b>The slope of that line is the derivative.</b> That line is the <b class="c-tan">tangent line</b>.</p>
+      <div class="controls">
+        <div class="chips" id="zoomChips">
+          <button class="chip" data-k="sq" aria-pressed="true">\(x^2\) at \(x=1\)</button>
+          <button class="chip" data-k="sin">\(\sin x\) at \(x=0\)</button>
+          <button class="chip" data-k="abs">\(|x|\) at \(x=0\)</button>
+        </div>
+      </div>
+      <div class="controls">
+        <label>Zoom <input type="range" id="zoomS" min="0" max="3" step="0.01" value="0"><span class="val" id="zoomVal">×1</span></label>
+        <label><input type="checkbox" id="zoomTan" checked> Show tangent line</label>
+      </div>
+      <canvas class="plot" id="zoomCanvas"></canvas>
+      <div class="readout" id="zoomOut"></div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">The tangent line problem</span>
+      <h3>From secant line to tangent line</h3>
+      <div class="two-col">
+        <div>
+          <p>We can only compute a slope from <b>two</b> points. So take the point \(P=(a,f(a))\) and a second point \(Q=(a+h,\,f(a+h))\) a distance \(h\) away. The line through them is a <b class="c-sec">secant line</b>:</p>
+          <div class="formula">
+            <div class="name">Slope of the secant line (rise ÷ run)</div>
+            \[ m_{\text{sec}}=\frac{f(a+h)-f(a)}{h} \]
+          </div>
+          <p>Now slide \(Q\) towards \(P\) by letting \(h\to 0\). The secant line swings round and lands on the <b class="c-tan">tangent line</b>. Its slope is the limit:</p>
+          <div class="formula">
+            <div class="name">Slope of the tangent line</div>
+            \[ m_{\text{tan}}=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h} \]
+          </div>
+        </div>
+        <div>
+          <div class="table-scroll">
+            <table class="t" aria-label="Secant slopes as h shrinks">
+              <thead><tr><th>\(h\)</th><th>Secant slope</th></tr></thead>
+              <tbody id="secTable"></tbody>
+            </table>
+          </div>
+          <p class="plot-caption">The numbers settle on one value as \(h\) shrinks. That value is \(f'(a)\).</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="chips" id="secChips">
+          <button class="chip" data-k="sq" aria-pressed="true">\(f(x)=x^2\)</button>
+          <button class="chip" data-k="cubic">\(f(x)=x^3-3x\)</button>
+          <button class="chip" data-k="sin">\(f(x)=\sin x\)</button>
+          <button class="chip" data-k="sqrt">\(f(x)=\sqrt{x}\)</button>
+        </div>
+      </div>
+      <div class="controls">
+        <label>Point \(a\) <input type="range" id="secA" step="0.01"><span class="val" id="secAVal"></span></label>
+        <label>Gap \(h\) <input type="range" id="secH" min="-1" max="1" step="0.005" value="0.85"><span class="val" id="secHVal"></span></label>
+        <button class="btn primary" id="secPlay">▶ Let h → 0</button>
+      </div>
+      <canvas class="plot" id="secCanvas"></canvas>
+      <div class="legend">
+        <span><i class="sw f"></i> \(y=f(x)\)</span>
+        <span><i class="sw dash"></i> secant line through \(P\) and \(Q\)</span>
+        <span><i class="sw tan"></i> tangent line at \(P\)</span>
+      </div>
+      <div class="readout" id="secOut"></div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Definitions to memorise</span>
+      <h3>The derivative</h3>
+      <div class="grid2">
+        <div class="formula" style="margin:0">
+          <div class="name">Derivative at a point</div>
+          \[ f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h} \]
+          <div class="small muted">if this limit exists. Then \(f\) is <b>differentiable at \(a\)</b>.</div>
+        </div>
+        <div class="formula" style="margin:0">
+          <div class="name">Alternative form (put \(x=a+h\))</div>
+          \[ f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a} \]
+          <div class="small muted">Same idea: the second point is \(x\), and \(x\to a\).</div>
+        </div>
+        <div class="formula" style="margin:0">
+          <div class="name">Derivative as a function</div>
+          \[ f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h} \]
+          <div class="small muted">A new function that gives the slope of \(f\) at <i>every</i> \(x\).</div>
+        </div>
+        <div class="formula" style="margin:0">
+          <div class="name">Tangent and normal lines at \(x=a\)</div>
+          \[ \text{Tangent: } y-f(a)=f'(a)\,(x-a) \]
+          \[ \text{Normal: } y-f(a)=-\frac{1}{f'(a)}\,(x-a) \]
+          <div class="small muted">The normal line is perpendicular to the tangent, so slopes multiply to \(-1\).</div>
+        </div>
+      </div>
+      <h4 style="margin-top:18px">Notation: all of these mean the same thing</h4>
+      <p>\[ f'(x) \;=\; y' \;=\; \frac{dy}{dx} \;=\; \frac{d}{dx}f(x) \;=\; D_x\,y \]</p>
+      <p class="small muted">Read \(\dfrac{dy}{dx}\) as "the tiny change in \(y\) divided by the tiny change in \(x\)": a limit of rise over run.</p>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Worked examples</span>
+      <h3>Using the definition, step by step</h3>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Example 1</span>Find \(f'(x)\) for \(f(x)=x^2+2x\), then the tangent and normal lines at \(x=1\).</div>
+        <div class="two-col">
+          <div>
+            \[ f'(x)=\lim_{h\to0}\frac{(x+h)^2+2(x+h)-(x^2+2x)}{h} \]
+            \[ =\lim_{h\to0}\frac{\cancel{x^2}+2xh+h^2+\cancel{2x}+2h-\cancel{x^2}-\cancel{2x}}{h} \]
+            \[ =\lim_{h\to0}\frac{h\,(2x+h+2)}{h}=\lim_{h\to0}(2x+h+2) \]
+            <div class="answer">\(f'(x)=2x+2\)</div>
+            <p>At \(x=1\): \(f(1)=3\) and \(f'(1)=4\).</p>
+            <p><b class="c-tan">Tangent:</b> \(y-3=4(x-1)\Rightarrow y=4x-1\)<br>
+            <b class="c-d">Normal:</b> \(y-3=-\tfrac14(x-1)\Rightarrow y=-\tfrac14x+\tfrac{13}{4}\)</p>
+          </div>
+          <div>
+            <canvas class="plot" id="ex1Canvas"></canvas>
+            <p class="plot-caption">Equal scales on both axes, so you can see the <span class="c-tan">tangent</span> and <span class="c-d">normal</span> meet at a right angle.</p>
+          </div>
+        </div>
+        <p class="small muted">The pattern is always the same: expand, cancel, factor out \(h\), cancel \(h\), then put \(h=0\).</p>
+      </div>
+
+      <div class="grid2">
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Example 2</span>\(f(x)=\sqrt{x}\)</div>
+          <p class="small">Multiply by the conjugate to remove the roots from the top:</p>
+          \[ \frac{\sqrt{x+h}-\sqrt{x}}{h}\cdot\frac{\sqrt{x+h}+\sqrt{x}}{\sqrt{x+h}+\sqrt{x}}=\frac{1}{\sqrt{x+h}+\sqrt{x}} \]
+          \[ \xrightarrow{\;h\to0\;}\; \frac{1}{2\sqrt{x}} \]
+          <div class="answer">\(f'(x)=\dfrac{1}{2\sqrt x},\ x&gt;0\)</div>
+          <p class="small muted">At \(x=0\) the slope blows up: the tangent there is vertical, so \(\sqrt x\) is not differentiable at 0.</p>
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Example 3</span>\(f(x)=\dfrac1x\)</div>
+          <p class="small">Combine the fractions on top first:</p>
+          \[ \frac{\frac{1}{x+h}-\frac1x}{h}=\frac{x-(x+h)}{h\,x(x+h)}=\frac{-1}{x(x+h)} \]
+          \[ \xrightarrow{\;h\to0\;}\; -\frac{1}{x^2} \]
+          <div class="answer">\(f'(x)=-\dfrac{1}{x^2}\)</div>
+          <p class="small muted">Always negative: the graph of \(1/x\) goes down everywhere.</p>
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Example 4</span>Alternative form: \(f(x)=x^3\), \(a=2\)</div>
+          \[ f'(2)=\lim_{x\to2}\frac{x^3-8}{x-2}=\lim_{x\to2}\frac{(x-2)(x^2+2x+4)}{x-2} \]
+          \[ =\lim_{x\to2}(x^2+2x+4)=12 \]
+          <p class="small muted">Use \(a^3-b^3=(a-b)(a^2+ab+b^2)\) to factor.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>Exam favourite: spot the derivative.</b> Some limits are derivatives in disguise. Match them to \(\lim_{h\to0}\frac{f(a+h)-f(a)}{h}\) and read off \(f\) and \(a\).
+        <div class="table-scroll" style="margin-top:8px">
+          <table class="t">
+            <thead><tr><th>Limit</th><th>It is</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>\(\displaystyle\lim_{h\to0}\frac{(2+h)^5-32}{h}\)</td><td>\(f'(2)\), \(f(x)=x^5\)</td><td>\(5\cdot2^4=80\)</td></tr>
+              <tr><td>\(\displaystyle\lim_{x\to9}\frac{\sqrt x-3}{x-9}\)</td><td>\(f'(9)\), \(f(x)=\sqrt x\)</td><td>\(\frac{1}{2\sqrt9}=\frac16\)</td></tr>
+              <tr><td>\(\displaystyle\lim_{h\to0}\frac{\sin(\frac{\pi}{3}+h)-\frac{\sqrt3}{2}}{h}\)</td><td>\(f'(\frac{\pi}{3})\), \(f(x)=\sin x\)</td><td>\(\cos\frac{\pi}{3}=\frac12\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">What the derivative means</span>
+      <h3>Slope = instantaneous rate of change</h3>
+      <div class="grid2">
+        <div class="box">
+          <h4 class="c-sec">Average rate of change on \([a,b]\)</h4>
+          \[ \frac{\Delta y}{\Delta x}=\frac{f(b)-f(a)}{b-a} \]
+          <p class="small">The slope of the <b>secant</b> line. "On average, how fast did it change?"</p>
+        </div>
+        <div class="box">
+          <h4 class="c-tan">Instantaneous rate of change at \(a\)</h4>
+          \[ f'(a)=\lim_{b\to a}\frac{f(b)-f(a)}{b-a} \]
+          <p class="small">The slope of the <b>tangent</b> line. "How fast is it changing right now?"</p>
+        </div>
+      </div>
+      <div class="example">
+        <div class="ex-title"><span class="tag">Motion</span>A car's position is \(s(t)=t^2+3t\) metres after \(t\) seconds.</div>
+        <p>Average velocity on \([0,2]\): \(\dfrac{s(2)-s(0)}{2-0}=\dfrac{10-0}{2}=5\) m/s.</p>
+        <p>Velocity is the derivative of position: \(v(t)=s'(t)=2t+3\), so at \(t=2\) the speedometer reads \(v(2)=7\) m/s.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Graph of f versus graph of f′</span>
+      <h3>Watch the slope draw a new graph</h3>
+      <p>Drag the point along \(f\). Its tangent slope becomes the <i>height</i> of the green graph underneath. That green graph is \(f'\).</p>
+      <div class="tracer" id="tracer1"></div>
+      <div class="grid3" style="margin-top:14px">
+        <div class="box"><h4 class="c-good">\(f\) going up ↗</h4><p class="small">tangent slopes positive, so \(f'(x)&gt;0\): green graph <b>above</b> the axis.</p></div>
+        <div class="box"><h4 class="c-bad">\(f\) going down ↘</h4><p class="small">tangent slopes negative, so \(f'(x)&lt;0\): green graph <b>below</b> the axis.</p></div>
+        <div class="box"><h4 class="c-sec">Peak or valley —</h4><p class="small">tangent is horizontal, so \(f'(x)=0\): green graph <b>crosses</b> the axis.</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Differentiability</span>
+      <h3>Where the derivative does not exist</h3>
+      <p>\(f'(a)\) fails to exist when there is no single, non-vertical tangent line at \(a\). Four pictures to recognise:</p>
+      <div class="grid4">
+        <div><canvas class="plot" id="nd1"></canvas><p class="plot-caption"><b>Corner</b>: \(|x|\) at 0. Slope \(-1\) on the left, \(+1\) on the right.</p></div>
+        <div><canvas class="plot" id="nd2"></canvas><p class="plot-caption"><b>Cusp</b>: \(x^{2/3}\) at 0. Slopes shoot to \(-\infty\) and \(+\infty\).</p></div>
+        <div><canvas class="plot" id="nd3"></canvas><p class="plot-caption"><b>Vertical tangent</b>: \(\sqrt[3]{x}\) at 0. Slope is infinite.</p></div>
+        <div><canvas class="plot" id="nd4"></canvas><p class="plot-caption"><b>Discontinuity</b>: a jump. Not even continuous.</p></div>
+      </div>
+
+      <div class="formula">
+        <div class="name">Theorem</div>
+        <p style="margin:.3em 0">If \(f\) is <b>differentiable</b> at \(a\), then \(f\) is <b>continuous</b> at \(a\).</p>
+        <p class="small" style="margin:.3em 0">Equivalently: <b>not continuous ⇒ not differentiable</b>. But the converse is <b>false</b>: \(|x|\) is continuous at 0 yet not differentiable there.</p>
+      </div>
+
+      <h4>One-sided derivatives</h4>
+      <div class="grid2">
+        <div>\[ f'_-(a)=\lim_{h\to0^-}\frac{f(a+h)-f(a)}{h} \]</div>
+        <div>\[ f'_+(a)=\lim_{h\to0^+}\frac{f(a+h)-f(a)}{h} \]</div>
+      </div>
+      <p>\(f'(a)\) exists <b>exactly when both one-sided derivatives exist and are equal</b>. This is how you test a piecewise function at the point where the pieces meet.</p>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Exam type</span>Find \(a\) and \(b\) so that \(f(x)=\begin{cases}x^2, &amp; x\le 2\\ ax+b, &amp; x&gt;2\end{cases}\) is differentiable at \(x=2\).</div>
+        <div class="two-col">
+          <div>
+            <p><b>1. Continuous</b> (the pieces must meet): \(\;2^2=2a+b\;\Rightarrow\;2a+b=4\).</p>
+            <p><b>2. Same slope</b> from both sides: left slope \(=(x^2)'=2x\) at \(2\) is \(4\); right slope \(=a\). So \(a=4\).</p>
+            <p>Then \(b=4-2(4)=-4\).</p>
+            <div class="answer">\(a=4,\ b=-4\)</div>
+            <p class="small muted">Both conditions are needed. With \(a=2,\ b=0\) the pieces still meet (continuous) but the slopes are \(4\) and \(2\): a corner.</p>
+          </div>
+          <div class="grid2" style="grid-template-columns:1fr 1fr;gap:8px">
+            <div><canvas class="plot" id="pwGood"></canvas><p class="plot-caption c-good">\(a=4,b=-4\): smooth ✓</p></div>
+            <div><canvas class="plot" id="pwBad"></canvas><p class="plot-caption c-bad">\(a=2,b=0\): corner ✗</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card quiz" id="quiz31">
+      <span class="step-tag">Self-check</span>
+      <h3>3.1 quick quiz <span class="score" data-score></span></h3>
+    </section>
+
+    </div>
+
+    <!-- ===================================================== 3.2 ===================================================== -->
+    <div class="page" id="s32" data-title="3.2 Differentiation Rules">
+    <div class="sec-head">
+      <span class="badge">3.2</span>
+      <div>
+        <h2>Differentiation Rules</h2>
+        <p>Shortcuts that give the same answer as the limit definition, in one line.</p>
+      </div>
+    </div>
+
+    <section class="card">
+      <span class="step-tag">The rules</span>
+      <h3>Seven rules that do almost everything</h3>
+      <div class="grid3">
+        <div class="box rule">
+          <div class="num">Rule 1 · Constant</div>
+          \[ \frac{d}{dx}[c]=0 \]
+          <div class="say">A flat line has slope zero.</div>
+          <div class="eg">\(\frac{d}{dx}[\pi^2]=0,\ \ \frac{d}{dx}[7]=0\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 2 · Power</div>
+          \[ \frac{d}{dx}[x^n]=n\,x^{n-1} \]
+          <div class="say">Bring the power down, then lower it by one. Works for any real \(n\).</div>
+          <div class="eg">\(\frac{d}{dx}[x^7]=7x^6,\ \ \frac{d}{dx}[x^{-2}]=-2x^{-3}\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 3 · Constant multiple</div>
+          \[ \frac{d}{dx}[c\,f]=c\,f' \]
+          <div class="say">Constants just come along for the ride.</div>
+          <div class="eg">\(\frac{d}{dx}[5x^3]=5\cdot3x^2=15x^2\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 4 · Sum &amp; difference</div>
+          \[ (f\pm g)'=f'\pm g' \]
+          <div class="say">Differentiate term by term.</div>
+          <div class="eg">\((x^4-x+9)'=4x^3-1\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 5 · Product</div>
+          \[ (f\,g)'=f'\,g+f\,g' \]
+          <div class="say">"Derivative of the first × second, plus first × derivative of the second."</div>
+          <div class="eg">\((x^2\sin x)'=2x\sin x+x^2\cos x\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 6 · Quotient</div>
+          \[ \left(\frac{f}{g}\right)'=\frac{f'\,g-f\,g'}{g^2} \]
+          <div class="say">"Low d-high minus high d-low, over low squared." Order matters!</div>
+          <div class="eg">\(g(x)\ne0\)</div>
+        </div>
+        <div class="box rule">
+          <div class="num">Rule 7 · Reciprocal (from Rule 6)</div>
+          \[ \left(\frac{1}{g}\right)'=-\frac{g'}{g^2} \]
+          <div class="say">The quotient rule with \(f=1\), so \(f'=0\).</div>
+          <div class="eg">\(\left(\frac{1}{x^2+1}\right)'=-\frac{2x}{(x^2+1)^2}\)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Power rule, visually</span>
+      <h3>See \(x^n\) and its derivative \(n\,x^{n-1}\) side by side</h3>
+      <div class="controls"><div class="chips" id="powChips"></div></div>
+      <div class="readout" id="powOut" style="text-align:center"></div>
+      <canvas class="plot" id="powCanvas" style="margin-top:10px"></canvas>
+      <div class="legend"><span><i class="sw f"></i> \(y=x^n\)</span><span><i class="sw d"></i> \(y=\frac{d}{dx}x^n = n\,x^{n-1}\)</span></div>
+      <p class="plot-caption">Check a few: where the blue curve is flat the green one is 0; where blue rises steeply green is large.</p>
+
+      <h4 style="margin-top:18px">Rewrite first, then use the power rule</h4>
+      <p>Roots and fractions are powers in disguise: \(\sqrt[m]{x^k}=x^{k/m}\) and \(\dfrac{1}{x^k}=x^{-k}\).</p>
+      <div class="table-scroll">
+        <table class="t">
+          <thead><tr><th>Given</th><th>Rewrite</th><th>Differentiate</th><th>Tidy up</th></tr></thead>
+          <tbody>
+            <tr><td>\(\sqrt{x}\)</td><td>\(x^{1/2}\)</td><td>\(\tfrac12x^{-1/2}\)</td><td>\(\dfrac{1}{2\sqrt x}\)</td></tr>
+            <tr><td>\(\sqrt[3]{x^2}\)</td><td>\(x^{2/3}\)</td><td>\(\tfrac23x^{-1/3}\)</td><td>\(\dfrac{2}{3\sqrt[3]{x}}\)</td></tr>
+            <tr><td>\(\dfrac{1}{x^3}\)</td><td>\(x^{-3}\)</td><td>\(-3x^{-4}\)</td><td>\(-\dfrac{3}{x^4}\)</td></tr>
+            <tr><td>\(\dfrac{1}{\sqrt x}\)</td><td>\(x^{-1/2}\)</td><td>\(-\tfrac12x^{-3/2}\)</td><td>\(-\dfrac{1}{2x\sqrt x}\)</td></tr>
+            <tr><td>\(x\sqrt{x}\)</td><td>\(x^{3/2}\)</td><td>\(\tfrac32x^{1/2}\)</td><td>\(\tfrac32\sqrt x\)</td></tr>
+            <tr><td>\(\dfrac{5}{2x^4}\)</td><td>\(\tfrac52x^{-4}\)</td><td>\(\tfrac52\cdot(-4)x^{-5}\)</td><td>\(-\dfrac{10}{x^5}\)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Why the product rule has two terms</span>
+      <h3>The product rule is an area picture</h3>
+      <div class="two-col">
+        <div>
+          <svg class="diagram" viewBox="0 0 360 250" role="img" aria-label="Rectangle of sides f and g growing by delta f and delta g">
+            <rect x="40" y="34" width="200" height="130" fill="var(--c-f-soft)" stroke="var(--c-f)" stroke-width="2"/>
+            <rect x="240" y="34" width="56" height="130" fill="var(--c-d-soft)" stroke="var(--c-d)" stroke-width="2"/>
+            <rect x="40" y="164" width="200" height="40" fill="var(--c-sec-soft)" stroke="var(--c-sec)" stroke-width="2"/>
+            <rect x="240" y="164" width="56" height="40" fill="var(--c-tan-soft)" stroke="var(--c-tan)" stroke-width="2"/>
+            <text x="140" y="104" text-anchor="middle" style="font-size:18px">f · g</text>
+            <text x="268" y="104" text-anchor="middle">g·Δf</text>
+            <text x="140" y="189" text-anchor="middle">f·Δg</text>
+            <text x="268" y="189" text-anchor="middle" style="font-size:11px">ΔfΔg</text>
+            <text x="140" y="24" text-anchor="middle" class="muted-t">f</text>
+            <text x="268" y="24" text-anchor="middle" class="muted-t">Δf</text>
+            <text x="26" y="104" text-anchor="middle" class="muted-t">g</text>
+            <text x="22" y="189" text-anchor="middle" class="muted-t">Δg</text>
+            <text x="180" y="236" text-anchor="middle" class="muted-t" style="font-size:12px">new area − old area = the three coloured strips</text>
+          </svg>
+        </div>
+        <div>
+          <p>Think of \(f\cdot g\) as the area of a rectangle with sides \(f\) and \(g\). Nudge \(x\) a little: \(f\) grows by \(\Delta f\), \(g\) grows by \(\Delta g\). The extra area is</p>
+          \[ \Delta(fg)=\underbrace{g\,\Delta f}_{\text{green}}+\underbrace{f\,\Delta g}_{\text{amber}}+\underbrace{\Delta f\,\Delta g}_{\text{tiny red}} \]
+          <p>Divide by \(\Delta x\) and let \(\Delta x\to0\). The tiny corner vanishes (it is "small × small"), leaving</p>
+          \[ (fg)'=f'g+fg' \]
+          <p class="small muted">So it is <b>not</b> \(f'g'\): you would be keeping only the tiny corner and throwing away both big strips.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Worked examples</span>
+      <h3>Rules in action</h3>
+      <div class="grid2">
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Polynomial</span>\(y=3x^4-5x^2+7x-2\)</div>
+          \[ y'=12x^3-10x+7 \]
+          <p class="small muted">Rules 1–4, term by term.</p>
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Roots &amp; fractions</span>\(y=\sqrt x+\dfrac{1}{x^2}-\sqrt[3]{x^2}\)</div>
+          \[ y=x^{1/2}+x^{-2}-x^{2/3} \]
+          \[ y'=\tfrac12x^{-1/2}-2x^{-3}-\tfrac23x^{-1/3} \]
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Product</span>\(y=(x^2+1)(x^3-2x)\)</div>
+          \[ y'=\underbrace{2x}_{f'}\,\underbrace{(x^3-2x)}_{g}+\underbrace{(x^2+1)}_{f}\,\underbrace{(3x^2-2)}_{g'} \]
+          \[ =5x^4-3x^2-2 \]
+          <p class="small muted">Check: expanding first gives \(x^5-x^3-2x\), whose derivative is the same.</p>
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Quotient</span>\(y=\dfrac{x^2-1}{x^2+1}\)</div>
+          \[ y'=\frac{(2x)(x^2+1)-(x^2-1)(2x)}{(x^2+1)^2} \]
+          \[ =\frac{2x\,[(x^2+1)-(x^2-1)]}{(x^2+1)^2}=\frac{4x}{(x^2+1)^2} \]
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Exam type</span>Given \(f(2)=3,\ f'(2)=-1,\ g(2)=4,\ g'(2)=5\). Find \((fg)'(2)\) and \(\left(\frac{f}{g}\right)'(2)\).</div>
+        \[ (fg)'(2)=f'(2)g(2)+f(2)g'(2)=(-1)(4)+(3)(5)=11 \]
+        \[ \left(\frac fg\right)'(2)=\frac{f'(2)g(2)-f(2)g'(2)}{[g(2)]^2}=\frac{(-1)(4)-(3)(5)}{16}=-\frac{19}{16} \]
+      </div>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Horizontal tangents</span>Where does \(y=x^3-3x^2-9x+5\) have a horizontal tangent?</div>
+        <div class="two-col">
+          <div>
+            <p>Horizontal means slope \(0\), so solve \(y'=0\):</p>
+            \[ y'=3x^2-6x-9=3(x-3)(x+1)=0 \]
+            \[ x=-1\ \text{ or }\ x=3 \]
+            <p>Points: \(y(-1)=10\) and \(y(3)=-22\).</p>
+            <div class="answer">\((-1,\,10)\) and \((3,\,-22)\)</div>
+          </div>
+          <div><canvas class="plot" id="htCanvas"></canvas><p class="plot-caption">The <span class="c-tan">red dashed</span> tangents are flat exactly at the top of the hill and the bottom of the valley.</p></div>
+        </div>
+      </div>
+
+      <div class="warn">
+        <b>Common mistakes.</b>
+        <ul style="margin:.4em 0 0;padding-left:1.2em">
+          <li>\((fg)'\ne f'g'\). Test with \(f=g=x\): \((x^2)'=2x\), but \(f'g'=1\).</li>
+          <li>\(\left(\frac fg\right)'\ne\frac{f'}{g'}\), and the quotient-rule numerator is \(f'g-fg'\) in <b>that order</b>; swapping flips the sign.</li>
+          <li>The power rule needs a <b>constant</b> exponent: it works for \(x^5\), not for \(5^x\) or \(x^x\).</li>
+          <li>Simplify first when you can: \(\dfrac{x^3+x}{x}=x^2+1\) (for \(x\ne0\)) has derivative \(2x\), no quotient rule needed.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card quiz" id="quiz32">
+      <span class="step-tag">Self-check</span>
+      <h3>3.2 quick quiz <span class="score" data-score></span></h3>
+    </section>
+
+    </div>
+
+    <!-- ===================================================== 3.3 ===================================================== -->
+    <div class="page" id="s33" data-title="3.3 Trig Derivatives">
+    <div class="sec-head">
+      <span class="badge">3.3</span>
+      <div>
+        <h2>Derivatives of Trigonometric Functions</h2>
+        <p>Everything comes from one picture (the unit circle) and one limit.</p>
+      </div>
+    </div>
+
+    <section class="card">
+      <span class="step-tag">The key limits</span>
+      <h3>Why \(\dfrac{\sin x}{x}\to1\)</h3>
+      <div class="formula">
+        \[ \lim_{x\to0}\frac{\sin x}{x}=1\qquad\qquad \lim_{x\to0}\frac{1-\cos x}{x}=0 \]
+        <div class="small muted">Only true when \(x\) is in <b>radians</b>. All of calculus with trig assumes radians.</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <canvas class="plot" id="ucCanvas" style="max-width:520px;margin:0 auto"></canvas>
+          <div class="controls">
+            <label>Angle \(x\) <input type="range" id="ucS" min="0.03" max="0.9" step="0.005" value="0.7"><span class="val" id="ucVal"></span></label>
+            <button class="btn primary" id="ucPlay">▶ Shrink x</button>
+          </div>
+        </div>
+        <div>
+          <p>On the unit circle, compare three lengths for the same angle \(x\):</p>
+          <p><b class="c-f">sin x</b>: the vertical drop from the point to the axis<br>
+             <b class="c-tan">x</b>: the arc length (radians measure arc length!)<br>
+             <b class="c-d">tan x</b>: the vertical line touching the circle</p>
+          <p>The picture shows \(\sin x\le x\le\tan x\). Divide by \(\sin x\) and flip:</p>
+          \[ \cos x\le\frac{\sin x}{x}\le1 \]
+          <p>As \(x\to0\), \(\cos x\to1\), so \(\dfrac{\sin x}{x}\) is squeezed to \(1\).</p>
+          <div class="readout" id="ucOut"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Derivation</span>
+      <h3>Proof that \((\sin x)'=\cos x\)</h3>
+      <p>Use the definition and the addition formula \(\sin(x+h)=\sin x\cos h+\cos x\sin h\):</p>
+      \[ \frac{d}{dx}\sin x=\lim_{h\to0}\frac{\sin x\cos h+\cos x\sin h-\sin x}{h} \]
+      \[ =\lim_{h\to0}\Big[\sin x\cdot\underbrace{\frac{\cos h-1}{h}}_{\to\,0}+\cos x\cdot\underbrace{\frac{\sin h}{h}}_{\to\,1}\Big]=\cos x \]
+      <p class="small muted">The same steps with \(\cos(x+h)=\cos x\cos h-\sin x\sin h\) give \((\cos x)'=-\sin x\). The other four follow from the quotient rule.</p>
+      <div class="grid2">
+        <div class="box">
+          <h4>\(\tan x=\dfrac{\sin x}{\cos x}\)</h4>
+          \[ (\tan x)'=\frac{\cos x\cdot\cos x-\sin x\cdot(-\sin x)}{\cos^2x}=\frac{1}{\cos^2x}=\sec^2x \]
+          <p class="small muted">uses \(\cos^2x+\sin^2x=1\)</p>
+        </div>
+        <div class="box">
+          <h4>\(\sec x=\dfrac{1}{\cos x}\)</h4>
+          \[ (\sec x)'=-\frac{(-\sin x)}{\cos^2x}=\frac{1}{\cos x}\cdot\frac{\sin x}{\cos x}=\sec x\tan x \]
+          <p class="small muted">reciprocal rule</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">The six formulas</span>
+      <h3>Learn three, get six</h3>
+      <div class="grid2" style="align-items:center">
+        <div class="table-scroll">
+          <table class="t" style="font-size:1rem">
+            <thead><tr><th>Function</th><th>Derivative</th><th></th><th>Co-function</th><th>Derivative</th></tr></thead>
+            <tbody>
+              <tr><td>\(\sin x\)</td><td class="c-f">\(\cos x\)</td><td class="muted">→</td><td>\(\cos x\)</td><td class="c-tan">\(-\sin x\)</td></tr>
+              <tr><td>\(\tan x\)</td><td class="c-f">\(\sec^2 x\)</td><td class="muted">→</td><td>\(\cot x\)</td><td class="c-tan">\(-\csc^2 x\)</td></tr>
+              <tr><td>\(\sec x\)</td><td class="c-f">\(\sec x\tan x\)</td><td class="muted">→</td><td>\(\csc x\)</td><td class="c-tan">\(-\csc x\cot x\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tip"><b>Memory trick.</b> Learn the left column. For the right column, put "co" on every function (sin↔cos, tan↔cot, sec↔csc) and add a <b>minus sign</b>. Every "c" function (cos, cot, csc) has a negative derivative.</div>
+      </div>
+
+      <h4 style="margin-top:16px">See it: the slope of \(\sin x\) traces out \(\cos x\)</h4>
+      <div class="tracer" id="tracer3"></div>
+
+      <div class="two-col" style="margin-top:16px;align-items:center">
+        <svg class="diagram" viewBox="0 0 320 250" role="img" aria-label="Derivative cycle: sin to cos to minus sin to minus cos and back to sin" style="max-width:340px;margin:0 auto">
+          <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+          <circle cx="160" cy="125" r="80" fill="none" stroke="var(--border)" stroke-width="2"/>
+          <path d="M 188 50 A 80 80 0 0 1 235 97" fill="none" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arr)"/>
+          <path d="M 235 153 A 80 80 0 0 1 188 200" fill="none" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arr)"/>
+          <path d="M 132 200 A 80 80 0 0 1 85 153" fill="none" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arr)"/>
+          <path d="M 85 97 A 80 80 0 0 1 132 50" fill="none" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#arr)"/>
+          <text x="160" y="50" text-anchor="middle" style="font-size:16px">sin x</text>
+          <text x="248" y="130" text-anchor="start" style="font-size:16px">cos x</text>
+          <text x="160" y="212" text-anchor="middle" style="font-size:16px">−sin x</text>
+          <text x="72" y="130" text-anchor="end" style="font-size:16px">−cos x</text>
+          <text x="160" y="130" text-anchor="middle" class="muted-t">d/dx</text>
+        </svg>
+        <div>
+          <p><b>Bonus (preview of 3.6):</b> keep differentiating \(\sin x\) and you go round this circle, back to \(\sin x\) every 4 steps.</p>
+          <p class="small">E.g. the 27th derivative: \(27=4\cdot6+3\), so it is 3 steps round: \(-\cos x\).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <span class="step-tag">Worked examples</span>
+      <h3>Trig derivatives with the 3.2 rules</h3>
+      <div class="grid2">
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Product</span>\(y=x^2\sin x\)</div>
+          \[ y'=2x\sin x+x^2\cos x \]
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Product</span>\(y=\sec x\tan x\)</div>
+          \[ y'=(\sec x\tan x)\tan x+\sec x\,(\sec^2x) \]
+          \[ =\sec x\tan^2x+\sec^3x \]
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Quotient</span>\(y=\dfrac{\sin x}{1+\cos x}\)</div>
+          \[ y'=\frac{\cos x(1+\cos x)-\sin x(-\sin x)}{(1+\cos x)^2} \]
+          \[ =\frac{\cos x+\overbrace{\cos^2x+\sin^2x}^{=1}}{(1+\cos x)^2}=\frac{1}{1+\cos x} \]
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title"><span class="tag">Trig limits</span>Use \(\frac{\sin\square}{\square}\to1\)</div>
+          \[ \lim_{x\to0}\frac{\sin5x}{3x}=\frac53\lim_{x\to0}\frac{\sin5x}{5x}=\frac53 \]
+          \[ \lim_{x\to0}\frac{\tan x}{x}=\lim_{x\to0}\frac{\sin x}{x}\cdot\frac{1}{\cos x}=1 \]
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Tangent line</span>Find the tangent line to \(y=\cos x\) at \(x=\frac{\pi}{3}\).</div>
+        <div class="two-col">
+          <div>
+            <p>Point: \(y=\cos\frac\pi3=\frac12\).</p>
+            <p>Slope: \(y'=-\sin x\), so \(m=-\sin\frac\pi3=-\frac{\sqrt3}{2}\).</p>
+            <div class="answer">\(y-\frac12=-\frac{\sqrt3}{2}\left(x-\frac{\pi}{3}\right)\)</div>
+          </div>
+          <div><canvas class="plot" id="cosTanCanvas"></canvas></div>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="ex-title"><span class="tag">Horizontal tangents</span>Where on \([0,2\pi]\) does \(y=x+2\sin x\) have a horizontal tangent?</div>
+        <div class="two-col">
+          <div>
+            \[ y'=1+2\cos x=0\;\Rightarrow\;\cos x=-\tfrac12 \]
+            \[ x=\tfrac{2\pi}{3}\ \text{ or }\ x=\tfrac{4\pi}{3} \]
+            <p class="small muted">cos is negative in quadrants II and III; reference angle \(\frac\pi3\).</p>
+          </div>
+          <div><canvas class="plot" id="htTrigCanvas"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card quiz" id="quiz33">
+      <span class="step-tag">Self-check</span>
+      <h3>3.3 quick quiz <span class="score" data-score></span></h3>
+    </section>
+
+    </div>
+
+    <!-- ===================================================== Cheat sheet ===================================================== -->
+    <div class="page" id="cheat" data-title="Cheat sheet">
+    <div class="sec-head">
+      <span class="badge">★</span>
+      <div>
+        <h2>One-page cheat sheet</h2>
+        <p>Everything from 3.1–3.3 in one place. Print-friendly.</p>
+      </div>
+    </div>
+    <section class="card">
+      <div class="cheat">
+        <div><div class="lbl">Definition</div>\(\displaystyle f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}{h}\)</div>
+        <div><div class="lbl">Alternative form</div>\(\displaystyle f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}\)</div>
+        <div><div class="lbl">Tangent line at a</div>\(y-f(a)=f'(a)(x-a)\)</div>
+        <div><div class="lbl">Normal line at a</div>\(y-f(a)=-\dfrac{1}{f'(a)}(x-a)\)</div>
+        <div><div class="lbl">Differentiable ⇒</div>continuous (not the other way: \(|x|\))</div>
+        <div><div class="lbl">f′(a) exists ⇔</div>\(f'_-(a)=f'_+(a)\)</div>
+        <div><div class="lbl">Constant · Power</div>\((c)'=0\qquad (x^n)'=nx^{n-1}\)</div>
+        <div><div class="lbl">Multiple · Sum</div>\((cf)'=cf'\qquad (f\pm g)'=f'\pm g'\)</div>
+        <div><div class="lbl">Product</div>\((fg)'=f'g+fg'\)</div>
+        <div><div class="lbl">Quotient</div>\(\left(\dfrac fg\right)'=\dfrac{f'g-fg'}{g^2}\)</div>
+        <div><div class="lbl">Trig limits (radians)</div>\(\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1,\ \lim_{x\to0}\frac{1-\cos x}{x}=0\)</div>
+        <div><div class="lbl">sin · cos</div>\((\sin x)'=\cos x\qquad(\cos x)'=-\sin x\)</div>
+        <div><div class="lbl">tan · cot</div>\((\tan x)'=\sec^2x\qquad(\cot x)'=-\csc^2x\)</div>
+        <div><div class="lbl">sec · csc</div>\((\sec x)'=\sec x\tan x\qquad(\csc x)'=-\csc x\cot x\)</div>
+        <div><div class="lbl">Horizontal tangent</div>solve \(f'(x)=0\)</div>
+        <div><div class="lbl">Rate of change</div>average \(=\dfrac{f(b)-f(a)}{b-a}\), instant \(=f'(a)\)</div>
+      </div>
+      <p class="small muted" style="margin-top:12px">Syllabus practice: 3.1 Lab_9 &bull; 3.2 Lab_10 &bull; 3.3 Lab_11 &bull; Self Learning Tests pp. 197–198, 212–213, 222–223.</p>
+    </section>
+    </div>
+
+    <footer>Math 101 Differential Calculus &bull; Chapter 3 visual guide &bull; <a href="index.html">Full Mock Exams</a> &bull; <a href="math101_practice.html">Quick Drills</a></footer>
+  </main>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const PI = Math.PI;
+    const KATEX_OPTS = { delimiters: [{ left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false }], throwOnError: false };
+    const views = [];
+    function register(draw) { views.push(draw); draw(); }
+    function redrawAll() { views.forEach(d => d()); }
+    function toggleTheme() {
+      const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('math101-theme', t); } catch (e) {}
+      redrawAll();
+    }
+    let resizeQueued = false;
+    window.addEventListener('resize', () => {
+      if (resizeQueued) return;
+      resizeQueued = true;
+      requestAnimationFrame(() => { resizeQueued = false; redrawAll(); });
+    });
+
+    // Numbers: TeX-friendly (fmt) and text with a real minus sign (fmtT).
+    function fmt(v, d = 3) {
+      if (!isFinite(v)) return '\\text{undefined}';
+      let s = String(+v.toFixed(d));
+      return s === '-0' ? '0' : s;
+    }
+    const fmtT = (v, d = 3) => isFinite(v) ? fmt(v, d).replace('-', '−') : 'undefined';
+    const tex = (el, s) => katex.render(s, el, { throwOnError: false });
+
+    function niceStep(span, target) {
+      const raw = span / target, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p;
+      return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p;
+    }
+    function piLabel(k) { // k = multiple of π/2
+      if (k === 0) return '0';
+      const s = k < 0 ? '−' : '', a = Math.abs(k);
+      if (a % 2 === 0) return s + (a === 2 ? '' : a / 2) + 'π';
+      return s + (a === 1 ? '' : a) + 'π/2';
+    }
+
+    // A small canvas plotter in world coordinates, theme-aware and sharp on high-DPI screens.
+    class Plot {
+      constructor(canvas, opts = {}) {
+        this.c = canvas;
+        this.ctx = canvas.getContext('2d');
+        Object.assign(this, { aspect: 0.6, labels: true, piTicks: false }, opts);
+      }
+      view(xmin, xmax, ymin, ymax) { Object.assign(this, { xmin, xmax, ymin, ymax }); return this; }
+      begin() {
+        const dpr = window.devicePixelRatio || 1, w = this.c.clientWidth || 300, h = Math.round(w * this.aspect);
+        if (this.c.width !== Math.round(w * dpr) || this.c.height !== Math.round(h * dpr)) {
+          this.c.width = Math.round(w * dpr);
+          this.c.height = Math.round(h * dpr);
+        }
+        this.c.style.height = h + 'px';
+        this.w = w; this.h = h;
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        this.ctx.clearRect(0, 0, w, h);
+        this.grid();
+        return this;
+      }
+      X(x) { return (x - this.xmin) / (this.xmax - this.xmin) * this.w; }
+      Y(y) { return this.h - (y - this.ymin) / (this.ymax - this.ymin) * this.h; }
+      grid() {
+        const { ctx, w, h } = this;
+        const xs = this.piTicks ? PI / 2 : niceStep(this.xmax - this.xmin, Math.max(4, w / 70));
+        const ys = niceStep(this.ymax - this.ymin, Math.max(3, h / 45));
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = css('--grid');
+        ctx.beginPath();
+        const xi0 = Math.ceil(this.xmin / xs), xi1 = Math.floor(this.xmax / xs);
+        const yi0 = Math.ceil(this.ymin / ys), yi1 = Math.floor(this.ymax / ys);
+        for (let i = xi0; i <= xi1; i++) { const px = Math.round(this.X(i * xs)) + .5; ctx.moveTo(px, 0); ctx.lineTo(px, h); }
+        for (let i = yi0; i <= yi1; i++) { const py = Math.round(this.Y(i * ys)) + .5; ctx.moveTo(0, py); ctx.lineTo(w, py); }
+        ctx.stroke();
+        ctx.strokeStyle = css('--axis');
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        if (this.xmin < 0 && this.xmax > 0) { const px = Math.round(this.X(0)) + .5; ctx.moveTo(px, 0); ctx.lineTo(px, h); }
+        if (this.ymin < 0 && this.ymax > 0) { const py = Math.round(this.Y(0)) + .5; ctx.moveTo(0, py); ctx.lineTo(w, py); }
+        ctx.stroke();
+        if (!this.labels) return;
+        ctx.fillStyle = css('--muted');
+        ctx.font = '11px system-ui, sans-serif';
+        const dx = Math.max(0, -Math.floor(Math.log10(xs) + 1e-9)), dy = Math.max(0, -Math.floor(Math.log10(ys) + 1e-9));
+        const ay = Math.min(Math.max(this.Y(0) + 3, 2), h - 14);
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        for (let i = xi0; i <= xi1; i++) {
+          if (i === 0) continue;
+          const lab = this.piTicks ? piLabel(i) : (i * xs).toFixed(dx).replace('-', '−');
+          ctx.fillText(lab, this.X(i * xs), ay);
+        }
+        const ax = this.X(0);
+        const left = ax > 30 && ax < w;
+        ctx.textAlign = left ? 'right' : 'left'; ctx.textBaseline = 'middle';
+        for (let i = yi0; i <= yi1; i++) {
+          if (i === 0) continue;
+          const py = this.Y(i * ys);
+          if (py < 8 || py > h - 8) continue;
+          ctx.fillText((i * ys).toFixed(dy).replace('-', '−'), left ? Math.min(ax, w) - 4 : 4, py);
+        }
+      }
+      curve(f, color, { lw = 2.5, dash = null, from = this.xmin, to = this.xmax, breaks = [] } = {}) {
+        const { ctx } = this;
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        ctx.setLineDash(dash || []);
+        ctx.beginPath();
+        const n = Math.max(2, Math.ceil(Math.abs(this.X(to) - this.X(from)) * 2));
+        let pen = false, px = 0, ppy = 0;
+        for (let i = 0; i <= n; i++) {
+          const x = from + (to - from) * i / n, y = f(x);
+          if (!isFinite(y)) { pen = false; px = x; continue; }
+          if (pen && breaks.some(b => (b - px) * (b - x) <= 0)) pen = false;
+          const py = this.Y(y);
+          if (pen && Math.abs(py - ppy) > this.h * 1.5) pen = false;
+          const cy = Math.max(-this.h, Math.min(2 * this.h, py));
+          if (pen) ctx.lineTo(this.X(x), cy); else ctx.moveTo(this.X(x), cy);
+          pen = true; px = x; ppy = py;
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+      line(x1, y1, x2, y2, color, { lw = 2, dash = null } = {}) {
+        const { ctx } = this;
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.setLineDash(dash || []); ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(this.X(x1), this.Y(y1)); ctx.lineTo(this.X(x2), this.Y(y2)); ctx.stroke();
+        ctx.restore();
+      }
+      lineSlope(x0, y0, m, color, opts) { // an infinite line through (x0, y0) with slope m
+        this.line(this.xmin, y0 + m * (this.xmin - x0), this.xmax, y0 + m * (this.xmax - x0), color, opts);
+      }
+      segSlope(x0, y0, m, len, color, opts) { // a line segment of fixed on-screen length
+        const sx = this.w / (this.xmax - this.xmin), sy = this.h / (this.ymax - this.ymin);
+        const vx = 1, vy = m * sy / sx, n = Math.hypot(vx, vy), d = len / 2 / n / sx;
+        this.line(x0 - d, y0 - m * d, x0 + d, y0 + m * d, color, opts);
+      }
+      dot(x, y, color, { r = 5, open = false } = {}) {
+        const { ctx } = this;
+        ctx.save();
+        ctx.beginPath(); ctx.arc(this.X(x), this.Y(y), r, 0, 2 * PI);
+        ctx.fillStyle = open ? css('--plot-bg') : color; ctx.fill();
+        ctx.lineWidth = 2; ctx.strokeStyle = open ? color : css('--plot-bg'); ctx.stroke();
+        ctx.restore();
+      }
+      label(text, x, y, color, { dx = 0, dy = 0, align = 'left', size = 13 } = {}) {
+        const { ctx } = this;
+        ctx.save();
+        ctx.font = `700 ${size}px system-ui, sans-serif`;
+        ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle';
+        ctx.fillText(text, this.X(x) + dx, this.Y(y) + dy);
+        ctx.restore();
+      }
+      poly(pts, fill) {
+        const { ctx } = this;
+        ctx.save(); ctx.fillStyle = fill; ctx.beginPath();
+        pts.forEach(([x, y], i) => i ? ctx.lineTo(this.X(x), this.Y(y)) : ctx.moveTo(this.X(x), this.Y(y)));
+        ctx.closePath(); ctx.fill(); ctx.restore();
+      }
+    }
+
+    // Chip groups: one pressed at a time.
+    function chips(container, onPick) {
+      container.addEventListener('click', e => {
+        const b = e.target.closest('.chip');
+        if (!b) return;
+        container.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b));
+        onPick(b.dataset.k);
+      });
+    }
+    function animate(ms, step, done) {
+      const t0 = performance.now();
+      let stop = false;
+      (function tick(now) {
+        if (stop) return;
+        const t = Math.min(1, (now - t0) / ms);
+        step(t);
+        if (t < 1) requestAnimationFrame(tick); else if (done) done();
+      })(t0);
+      return () => { stop = true; };
+    }
+
+    // ---------- 3.1 Zoom in until straight ----------
+    (function () {
+      const P = new Plot($('#zoomCanvas'), { aspect: 0.55 });
+      const sets = {
+        sq: { f: x => x * x, a: 1, m: 2, name: 'x² at x = 1' },
+        sin: { f: Math.sin, a: 0, m: 1, name: 'sin x at x = 0' },
+        abs: { f: Math.abs, a: 0, m: null, name: '|x| at x = 0' },
+      };
+      let key = 'sq';
+      const s = $('#zoomS'), tg = $('#zoomTan');
+      function draw() {
+        const S = sets[key], z = Math.pow(10, +s.value), hw = 2.5 / z, hh = hw * P.aspect, b = S.f(S.a);
+        P.view(S.a - hw, S.a + hw, b - hh, b + hh).begin();
+        if (tg.checked && S.m !== null) P.lineSlope(S.a, b, S.m, css('--c-tan'), { lw: 2, dash: [7, 6] });
+        P.curve(S.f, css('--c-f'), { lw: 3.5 });
+        P.dot(S.a, b, css('--fg'));
+        $('#zoomVal').textContent = '×' + (z < 10 ? z.toFixed(1) : Math.round(z));
+        $('#zoomOut').innerHTML = S.m === null
+          ? '<b class="c-bad">Still a sharp corner, at every zoom.</b> Zooming never straightens it, so there is no single tangent line: |x| is <b>not differentiable</b> at 0.'
+          : (z < 20 ? 'Drag the zoom slider right and watch the curve flatten into a line.'
+                    : `<b class="c-good">Looks straight!</b> Up close, ${S.name} is the line with slope <b>${S.m}</b>. So the derivative there is ${S.m}.`);
+      }
+      chips($('#zoomChips'), k => { key = k; draw(); });
+      s.addEventListener('input', draw);
+      tg.addEventListener('change', draw);
+      register(draw);
+    })();
+
+    // ---------- 3.1 Secant to tangent ----------
+    (function () {
+      const SEC = {
+        sq: { f: x => x * x, d: x => 2 * x, view: [-2.5, 3.5, -1.5, 9], a: [-2, 3], a0: 1 },
+        cubic: { f: x => x ** 3 - 3 * x, d: x => 3 * x * x - 3, view: [-3, 3, -5, 5], a: [-2.4, 2.4], a0: -0.6 },
+        sin: { f: Math.sin, d: Math.cos, view: [-0.6, 6.9, -2, 2], a: [0, 6.2], a0: 1, pi: true },
+        sqrt: { f: x => x >= 0 ? Math.sqrt(x) : NaN, d: x => x > 0 ? 0.5 / Math.sqrt(x) : NaN, view: [-0.6, 6, -0.8, 3], a: [0.2, 5], a0: 1 },
+      };
+      const P = new Plot($('#secCanvas'), { aspect: 0.58 });
+      const aS = $('#secA'), hS = $('#secH');
+      let key = 'sq', stopAnim = null;
+      const hOf = u => Math.sign(u) * 2 * u * u; // finer control near h = 0
+      function setFunc(k) {
+        key = k;
+        const S = SEC[k];
+        aS.min = S.a[0]; aS.max = S.a[1]; aS.value = S.a0;
+        draw();
+      }
+      function draw() {
+        const S = SEC[key], a = +aS.value, h = hOf(+hS.value), fa = S.f(a), m = S.d(a);
+        P.piTicks = !!S.pi;
+        P.view(...S.view).begin();
+        P.curve(S.f, css('--c-f'), { lw: 3 });
+        P.lineSlope(a, fa, m, css('--c-tan'), { lw: 2.2 });
+        const out = [];
+        if (h !== 0) {
+          const b = a + h, fb = S.f(b);
+          if (isFinite(fb)) {
+            const ms = (fb - fa) / h, muted = css('--muted');
+            P.lineSlope(a, fa, ms, css('--c-sec'), { lw: 2.2, dash: [8, 6] });
+            P.line(a, fa, b, fa, muted, { lw: 1.5, dash: [3, 4] });
+            P.line(b, fa, b, fb, muted, { lw: 1.5, dash: [3, 4] });
+            if (Math.abs(P.X(b) - P.X(a)) > 26) P.label('h', (a + b) / 2, fa, muted, { dy: fb >= fa ? 11 : -11, align: 'center' });
+            if (Math.abs(P.Y(fb) - P.Y(fa)) > 26) P.label('Δy', b, (fa + fb) / 2, muted, { dx: h > 0 ? 6 : -6, align: h > 0 ? 'left' : 'right' });
+            P.dot(b, fb, css('--c-sec'));
+            P.label('Q', b, fb, css('--c-sec'), { dx: 8, dy: -12 });
+            out.push(`m_{\\text{sec}}=\\dfrac{f(${fmt(b)})-f(${fmt(a, 2)})}{${fmt(h, 4)}}=\\color{${css('--c-sec')}}{${fmt(ms, 4)}}`);
+          } else {
+            out.push('\\text{Q is outside the domain of } f \\text{ — make } h \\text{ smaller}');
+          }
+        }
+        P.dot(a, fa, css('--fg'));
+        P.label('P', a, fa, css('--fg'), { dx: -16, dy: -12 });
+        out.push(`m_{\\text{tan}}=f'(${fmt(a, 2)})=\\color{${css('--c-tan')}}{${fmt(m, 4)}}`);
+        $('#secAVal').textContent = fmtT(a, 2);
+        $('#secHVal').textContent = h === 0 ? '0' : fmtT(h, Math.abs(h) < 0.01 ? 4 : 2);
+        const el = $('#secOut');
+        el.innerHTML = out.map(() => '<div class="row"></div>').join('') +
+          (h === 0 ? '<div class="row small">At \\(h=0\\) there is no second point: only the tangent line remains.</div>' :
+            Math.abs(h) < 0.02 ? '<div class="row small c-good"><b>Q has almost reached P: the secant and tangent are now on top of each other.</b></div>' : '');
+        out.forEach((s, i) => tex(el.children[i], s));
+        if (h === 0) renderMathInElement(el, KATEX_OPTS);
+        $('#secTable').innerHTML = [1, 0.5, 0.1, 0.01, 0.001].map(hh => {
+          const v = (S.f(a + hh) - fa) / hh;
+          return `<tr><td>${hh}</td><td>${fmtT(v, 5)}</td></tr>`;
+        }).join('') + `<tr class="hl"><td>h → 0</td><td>f′(${fmtT(a, 2)}) = ${fmtT(m, 5)}</td></tr>`;
+      }
+      chips($('#secChips'), setFunc);
+      aS.addEventListener('input', draw);
+      hS.addEventListener('input', () => { if (stopAnim) stopAnim(); draw(); });
+      $('#secPlay').addEventListener('click', () => {
+        if (stopAnim) stopAnim();
+        let u0 = +hS.value;
+        if (Math.abs(u0) < 0.1) { u0 = 0.85; }
+        const sgn = Math.sign(u0) || 1, u1 = 0.03 * sgn;
+        stopAnim = animate(2600, t => {
+          const e = 1 - Math.pow(1 - t, 3);
+          hS.value = u0 + (u1 - u0) * e;
+          draw();
+        }, () => { stopAnim = null; });
+      });
+      setFunc('sq');
+      views.push(draw);
+    })();
+
+    // ---------- Example 1 plot ----------
+    register(() => {
+      const P = new Plot($('#ex1Canvas'), { aspect: 0.75 }).view(-2.5, 4, -0.6, 4.275).begin();
+      P.curve(x => x * x + 2 * x, css('--c-f'), { lw: 3 });
+      P.lineSlope(1, 3, 4, css('--c-tan'), { lw: 2.2 });
+      P.lineSlope(1, 3, -0.25, css('--c-d'), { lw: 2.2, dash: [8, 6] });
+      P.dot(1, 3, css('--fg'));
+      P.label('(1, 3)', 1, 3, css('--fg'), { dx: 10, dy: 14 });
+      P.label('y = x² + 2x', -2.3, 1.6, css('--c-f'), { size: 12 });
+    });
+
+    // ---------- Graph of f and f' (tracer), used in 3.1 and 3.3 ----------
+    function makeTracer(root, sets, first) {
+      root.innerHTML = `
+        <div class="controls"><div class="chips">${Object.entries(sets).map(([k, s]) =>
+          `<button class="chip" data-k="${k}" aria-pressed="${k === first}">\\(f(x)=${s.tex}\\)</button>`).join('')}</div></div>
+        <div class="legend"><span><i class="sw f"></i> <span data-f></span></span><span><i class="sw tan"></i> tangent line (its slope is the number we plot below)</span></div>
+        <canvas class="plot"></canvas>
+        <div class="legend"><span><i class="sw d"></i> <span data-d></span></span></div>
+        <canvas class="plot"></canvas>
+        <div class="controls">
+          <label>Move the point <input type="range" min="0" max="1" step="0.001" value="0.2"></label>
+          <button class="btn primary" data-play>▶ Play</button>
+          <label><input type="checkbox" data-ghost> Show the whole \\(f'\\) graph</label>
+        </div>
+        <div class="readout"></div>`;
+      const [c1, c2] = root.querySelectorAll('canvas');
+      const P1 = new Plot(c1, { aspect: 0.42 }), P2 = new Plot(c2, { aspect: 0.42 });
+      const slider = root.querySelector('input[type=range]'), ghost = root.querySelector('[data-ghost]');
+      const out = root.querySelector('.readout'), play = root.querySelector('[data-play]');
+      let key = first, stop = null;
+      function setFunc(k) {
+        key = k;
+        const S = sets[k];
+        tex(root.querySelector('[data-f]'), `f(x)=${S.tex}`);
+        tex(root.querySelector('[data-d]'), `f'(x)=${S.dtex}\\quad\\text{(height = slope of } f\\text{)}`);
+        draw();
+      }
+      function draw() {
+        const S = sets[key], [x0, x1] = S.x, x = x0 + (x1 - x0) * +slider.value;
+        const y = S.f(x), m = S.d(x);
+        P1.piTicks = P2.piTicks = !!S.pi;
+        P1.view(x0, x1, ...S.fy).begin();
+        P1.curve(S.f, css('--c-f'), { lw: 3, breaks: S.breaks || [] });
+        const col = !isFinite(m) ? css('--muted') : m > 0.05 ? css('--good') : m < -0.05 ? css('--bad') : css('--c-sec');
+        if (isFinite(m) && isFinite(y)) P1.segSlope(x, y, m, 170, css('--c-tan'), { lw: 3 });
+        if (isFinite(y)) P1.dot(x, y, col, { r: 6 });
+        P2.view(x0, x1, ...S.dy).begin();
+        if (ghost.checked) P2.curve(S.d, css('--muted'), { lw: 1.5, dash: [5, 5], breaks: S.breaks || [] });
+        P2.curve(S.d, css('--c-d'), { lw: 3.5, to: x, breaks: S.breaks || [] });
+        if (isFinite(m)) {
+          P2.line(x, 0, x, m, col, { lw: 2, dash: [3, 4] });
+          P2.dot(x, m, col, { r: 6 });
+        }
+        const state = !isFinite(m) ? '<b class="muted">no tangent here: f′ is undefined</b>'
+          : m > 0.05 ? '<b class="c-good">f is increasing ↗ so f′ &gt; 0</b>'
+          : m < -0.05 ? '<b class="c-bad">f is decreasing ↘ so f′ &lt; 0</b>'
+          : '<b class="c-sec">tangent is flat — so f′ = 0</b>';
+        const xs = S.pi ? `${fmtT(x / PI, 2)}π` : fmtT(x, 2);
+        out.innerHTML = `x = ${xs} &nbsp;·&nbsp; slope of tangent = f′(x) = <b>${fmtT(m, 3)}</b> &nbsp;·&nbsp; ${state}`;
+      }
+      chips(root.querySelector('.chips'), setFunc);
+      slider.addEventListener('input', () => { if (stop) { stop(); stop = null; play.textContent = '▶ Play'; } draw(); });
+      ghost.addEventListener('change', draw);
+      play.addEventListener('click', () => {
+        if (stop) { stop(); stop = null; play.textContent = '▶ Play'; return; }
+        play.textContent = '❚❚ Pause';
+        const v0 = +slider.value >= 0.99 ? 0 : +slider.value;
+        stop = animate(7000 * (1 - v0), t => { slider.value = v0 + (1 - v0) * t; draw(); },
+          () => { stop = null; play.textContent = '▶ Play'; });
+      });
+      setFunc(first);
+      views.push(draw);
+    }
+
+    makeTracer($('#tracer1'), {
+      cubic: { tex: 'x^3-3x', dtex: '3x^2-3', f: x => x ** 3 - 3 * x, d: x => 3 * x * x - 3, x: [-2.6, 2.6], fy: [-4.5, 4.5], dy: [-4, 12] },
+      sq: { tex: 'x^2', dtex: '2x', f: x => x * x, d: x => 2 * x, x: [-3, 3], fy: [-1, 8], dy: [-6.5, 6.5] },
+      abs: { tex: '|x|', dtex: '\\begin{cases}-1 & x<0\\\\ \\ \\ 1 & x>0\\end{cases}', f: Math.abs, d: x => x > 0 ? 1 : x < 0 ? -1 : NaN, x: [-3, 3], fy: [-1, 3.5], dy: [-2, 2], breaks: [0] },
+      sin: { tex: '\\sin x', dtex: '\\cos x', f: Math.sin, d: Math.cos, x: [-PI, 2 * PI], fy: [-1.6, 1.6], dy: [-1.6, 1.6], pi: true },
+    }, 'cubic');
+
+    makeTracer($('#tracer3'), {
+      sin: { tex: '\\sin x', dtex: '\\cos x', f: Math.sin, d: Math.cos, x: [-PI, 2 * PI], fy: [-1.6, 1.6], dy: [-1.6, 1.6], pi: true },
+      cos: { tex: '\\cos x', dtex: '-\\sin x', f: Math.cos, d: x => -Math.sin(x), x: [-PI, 2 * PI], fy: [-1.6, 1.6], dy: [-1.6, 1.6], pi: true },
+      tan: { tex: '\\tan x', dtex: '\\sec^2 x', f: Math.tan, d: x => 1 / Math.cos(x) ** 2, x: [-PI, PI], fy: [-4, 4], dy: [-1, 8], pi: true, breaks: [-PI / 2, PI / 2] },
+    }, 'sin');
+
+    // ---------- Where derivatives fail ----------
+    function mini(id, f, { breaks = [], dots = [], view = [-2, 2, -1.5, 2.5] } = {}) {
+      register(() => {
+        const P = new Plot($(id), { aspect: 0.8, labels: false }).view(...view).begin();
+        P.curve(f, css('--c-f'), { lw: 3, breaks });
+        dots.forEach(([x, y, open]) => P.dot(x, y, css('--c-tan'), { r: 5, open }));
+      });
+    }
+    mini('#nd1', Math.abs, { dots: [[0, 0]] });
+    mini('#nd2', x => Math.cbrt(x * x), { dots: [[0, 0]] });
+    mini('#nd3', Math.cbrt, { view: [-2, 2, -2, 2], dots: [[0, 0]] });
+    mini('#nd4', x => x < 0 ? 0.4 * x : 0.4 * x + 1.2, { breaks: [0], dots: [[0, 0, true], [0, 1.2]] });
+
+    function pw(id, a, b) {
+      register(() => {
+        const P = new Plot($(id), { aspect: 0.9, labels: false }).view(0, 3.6, -0.6, 10).begin();
+        P.curve(x => x * x, css('--c-f'), { lw: 3, to: 2 });
+        P.curve(x => a * x + b, css('--c-sec'), { lw: 3, from: 2 });
+        P.dot(2, 4, css('--fg'));
+      });
+    }
+    pw('#pwGood', 4, -4);
+    pw('#pwBad', 2, 0);
+
+    // ---------- 3.2 Power rule explorer ----------
+    (function () {
+      const P = new Plot($('#powCanvas'), { aspect: 0.55 });
+      const POW = [
+        { n: '0', f: () => 1, d: () => 0, t: '1', s: '0\\cdot x^{-1}', dt: '0' },
+        { n: '1', f: x => x, d: () => 1, t: 'x', s: '1\\cdot x^{0}', dt: '1' },
+        { n: '2', f: x => x * x, d: x => 2 * x, t: 'x^2', s: '2x^{2-1}', dt: '2x' },
+        { n: '3', f: x => x ** 3, d: x => 3 * x * x, t: 'x^3', s: '3x^{3-1}', dt: '3x^2' },
+        { n: '-1', f: x => 1 / x, d: x => -1 / (x * x), t: '\\tfrac1x=x^{-1}', s: '-1\\cdot x^{-1-1}', dt: '-x^{-2}=-\\tfrac{1}{x^2}', breaks: [0] },
+        { n: '-2', f: x => 1 / (x * x), d: x => -2 / x ** 3, t: '\\tfrac1{x^2}=x^{-2}', s: '-2x^{-2-1}', dt: '-2x^{-3}=-\\tfrac{2}{x^3}', breaks: [0] },
+        { n: '\\tfrac12', f: x => x >= 0 ? Math.sqrt(x) : NaN, d: x => x > 0 ? 0.5 / Math.sqrt(x) : NaN, t: '\\sqrt x=x^{1/2}', s: '\\tfrac12x^{\\frac12-1}', dt: '\\tfrac12x^{-1/2}=\\tfrac{1}{2\\sqrt x}' },
+        { n: '\\tfrac13', f: Math.cbrt, d: x => 1 / (3 * Math.cbrt(x * x)), t: '\\sqrt[3]x=x^{1/3}', s: '\\tfrac13x^{\\frac13-1}', dt: '\\tfrac13x^{-2/3}=\\tfrac{1}{3\\sqrt[3]{x^2}}', breaks: [0] },
+      ];
+      let cur = POW[3];
+      $('#powChips').innerHTML = POW.map((p, i) => `<button class="chip" data-k="${i}" aria-pressed="${p === cur}">\\(n=${p.n}\\)</button>`).join('');
+      chips($('#powChips'), k => { cur = POW[k]; draw(); });
+      function draw() {
+        P.view(-3, 3, -3, 5).begin();
+        P.curve(cur.f, css('--c-f'), { lw: 3, breaks: cur.breaks || [] });
+        P.curve(cur.d, css('--c-d'), { lw: 3, breaks: cur.breaks || [] });
+        tex($('#powOut'), `\\frac{d}{dx}\\Big[\\,{\\color{${css('--c-f')}}${cur.t}}\\,\\Big]=${cur.s}={\\color{${css('--c-d')}}${cur.dt}}`);
+      }
+      register(draw);
+    })();
+
+    // ---------- 3.2 Horizontal tangents ----------
+    register(() => {
+      const f = x => x ** 3 - 3 * x * x - 9 * x + 5;
+      const P = new Plot($('#htCanvas'), { aspect: 0.7 }).view(-3, 5.5, -32, 22).begin();
+      P.curve(f, css('--c-f'), { lw: 3 });
+      P.lineSlope(-1, 10, 0, css('--c-tan'), { lw: 2, dash: [7, 5] });
+      P.lineSlope(3, -22, 0, css('--c-tan'), { lw: 2, dash: [7, 5] });
+      P.dot(-1, 10, css('--c-tan')); P.dot(3, -22, css('--c-tan'));
+      P.label('(−1, 10)', -1, 10, css('--fg'), { dy: -13, align: 'center' });
+      P.label('(3, −22)', 3, -22, css('--fg'), { dy: 14, align: 'center' });
+    });
+
+    // ---------- 3.3 Unit circle: sin x ≤ x ≤ tan x ----------
+    (function () {
+      const P = new Plot($('#ucCanvas'), { aspect: 0.85 });
+      const s = $('#ucS');
+      let stop = null;
+      function draw() {
+        const x = +s.value, c = Math.cos(x), sn = Math.sin(x), t = Math.tan(x);
+        P.view(-0.25, 1.45, -0.12, 1.325).begin();
+        const cf = css('--c-f'), ct = css('--c-tan'), cd = css('--c-d'), muted = css('--muted');
+        P.poly([[0, 0], [1, 0], [1, t]], css('--c-d-soft'));
+        const sector = [[0, 0]];
+        for (let i = 0; i <= 40; i++) sector.push([Math.cos(x * i / 40), Math.sin(x * i / 40)]);
+        P.poly(sector, css('--c-tan-soft'));
+        P.poly([[0, 0], [c, 0], [c, sn]], css('--c-f-soft'));
+        P.curve(u => Math.sqrt(Math.max(0, 1 - u * u)), muted, { lw: 1.5, from: -0.25, to: 1 });
+        P.line(0, 0, 1, t, muted, { lw: 1.5 });
+        P.line(c, 0, c, sn, cf, { lw: 4 });
+        P.line(1, 0, 1, t, cd, { lw: 4 });
+        const { ctx } = P;
+        ctx.save(); ctx.strokeStyle = ct; ctx.lineWidth = 4; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(P.X(0), P.Y(0), P.X(1) - P.X(0), 0, -x, true); ctx.stroke(); ctx.restore();
+        P.dot(c, sn, css('--fg'), { r: 4 });
+        P.dot(0, 0, css('--fg'), { r: 3 });
+        if (x > 0.12) {
+          P.label('sin x', c, sn / 2, cf, { dx: -6, align: 'right', size: 12 });
+          P.label('tan x', 1, t / 2, cd, { dx: 8, size: 12 });
+          P.label('x', Math.cos(x / 2) * 1.07, Math.sin(x / 2) * 1.07, ct, { dx: 4, size: 13 });
+        }
+        $('#ucVal').textContent = x.toFixed(3);
+        $('#ucOut').innerHTML = `
+          <div class="row"><span class="c-f">sin x = ${sn.toFixed(4)}</span> ≤ <span class="c-tan">x = ${x.toFixed(4)}</span> ≤ <span class="c-d">tan x = ${t.toFixed(4)}</span></div>
+          <div class="row">sin x ÷ x = <b>${(sn / x).toFixed(5)}</b> ${x < 0.1 ? '<span class="c-good">→ 1</span>' : ''}</div>
+          <div class="row">(1 − cos x) ÷ x = <b>${((1 - c) / x).toFixed(5)}</b> ${x < 0.1 ? '<span class="c-good">→ 0</span>' : ''}</div>`;
+      }
+      s.addEventListener('input', () => { if (stop) { stop(); stop = null; } draw(); });
+      $('#ucPlay').addEventListener('click', () => {
+        if (stop) stop();
+        stop = animate(3500, t => { s.value = 0.9 - (0.9 - 0.03) * (1 - Math.pow(1 - t, 2)); draw(); }, () => { stop = null; });
+      });
+      register(draw);
+    })();
+
+    // ---------- 3.3 Example plots ----------
+    register(() => {
+      const P = new Plot($('#cosTanCanvas'), { aspect: 0.6, piTicks: true }).view(-0.5, 2 * PI + 0.2, -1.6, 1.8).begin();
+      P.curve(Math.cos, css('--c-f'), { lw: 3 });
+      P.lineSlope(PI / 3, 0.5, -Math.sqrt(3) / 2, css('--c-tan'), { lw: 2.2 });
+      P.dot(PI / 3, 0.5, css('--fg'));
+      P.label('(π/3, 1/2)', PI / 3, 0.5, css('--fg'), { dx: 10, dy: -12 });
+    });
+    register(() => {
+      const f = x => x + 2 * Math.sin(x);
+      const P = new Plot($('#htTrigCanvas'), { aspect: 0.6, piTicks: true }).view(-0.3, 2 * PI + 0.3, -0.8, 7).begin();
+      P.curve(f, css('--c-f'), { lw: 3 });
+      [2 * PI / 3, 4 * PI / 3].forEach((x, i) => {
+        P.lineSlope(x, f(x), 0, css('--c-tan'), { lw: 2, dash: [7, 5] });
+        P.dot(x, f(x), css('--c-tan'));
+        P.label(i ? '4π/3' : '2π/3', x, f(x), css('--fg'), { dy: i ? 14 : -13, align: 'center' });
+      });
+    });
+
+    // ---------- Quizzes ----------
+    function quiz(section, items) {
+      const scoreEl = section.querySelector('[data-score]');
+      let answered = 0, firstTry = 0;
+      items.forEach((it, qi) => {
+        const q = document.createElement('div');
+        q.className = 'q';
+        q.innerHTML = `<p class="qtext">${qi + 1}. ${it.q}</p><div class="opts">${it.opts.map((o, i) => `<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="why">${it.why}</div>`;
+        let tried = false;
+        q.querySelector('.opts').addEventListener('click', e => {
+          const b = e.target.closest('.opt');
+          if (!b || q.classList.contains('done')) return;
+          const ok = +b.dataset.i === it.a;
+          b.classList.add(ok ? 'right' : 'wrong');
+          if (!tried) { tried = true; answered++; if (ok) firstTry++; }
+          if (ok) q.classList.add('done');
+          scoreEl.textContent = `· ${firstTry}/${answered} right first try`;
+        });
+        section.appendChild(q);
+      });
+    }
+
+    quiz($('#quiz31'), [
+      { q: String.raw`For \(f(x)=x^2\), what is the slope of the secant line through \(x=1\) and \(x=3\)?`,
+        opts: [String.raw`\(2\)`, String.raw`\(4\)`, String.raw`\(6\)`, String.raw`\(8\)`], a: 1,
+        why: String.raw`\(\dfrac{f(3)-f(1)}{3-1}=\dfrac{9-1}{2}=4\). (The tangent slope at \(x=2\), halfway, is also 4: true for parabolas.)` },
+      { q: String.raw`\(\displaystyle\lim_{h\to0}\frac{(3+h)^2-9}{h}=\)`,
+        opts: [String.raw`\(9\)`, String.raw`\(0\)`, String.raw`\(6\)`, String.raw`\(3\)`], a: 2,
+        why: String.raw`This is \(f'(3)\) for \(f(x)=x^2\), and \(f'(x)=2x\), so \(f'(3)=6\). Or expand: \(\frac{6h+h^2}{h}=6+h\to6\).` },
+      { q: String.raw`\(\displaystyle\lim_{x\to2}\frac{x^4-16}{x-2}=\)`,
+        opts: [String.raw`\(8\)`, String.raw`\(16\)`, String.raw`does not exist`, String.raw`\(32\)`], a: 3,
+        why: String.raw`Alternative form of \(f'(2)\) with \(f(x)=x^4\): \(f'(x)=4x^3\), so \(f'(2)=4\cdot8=32\).` },
+      { q: String.raw`Which function is continuous at \(x=0\) but <b>not</b> differentiable there?`,
+        opts: [String.raw`\(|x|\)`, String.raw`\(x^2\)`, String.raw`\(\frac1x\)`, String.raw`\(x^3\)`], a: 0,
+        why: String.raw`\(|x|\) has a corner at 0: left slope \(-1\), right slope \(+1\). (\(\frac1x\) is not even continuous at 0.)` },
+      { q: String.raw`The tangent line to \(y=\dfrac1x\) at \(x=2\) is`,
+        opts: [String.raw`\(y=-\tfrac14x+\tfrac12\)`, String.raw`\(y=-\tfrac14x+1\)`, String.raw`\(y=\tfrac14x\)`, String.raw`\(y=-\tfrac12x+\tfrac32\)`], a: 1,
+        why: String.raw`Point \((2,\tfrac12)\); slope \(f'(2)=-\frac{1}{2^2}=-\frac14\). So \(y-\frac12=-\frac14(x-2)\Rightarrow y=-\frac14x+1\).` },
+      { q: String.raw`\(f(x)=\begin{cases}x^2 & x\le2\\ ax+b & x>2\end{cases}\) is differentiable at 2 when \((a,b)=\)`,
+        opts: [String.raw`\((2,0)\)`, String.raw`\((4,4)\)`, String.raw`\((4,-4)\)`, String.raw`\((-4,4)\)`], a: 2,
+        why: String.raw`Slopes match: \(a=2(2)=4\). Pieces meet: \(4=2a+b\Rightarrow b=-4\). \((2,0)\) is continuous but makes a corner.` },
+    ]);
+
+    quiz($('#quiz32'), [
+      { q: String.raw`\(\dfrac{d}{dx}\left[5x^3-\dfrac2x\right]=\)`,
+        opts: [String.raw`\(15x^2-\frac{2}{x^2}\)`, String.raw`\(15x^2+\frac{2}{x^2}\)`, String.raw`\(15x^2+\frac2x\)`, String.raw`\(5x^2+\frac{2}{x^2}\)`], a: 1,
+        why: String.raw`\(-\frac2x=-2x^{-1}\), whose derivative is \(-2\cdot(-1)x^{-2}=+\frac{2}{x^2}\). Watch the double negative.` },
+      { q: String.raw`\(\dfrac{d}{dx}\left[\sqrt x\,(x+1)\right]=\)`,
+        opts: [String.raw`\(\frac{1}{2\sqrt x}\)`, String.raw`\(\frac32\sqrt x\)`, String.raw`\(\frac{3x+1}{2\sqrt x}\)`, String.raw`\(\frac{x+1}{2\sqrt x}\)`], a: 2,
+        why: String.raw`Expand: \(x^{3/2}+x^{1/2}\), derivative \(\frac32x^{1/2}+\frac12x^{-1/2}=\frac{3x+1}{2\sqrt x}\). (\(\frac{1}{2\sqrt x}\) is the \(f'g'\) trap.)` },
+      { q: String.raw`\(f(1)=2,\ f'(1)=3,\ g(1)=-1,\ g'(1)=4\). Find \((fg)'(1)\).`,
+        opts: [String.raw`\(12\)`, String.raw`\(5\)`, String.raw`\(-11\)`, String.raw`\(11\)`], a: 1,
+        why: String.raw`\(f'g+fg'=3(-1)+2(4)=5\). (12 is \(f'g'\): wrong rule.)` },
+      { q: String.raw`Same values. Find \(\left(\dfrac fg\right)'(1)\).`,
+        opts: [String.raw`\(-11\)`, String.raw`\(5\)`, String.raw`\(11\)`, String.raw`\(\frac34\)`], a: 0,
+        why: String.raw`\(\dfrac{f'g-fg'}{g^2}=\dfrac{3(-1)-2(4)}{(-1)^2}=-11\). Swapping the order gives \(+11\).` },
+      { q: String.raw`\(\dfrac{d}{dx}\left[\dfrac{x+1}{x-1}\right]=\)`,
+        opts: [String.raw`\(\frac{2}{(x-1)^2}\)`, String.raw`\(1\)`, String.raw`\(\frac{-2x}{(x-1)^2}\)`, String.raw`\(\frac{-2}{(x-1)^2}\)`], a: 3,
+        why: String.raw`\(\dfrac{1\cdot(x-1)-(x+1)\cdot1}{(x-1)^2}=\dfrac{-2}{(x-1)^2}\).` },
+      { q: String.raw`\(y=x^3-12x\) has horizontal tangents at`,
+        opts: [String.raw`\(x=\pm2\)`, String.raw`\(x=0,\ \pm2\sqrt3\)`, String.raw`\(x=\pm4\)`, String.raw`\(x=2\) only`], a: 0,
+        why: String.raw`\(y'=3x^2-12=0\Rightarrow x^2=4\Rightarrow x=\pm2\). (\(0,\pm2\sqrt3\) are where \(y=0\), not \(y'=0\).)` },
+    ]);
+
+    quiz($('#quiz33'), [
+      { q: String.raw`\(\dfrac{d}{dx}[x\cos x]=\)`,
+        opts: [String.raw`\(-\sin x\)`, String.raw`\(\cos x+x\sin x\)`, String.raw`\(\cos x-x\sin x\)`, String.raw`\(-x\sin x\)`], a: 2,
+        why: String.raw`Product rule: \(1\cdot\cos x+x\cdot(-\sin x)=\cos x-x\sin x\).` },
+      { q: String.raw`\(\dfrac{d}{dx}[\tan x-\sec x]=\)`,
+        opts: [String.raw`\(\sec^2x-\sec x\tan x\)`, String.raw`\(\sec^2x-\sec x\)`, String.raw`\(-\csc^2x+\csc x\cot x\)`, String.raw`\(\sec^2x+\sec x\tan x\)`], a: 0,
+        why: String.raw`\((\tan x)'=\sec^2x\) and \((\sec x)'=\sec x\tan x\).` },
+      { q: String.raw`\(\dfrac{d}{dx}[\csc x]=\)`,
+        opts: [String.raw`\(\csc x\cot x\)`, String.raw`\(-\csc^2x\)`, String.raw`\(-\csc x\cot x\)`, String.raw`\(\sec x\tan x\)`], a: 2,
+        why: String.raw`Co-version of \((\sec x)'=\sec x\tan x\): swap to co-functions and add a minus sign.` },
+      { q: String.raw`\(\displaystyle\lim_{h\to0}\frac{\cos(\frac\pi2+h)-\cos\frac\pi2}{h}=\)`,
+        opts: [String.raw`\(0\)`, String.raw`\(-1\)`, String.raw`\(1\)`, String.raw`does not exist`], a: 1,
+        why: String.raw`This is the derivative of \(\cos x\) at \(\frac\pi2\): \(-\sin\frac\pi2=-1\).` },
+      { q: String.raw`Slope of the tangent to \(y=\sin x+\cos x\) at \(x=\frac\pi4\)?`,
+        opts: [String.raw`\(\sqrt2\)`, String.raw`\(1\)`, String.raw`\(-\sqrt2\)`, String.raw`\(0\)`], a: 3,
+        why: String.raw`\(y'=\cos x-\sin x\); at \(\frac\pi4\): \(\frac{\sqrt2}2-\frac{\sqrt2}2=0\). It is the top of the wave.` },
+      { q: String.raw`\(\displaystyle\lim_{x\to0}\frac{\sin4x}{2x}=\)`,
+        opts: [String.raw`\(2\)`, String.raw`\(4\)`, String.raw`\(\frac12\)`, String.raw`\(1\)`], a: 0,
+        why: String.raw`\(\dfrac{\sin4x}{2x}=2\cdot\dfrac{\sin4x}{4x}\to2\cdot1=2\).` },
+    ]);
+
+    // ---------- One section per page ----------
+    const pages = [...document.querySelectorAll('.page')];
+    pages.forEach((page, i) => {
+      // "In this section" list, built from each card's title.
+      const cards = [...page.querySelectorAll(':scope > .card')];
+      if (cards.length > 2) {
+        const box = document.createElement('section');
+        box.className = 'card outline';
+        box.innerHTML = '<span class="step-tag">In this section</span><ol></ol>';
+        cards.forEach(card => {
+          const h = card.querySelector('h3').cloneNode(true);
+          h.querySelector('[data-score]')?.remove();
+          const li = document.createElement('li'), b = document.createElement('button');
+          b.innerHTML = h.innerHTML;
+          b.addEventListener('click', () => card.scrollIntoView({ behavior: 'smooth' }));
+          li.appendChild(b);
+          box.querySelector('ol').appendChild(li);
+        });
+        page.querySelector('.sec-head').after(box);
+      }
+      const prev = pages[i - 1], next = pages[i + 1], pager = document.createElement('div');
+      pager.className = 'pager';
+      pager.innerHTML = (prev ? `<a href="#${prev.id}"><small>← Previous</small><b>${prev.dataset.title}</b></a>` : '<span class="gap"></span>') +
+        (next ? `<a class="next" href="#${next.id}"><small>Next →</small><b>${next.dataset.title}</b></a>` : '<span class="gap"></span>');
+      page.appendChild(pager);
+    });
+    function showPage(id, scroll) {
+      const page = pages.find(p => p.id === id) || pages[0];
+      pages.forEach(p => p.classList.toggle('active', p === page));
+      document.querySelectorAll('[data-tab]').forEach(a => {
+        if (a.dataset.tab === page.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      });
+      redrawAll(); // canvases on a hidden page have no width until shown
+      if (scroll) window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    window.addEventListener('hashchange', () => showPage(location.hash.slice(1), true));
+
+    renderMathInElement(document.body, KATEX_OPTS);
+    showPage(location.hash.slice(1), false);
+  </script>
+</body>
+</html>

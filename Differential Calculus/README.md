@@ -9,6 +9,7 @@ Interactive exam practice suite designed for King Saud University (KSU) Common F
   - Question 3: One-to-one functions, inverses & exact trig values (6.0 marks)
   - Question 4: Limits (8.0 marks)
 - **Quick Drills (`math101_practice.html`, 6 sets)**: short 10-question sets (60 questions total) for practising weak topics and common traps.
+- **Chapter 3 Visual Guide (`chapter3_derivatives.html`)**: sections 3.1-3.3 (the derivative and the tangent line, differentiation rules, derivatives of trig functions) with interactive graphs: secant-to-tangent, zoom-until-straight, f vs f′ tracer, power-rule explorer, the unit-circle squeeze for sin x / x, worked examples, quick quizzes and a cheat sheet.
 - **90-minute exam clock** per version, starting on your first answer and auto-grading when time runs out.
 - **Auto-grading** out of 25.0 with a per-question breakdown, the correct option highlighted, and step-by-step solutions.
 - **Shuffled answer positions**, re-shuffled each time you retry a version, so the key is never memorisable by letter.
